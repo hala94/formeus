@@ -1,0 +1,71 @@
+# createForm
+
+This method creates a new "form instance" representing the actual form in your application.
+
+## Arguments
+
+createForm method will accept the object typed below. The object is a generic type that is generic over
+the actual form values you will use in your UI.
+
+The only required key is "initial" which is used to construct internal objects and provide minimal basic form functionality.
+
+```js
+type FormProps<TForm> = {
+  initial: TForm,
+  clientValidators?: ClientValidators<TForm>,
+  serverValidators?: ServerValidators<TForm>,
+  onSubmitForm?: (form: TForm) => void,
+  config?: FormConfig,
+};
+```
+
+#### initial
+
+#### clientValidators
+
+#### serverValidators
+
+#### onSubmitForm
+
+#### config
+
+## Returns
+
+```js
+type FormResult<TForm> = {
+  form: TForm;
+  validations: ValidationResults<TForm>;
+  update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void;
+  runValidation: <Key extends keyof TForm>(key: Key) => void;
+  submit: () => void;
+  isValid: boolean;
+};
+```
+
+#### form
+
+Represents the latest form state.
+
+#### validations
+
+Each form field will have its own validation object attached to it.
+The object will contain validation status information that can be used in your presentation layer.
+
+#### update
+
+Call this method to update the form value for specific key.
+
+#### runValidation
+
+Manually run validation for given field. All validation results are cached and not repeated until the
+value changes.
+
+#### submit
+
+Use this method to "protect" your server from un-validated or invalid input.
+Calling this method starts both client and server side validations for every form field, and
+calls "onSubmitForm" if all fields pass validation.
+
+#### isValid
+
+Will be true only if there are no pending or in-flight validations. Used for presentation purposes.

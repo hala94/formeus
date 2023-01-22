@@ -1,0 +1,35 @@
+# Basic
+
+Most basic usage is one without client or server side validators. The form will handle updates and return
+the latest state.
+
+```js
+// SignIn.tsx
+
+function SignIn() {
+  const { form, update } = useForm({
+    initial: {
+      username: "",
+      password: "",
+    },
+  });
+
+  function onSubmit() {
+    /// Send form.username + form.password to server.
+  }
+
+  return (
+    <>
+      <input
+        value={form.username}
+        onChange={(e) => update("username", e.target.value)}
+      />
+      <input
+        value={form.password}
+        onChange={(e) => update("password", e.target.value)}
+      />
+      <button onClick={() => onSumbit()}>Submit</button>
+    </>
+  );
+}
+```

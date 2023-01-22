@@ -1,0 +1,5 @@
+{
+  "basic": "Basic",
+  "clientValidator": "Client side validation",
+  "serverValidator": "Server side validation"
+}
