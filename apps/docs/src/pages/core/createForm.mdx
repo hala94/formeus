@@ -1,71 +1,82 @@
 # createForm
 
-This method creates a new "form instance" representing the actual form in your application.
+This method creates a new "form instance" representing the form in your application.
 
-## Arguments
-
-createForm method will accept the object typed below. The object is a generic type that is generic over
-the actual form values you will use in your UI.
-
-The only required key is "initial" which is used to construct internal objects and provide minimal basic form functionality.
+## Options
 
 ```js
-type FormProps<TForm> = {
-  initial: TForm,
-  clientValidators?: ClientValidators<TForm>,
-  serverValidators?: ServerValidators<TForm>,
-  onSubmitForm?: (form: TForm) => void,
-  config?: FormConfig,
+type FormProps<TForm extends Record<string, unknown>> = {
+    initial: TForm;
+    clientValidators?: ClientValidators<TForm>;
+    serverValidators?: ServerValidators<TForm>;
+    onSubmitForm?: (form: TForm) => void;
+    config?: FormConfig;
 };
 ```
 
-#### initial
+`initial`
 
-#### clientValidators
+Required property representing the initial object model for your form.
 
-#### serverValidators
+`clientValidators`
 
-#### onSubmitForm
+Object representing client validator for the matching form field.
 
-#### config
+`serverValidators`
+
+Object representing server/async validator for the matching form field.
+
+`onSubmitForm`
+
+Use this function to protect your "form submitting flow". This method gets called
+only if all form fields pass validation.
+
+`config`
+
+Allows overriding global form config for the particular instance of form.
 
 ## Returns
 
 ```js
-type FormResult<TForm> = {
+export type FormResult<TForm> = {
   form: TForm;
   validations: ValidationResults<TForm>;
   update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void;
   runValidation: <Key extends keyof TForm>(key: Key) => void;
   submit: () => void;
   isValid: boolean;
+  isValidating: boolean;
 };
 ```
 
-#### form
+`form`
 
-Represents the latest form state.
+Latest form state.
 
-#### validations
+`validations`
 
 Each form field will have its own validation object attached to it.
 The object will contain validation status information that can be used in your presentation layer.
 
-#### update
+`update`
 
 Call this method to update the form value for specific key.
 
-#### runValidation
+`runValidation`
 
 Manually run validation for given field. All validation results are cached and not repeated until the
 value changes.
 
-#### submit
+`submit`
 
 Use this method to "protect" your server from un-validated or invalid input.
 Calling this method starts both client and server side validations for every form field, and
 calls "onSubmitForm" if all fields pass validation.
 
-#### isValid
+`isValid`
 
-Will be true only if there are no pending or in-flight validations. Used for presentation purposes.
+True if there are no pending or ongoing validations.
+
+`isValidating`
+
+True if there are ongoing validations.

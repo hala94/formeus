@@ -1,4 +1,5 @@
 {
-  "useForm": "useForm",
-  "examples": "Examples"
+  "basic": "Basic",
+  "client-validation": "Client Validation",
+  "server-validation": "Server Validation"
 }

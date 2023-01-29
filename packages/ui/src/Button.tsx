@@ -1,16 +1,23 @@
-import * as React from "react";
-
-export const Button = () => {
-  return (
-    <div className="rounded-md ">
-      <a href="https://turbo.build/repo/docs">
-        <div className="flex w-full items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white no-underline hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-300 md:py-3 md:px-10 md:text-lg md:leading-6">
-          Read the docs
-          <span className="ml-2 bg-gradient-to-r from-brandred to-brandblue bg-clip-text text-transparent">
-            →
-          </span>
-        </div>
-      </a>
-    </div>
-  );
+type ButtonProps = {
+  className?: string;
+  onClick: () => void;
+  disabled?: boolean;
 };
+
+export function Button({ className, onClick, disabled }: ButtonProps) {
+  const activeClass = disabled
+    ? "bg-slate-600 text-slate-400 cursor-not-allowed"
+    : "bg-brandblue";
+
+  return (
+    <button
+      disabled={disabled}
+      onClick={onClick}
+      className={`h-12 px-4 rounded-md text-sm text-white font-medium ${activeClass} ${
+        className ?? ""
+      }`}
+    >
+      Submit
+    </button>
+  );
+}

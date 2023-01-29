@@ -10,6 +10,9 @@ export function createSubscribable<TEvent>() {
         listeners.delete(cb);
       };
     },
+    unsubscribe: (cb: TListener<TEvent>) => {
+      listeners.delete(cb);
+    },
     publish: (event: TEvent) => {
       listeners.forEach((cb) => cb(event));
     },

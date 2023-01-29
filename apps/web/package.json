@@ -12,7 +12,8 @@
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "ui": "workspace:*"
+    "ui": "workspace:*",
+    "@dh/react-form": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

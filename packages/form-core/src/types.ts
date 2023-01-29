@@ -1,4 +1,4 @@
-export type FormProps<TForm> = {
+export type FormProps<TForm extends Record<string, unknown>> = {
   initial: TForm;
   clientValidators?: ClientValidators<TForm>;
   serverValidators?: ServerValidators<TForm>;

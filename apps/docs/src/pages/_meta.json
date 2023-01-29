@@ -1,6 +1,6 @@
 {
   "index": "Overview",
   "installation": "Installation",
-  "core": "Core API Reference",
-  "react": "React"
+  "react": "QuickStart / React",
+  "core": "API Reference"
 }
