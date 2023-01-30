@@ -1,5 +1,5 @@
 {
   "basic": "Basic",
-  "client-validation": "Client Validation",
-  "server-validation": "Server Validation"
+  "client-validation": "Validation",
+  "server-validation": "Async Validation"
 }

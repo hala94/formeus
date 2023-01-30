@@ -21,7 +21,7 @@ function SignIn() {
       username: "",
       password: "",
     },
-    clientValidators: {
+    validators: {
       username: ({ username }) =>
         username.length == 0
           ? new Error("Must contain at least 1 char.")
@@ -31,7 +31,7 @@ function SignIn() {
           ? new Error("Must contain at least 1 char.")
           : undefined,
     },
-    serverValidators: {
+    asyncValidators: {
       username: ({ username }) => {
         // username string is already client side validated here
         return Promise.resolve(undefined).then(delayResult);

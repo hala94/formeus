@@ -23,12 +23,12 @@ function createSolidForm<TForm extends Record<string, unknown>>(
 const App: Component = () => {
   const store = createSolidForm({
     initial: { name: "", email: "" },
-    clientValidators: {
+    validators: {
       name: ({ name }) => {
         return name.length < 5 ? new Error("Too short") : undefined;
       },
     },
-    serverValidators: {
+    asyncValidators: {
       email: ({ email }) => {
         return Promise.resolve(undefined).then(delayResult);
       },
@@ -45,7 +45,7 @@ const App: Component = () => {
         <input
           class="border"
           placeholder="enter..."
-          value={store.form.name}
+          value={store.values.name}
           onInput={(e) => {
             store.update("name", e.currentTarget.value);
           }}
@@ -53,7 +53,7 @@ const App: Component = () => {
         <input
           class="border"
           placeholder="email..."
-          value={store.form.email}
+          value={store.values.email}
           onInput={(e) => {
             store.update("email", e.currentTarget.value);
           }}

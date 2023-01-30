@@ -1,7 +1,7 @@
 import { createTask } from "./task";
 import {
-  ClientValidator,
-  ServerValidator,
+  Validator,
+  AsyncValidator,
   ValidationState,
   ValidationResult,
 } from "./types";
@@ -9,8 +9,8 @@ import {
 type ValidationTaskProps<TForm> = {
   key: keyof TForm;
   form: TForm;
-  clientValidatorFN: ClientValidator<TForm> | undefined;
-  serverValidatorFN: ServerValidator<TForm> | undefined;
+  clientValidatorFN: Validator<TForm> | undefined;
+  serverValidatorFN: AsyncValidator<TForm> | undefined;
   onValidationUpdate: (result: ValidationState) => void;
   existingResult: ValidationState;
 };
@@ -33,7 +33,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
     }
 
     if (existingResult.checked) {
-      task.finish({ success: Boolean(existingResult.result) == false });
+      task.finish({ success: Boolean(existingResult.error) == false });
       return;
     }
 
@@ -51,7 +51,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
       }
 
       onValidationUpdate({
-        result: error
+        error: error
           ? error instanceof Error
             ? error
             : new Error()
@@ -72,7 +72,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
     }
 
     onValidationUpdate({
-      result: undefined,
+      error: undefined,
       checked: false,
       validating: true,
     });
@@ -87,7 +87,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
           finalResult = undefined;
         }
         onValidationUpdate({
-          result: finalResult,
+          error: finalResult,
           checked: true,
           validating: false,
         });
@@ -98,7 +98,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
         if (abortController.signal.aborted) return;
 
         onValidationUpdate({
-          result: e instanceof Error ? e : new Error(),
+          error: e instanceof Error ? e : new Error(),
           checked: true,
           validating: false,
         });
@@ -110,7 +110,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
   function onCancel() {
     abortController.abort();
     onValidationUpdate({
-      result: undefined,
+      error: undefined,
       checked: false,
       validating: false,
     });

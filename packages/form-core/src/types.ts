@@ -1,37 +1,36 @@
 export type FormProps<TForm extends Record<string, unknown>> = {
   initial: TForm;
-  clientValidators?: ClientValidators<TForm>;
-  serverValidators?: ServerValidators<TForm>;
+  validators?: Validators<TForm>;
+  asyncValidators?: AsyncValidators<TForm>;
   onSubmitForm?: (form: TForm) => void;
   config?: FormConfig;
 };
 
 export type ValidationResult = Error | undefined;
 
-export type ClientValidator<TForm> = (form: TForm) => ValidationResult;
+export type Validator<TForm> = (form: TForm) => ValidationResult;
 
-export type ClientValidators<TForm> = Partial<
-  Record<keyof TForm, ClientValidator<TForm>>
->;
+export type Validators<TForm> = Partial<Record<keyof TForm, Validator<TForm>>>;
 
-export type ServerValidator<TForm> = (
+export type AsyncValidator<TForm> = (
   form: TForm,
   signal: AbortSignal
 ) => Promise<ValidationResult>;
-export type ServerValidators<TForm> = Partial<
-  Record<keyof TForm, ServerValidator<TForm>>
+
+export type AsyncValidators<TForm> = Partial<
+  Record<keyof TForm, AsyncValidator<TForm>>
 >;
 
 export type ValidationState = {
   validating: boolean;
-  result: ValidationResult;
+  error: ValidationResult;
   checked: boolean;
 };
 
 export type ValidationResults<TForm> = Record<keyof TForm, ValidationState>;
 
 export type FormResult<TForm> = {
-  form: TForm;
+  values: TForm;
   validations: ValidationResults<TForm>;
   update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void;
   runValidation: <Key extends keyof TForm>(key: Key) => void;

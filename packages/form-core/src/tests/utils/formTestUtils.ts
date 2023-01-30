@@ -1,4 +1,4 @@
-import { ClientValidators, ServerValidators } from "../../types";
+import { Validators, AsyncValidators } from "../../types";
 import { delayResult } from "./misc";
 
 type MockResultOption =
@@ -12,8 +12,8 @@ const validationDelay = <T>(value: T) => delayResult<T>(value, 10);
 export function createClientValidator<TForm>(
   option: MockResultOption,
   key: keyof TForm
-): ClientValidators<TForm> {
-  const validators = {} as unknown as ClientValidators<TForm>;
+): Validators<TForm> {
+  const validators = {} as unknown as Validators<TForm>;
 
   switch (option) {
     case "passing":
@@ -40,8 +40,8 @@ export function createClientValidator<TForm>(
 export function createServerValidator<TForm>(
   option: MockResultOption,
   key: keyof TForm
-): ServerValidators<TForm> {
-  const validators = {} as unknown as ServerValidators<TForm>;
+): AsyncValidators<TForm> {
+  const validators = {} as unknown as AsyncValidators<TForm>;
 
   switch (option) {
     case "passing":

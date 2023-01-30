@@ -7,8 +7,8 @@ This method creates a new "form instance" representing the form in your applicat
 ```js
 type FormProps<TForm extends Record<string, unknown>> = {
     initial: TForm;
-    clientValidators?: ClientValidators<TForm>;
-    serverValidators?: ServerValidators<TForm>;
+    validators?: Validators<TForm>;
+    asyncValidators?: AsyncValidators<TForm>;
     onSubmitForm?: (form: TForm) => void;
     config?: FormConfig;
 };
@@ -18,11 +18,11 @@ type FormProps<TForm extends Record<string, unknown>> = {
 
 Required property representing the initial object model for your form.
 
-`clientValidators`
+`validators`
 
 Object representing client validator for the matching form field.
 
-`serverValidators`
+`asyncValidators`
 
 Object representing server/async validator for the matching form field.
 

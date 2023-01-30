@@ -1,4 +1,4 @@
-import { useForm, ClientValidators, ServerValidators } from "@dh/react-form";
+import { useForm, Validators, AsyncValidators } from "@dh/react-form";
 import { useState } from "react";
 import { Button, Input, InputProps } from "ui";
 
@@ -16,7 +16,7 @@ const initial: Form = {
   project: "",
 };
 
-const clientValidators: ClientValidators<Form> = {
+const validators: Validators<Form> = {
   email: ({ email }) =>
     email.length == 0 ? new Error("Email validation failed.") : undefined,
   password: ({ password }) =>
@@ -25,7 +25,7 @@ const clientValidators: ClientValidators<Form> = {
     username.length == 0 ? new Error("Username validation failed.") : undefined,
 };
 
-const serverValidators: ServerValidators<Form> = {
+const asyncValidators: AsyncValidators<Form> = {
   email: ({ email }) => {
     return Promise.resolve(undefined).then(delayResult);
   },
@@ -37,12 +37,12 @@ const serverValidators: ServerValidators<Form> = {
 export default function App() {
   const [submitting, setSubmitting] = useState(false);
 
-  const { form, validations, update, isValid, submit, isValidating, clear } =
+  const { values, validations, update, isValid, submit, isValidating, clear } =
     useForm({
       initial,
       onSubmitForm,
-      clientValidators,
-      serverValidators,
+      validators,
+      asyncValidators,
       config: { autoValidate: true },
     });
 
@@ -61,10 +61,10 @@ export default function App() {
       const formKey = key as keyof Form;
       return {
         label: key,
-        value: form[formKey],
+        value: values[formKey],
         validating: validations[formKey].validating,
         checked: validations[formKey].checked,
-        error: validations[formKey].result?.message,
+        error: validations[formKey].error?.message,
         disabled: submitting,
         onChange: (e) => update(formKey, e.target.value),
       };

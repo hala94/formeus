@@ -16,7 +16,7 @@ function SignIn() {
       username: "",
       password: "",
     },
-    clientValidators: {
+    validators: {
       username: ({ username }) =>
         username.length == 0
           ? new Error("Must contain at least 1 char.")
