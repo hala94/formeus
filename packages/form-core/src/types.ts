@@ -36,6 +36,7 @@ export type FormResult<TForm> = {
   update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void;
   runValidation: <Key extends keyof TForm>(key: Key) => void;
   submit: () => void;
+  clear: () => void;
   isValid: boolean;
   isValidating: boolean;
 };

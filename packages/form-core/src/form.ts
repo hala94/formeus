@@ -29,6 +29,11 @@ export function createForm<TForm extends Record<string, unknown>>({
     submit,
     isValid: isFormValid(validations),
     isValidating: isFormValidating(validations),
+    clear: () => {
+      currentForm = { ...props.initial };
+      validations = createInitialValidations();
+      pushResult();
+    },
   };
 
   /// Public

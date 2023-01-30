@@ -37,13 +37,14 @@ const serverValidators: ServerValidators<Form> = {
 export default function App() {
   const [submitting, setSubmitting] = useState(false);
 
-  const { form, validations, update, isValid, submit, isValidating } = useForm({
-    initial,
-    onSubmitForm,
-    clientValidators,
-    serverValidators,
-    config: { autoValidate: true },
-  });
+  const { form, validations, update, isValid, submit, isValidating, clear } =
+    useForm({
+      initial,
+      onSubmitForm,
+      clientValidators,
+      serverValidators,
+      config: { autoValidate: true },
+    });
 
   function onSubmitForm(form: Form) {
     setSubmitting(true);
@@ -51,7 +52,7 @@ export default function App() {
       .then(delayResult)
       .then(setSubmitting)
       .then(() => {
-        console.log("Form sent");
+        clear();
       });
   }
 
