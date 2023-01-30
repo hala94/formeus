@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "solid-js": "^1.6.6",
-    "@dh/form-core": "workspace:*"
+    "@9/form-core": "workspace:*"
   }
 }

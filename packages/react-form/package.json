@@ -1,5 +1,5 @@
 {
-  "name": "@dh/react-form",
+  "name": "@9/react-form",
   "version": "0.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,7 @@
     "lint": "DEBUG=eslint:cli-engine eslint src/*"
   },
   "dependencies": {
-    "@dh/form-core": "workspace:*"
+    "@9/form-core": "workspace:*"
   },
   "peerDependencies": {
     "react": "18.2.0",

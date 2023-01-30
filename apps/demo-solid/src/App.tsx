@@ -1,8 +1,8 @@
 import { Component, createSignal, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { createForm } from "@dh/form-core";
-import type { FormProps } from "@dh/form-core";
+import { createForm } from "@9/form-core";
+import type { FormProps } from "@9/form-core";
 
 function createSolidForm<TForm extends Record<string, unknown>>(
   args: FormProps<TForm>

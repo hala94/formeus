@@ -1,5 +1,5 @@
-import { createForm as createFormCore } from "@dh/form-core";
-import type { FormProps } from "@dh/form-core";
+import { createForm as createFormCore } from "@9/form-core";
+import type { FormProps } from "@9/form-core";
 import { createStore } from "solid-js/store";
 import { onCleanup } from "solid-js";
 
