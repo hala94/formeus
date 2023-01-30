@@ -17,6 +17,7 @@ export function Input({
   checked,
   validating,
   disabled,
+  value,
 }: InputProps) {
   return (
     <div className="flex flex-col relative">
@@ -24,6 +25,7 @@ export function Input({
         {label}
       </label>
       <input
+        value={value}
         disabled={disabled}
         className="border rounded-md h-12 px-4"
         onChange={onChange}
