@@ -84,6 +84,9 @@ export default function App() {
             className="mt-12"
           />
         </div>
+        <div className="max-w-[30rem]">
+          {JSON.stringify(validations, null, 2)}
+        </div>
       </div>
     </>
   );
