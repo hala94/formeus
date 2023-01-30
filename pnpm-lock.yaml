@@ -210,6 +210,27 @@ importers:
       tsup: 6.5.0_typescript@4.9.4
       typescript: 4.9.4
 
+  packages/solid-form:
+    specifiers:
+      '@dh/form-core': workspace:*
+      concurrently: ^7.2.2
+      eslint: ^7.32.0
+      eslint-config-shared: workspace:*
+      solid-js: ^1.5.7
+      tsconfig: workspace:*
+      tsup: ^6.1.3
+      typescript: ^4.9.4
+    dependencies:
+      '@dh/form-core': link:../form-core
+      solid-js: 1.6.9
+    devDependencies:
+      concurrently: 7.6.0
+      eslint: 7.32.0
+      eslint-config-shared: link:../eslint-config-shared
+      tsconfig: link:../tsconfig
+      tsup: 6.5.0_typescript@4.9.4
+      typescript: 4.9.4
+
   packages/tailwind-config:
     specifiers:
       tailwindcss: ^3.2.4
@@ -6343,7 +6364,7 @@ packages:
       postcss: 8.4.20
       postcss-load-config: 3.1.4_postcss@8.4.20
       resolve-from: 5.0.0
-      rollup: 3.4.0
+      rollup: 3.9.1
       source-map: 0.8.0-beta.0
       sucrase: 3.29.0
       tree-kill: 1.2.2
