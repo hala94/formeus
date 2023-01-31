@@ -1,0 +1,61 @@
+import { Callout } from "nextra-theme-docs";
+
+# Validation
+
+To enable validation, pass your validator functions to `validators` object and map them
+to your form _keys_ defined with the `initial` object.
+
+Also, as our form now handles validations, we should use the supplied `submit` method and pass the function
+that sends the information to server as the `onSubmitForm` argument.
+
+`onSubmitForm` won't get called unless all fields passed validation, so this simple setup guards
+against invalid requests being sent to your server.
+
+<Callout type="info" emoji="ℹ️">
+  This form instance is set to auto run validations on update.
+</Callout>
+
+```js // SignIn.tsx
+const SignIn: Component = () => {
+  const form = createForm({
+    initial: { username: "", password: "" },
+    validators: {
+      username: ({ username }) =>
+        username.length == 0
+          ? new Error("Must contain at least 1 char.")
+          : undefined,
+    },
+    config: {
+      autoValidate: true,
+    },
+    onSubmitForm: ({ username, password }) => {
+      /// this scope guarantees all fields passed validations
+      /// submit form.values.name + form.values.email
+    },
+  });
+
+  return (
+    <>
+      <input
+        value={form.values.name}
+        onInput={(e) => {
+          form.update("name", e.currentTarget.value);
+        }}
+      />
+      <input
+        value={form.values.email}
+        onInput={(e) => {
+          form.update("email", e.currentTarget.value);
+        }}
+      />
+      <button onClick={() => form.submit()}>Submit</button>
+    </>
+  );
+};
+```
+
+<Callout type="info" emoji="ℹ️">
+  _validators_ object expects your form keys mapped to the validator functions.
+  Return an *Error* object for failing validations and *undefined* for passing
+  validations.
+</Callout>

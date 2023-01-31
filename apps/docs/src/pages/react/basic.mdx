@@ -1,13 +1,15 @@
 # Basic
 
-Most basic usage is one without client or server side validators. The form will handle updates and return
-the latest state.
+Most basic usage is one without validators. FORM will handle updates and return
+the latest values.
+
+Initialize the form by passing your form initial values to the `initial` argument.
 
 ```js
 // SignIn.tsx
 
 function SignIn() {
-  const { form, update } = useForm({
+  const { values, update } = useForm({
     initial: {
       username: "",
       password: "",
@@ -15,17 +17,17 @@ function SignIn() {
   });
 
   function onSubmit() {
-    /// Send form.username + form.password to server.
+    /// submit form.username + form.password
   }
 
   return (
     <>
       <input
-        value={form.username}
+        value={values.username}
         onChange={(e) => update("username", e.target.value)}
       />
       <input
-        value={form.password}
+        value={values.password}
         onChange={(e) => update("password", e.target.value)}
       />
       <button onClick={() => onSumbit()}>Submit</button>

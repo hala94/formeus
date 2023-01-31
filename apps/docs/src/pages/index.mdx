@@ -1,24 +1,13 @@
 # Overview
 
-Form is a headless library for handling form input and validation.
-Core is written in pure Typescript making it library agnostic, so it can easily be ported to
-various libraries like React, Svelte, Vue and others.
+FORM is a headless library for handling form input and validation.
+Core is written in pure Typescript so it can easily be ported to
+various frameworks like React, Solid, Vue and others.
 
 ## Motivation
 
-Handling form input and validation is a verbose task that often ends up with too much boilerplate code usually repeated
-all over the codebase.
+Handling form input and validation is a verbose task that often ends up with too much boilerplate code repeated
+in multiple places.
 
-Custom implementations often tend to be project specific, and usually don't handle validations in a predictive and unified way.
-
-Form aims to be a UI agnostic go-to solution that can covers most common implementation scenarios and deals with both client-side
-and server-side validations in a predictive manner, so developers can shift their focus to more important parts of the codebase.
-
-## How it works
-
-In the most basic configuration, Form is a simple state holder. It can "hide" away the boilerplate code and provide latest
-values.
-
-Advanced configuration with both client and server validators is where it really shines.
-Form will handle validation task serialization and "protect" your server from invalid
-requests, all while exposing the internal validation state that can be used to update the UI.
+FORM aims to be a _UI agnostic_ solution that covers most common implementation scenarios and deals with both synchronous
+and asynchronous validations in a predictive manner, so devs can shift their focus to more important parts of the codebase.

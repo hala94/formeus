@@ -1,6 +1,8 @@
 {
   "index": "Overview",
   "installation": "Installation",
-  "react": "QuickStart / React",
-  "core": "API Reference"
+  "guides": "Guides",
+  "reference": "Core API",
+  "react": "React Example",
+  "solid": "Solid Example"
 }

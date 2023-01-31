@@ -1,0 +1,101 @@
+# createForm
+
+This method creates a new form _instance_ representing the form in your application.
+
+## Options
+
+```js
+type FormProps<TForm extends Record<string, unknown>> = {
+  initial: TForm;
+  validators?: Validators<TForm>;
+  asyncValidators?: AsyncValidators<TForm>;
+  onSubmitForm?: (form: TForm) => void;
+  config?: FormConfig;
+};
+```
+
+`initial`
+
+Required property representing the initial object model for your form.
+
+`validators`
+
+Object representing validators that run synchronously.
+
+`asyncValidators`
+
+Object representing validators that run asynchronously.
+
+`onSubmitForm`
+
+Function that contains your "submit" logic.
+
+Works in conjuction with `submit` method returned from `createForm` and gets
+called only if all validations pass.
+
+`config`
+
+```js
+type FormConfig = {
+  autoValidate: boolean,
+};
+```
+
+Configuration options for the current form.
+
+Overrides global config if set.
+
+## Returns
+
+```js
+type FormResult<TForm> = {
+  values: TForm;
+  validations: ValidationResults<TForm>;
+  update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void;
+  runValidation: <Key extends keyof TForm>(key: Key) => void;
+  submit: () => void;
+  clear: () => void;
+  isValid: boolean;
+  isValidating: boolean;
+};
+```
+
+`values`
+
+Object holding the latest values for your form.
+
+`validations`
+
+Object that contains `ValidationState` for each form key.
+
+```js
+export type ValidationState = {
+  validating: boolean,
+  error: ValidationResult,
+  checked: boolean,
+};
+```
+
+`update`
+
+Updates the value for specific key.
+
+`runValidation`
+
+Manually run validation for given field. Validation results are cached and not repeated until the
+value changes.
+
+`submit`
+
+Method that starts the validation process.
+
+Validation process is executed sequentally in order defined by the object keys of the `initial` argument.
+Calls `onSubmitForm` internally if all validations pass.
+
+`isValid`
+
+**true** if there are no pending or ongoing validations, and all form values are checked and validated.
+
+`isValidating`
+
+**true** if there are ongoing validations.

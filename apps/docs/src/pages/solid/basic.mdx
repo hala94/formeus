@@ -1,0 +1,31 @@
+# Basic
+
+```js
+const SignIn: Component = () => {
+  const form = createForm({
+    initial: { username: "", password: "" },
+  });
+
+  function onSubmit() {
+    /// submit form.values.name + form.values.email
+  }
+
+  return (
+    <>
+      <input
+        value={form.values.name}
+        onInput={(e) => {
+          form.update("name", e.currentTarget.value);
+        }}
+      />
+      <input
+        value={form.values.email}
+        onInput={(e) => {
+          form.update("email", e.currentTarget.value);
+        }}
+      />
+      <button onClick={() => onSumbit()}>Submit</button>
+    </>
+  );
+};
+```

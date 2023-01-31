@@ -1,7 +1,8 @@
 export default {
-  logo: <span>My Nextra Documentation</span>,
+  logo: <span>FORMEUS</span>,
   project: {
     link: "https://github.com/shuding/nextra",
-    title: "Form docs",
+    title: "FORMEUS",
   },
+  docsRepositoryBase: "https://github.com/shuding/nextra/blob/core/docs/pages",
 };

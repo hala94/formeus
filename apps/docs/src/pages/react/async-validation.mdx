@@ -1,22 +1,25 @@
-# Server side validation
+import { Callout } from "nextra-theme-docs";
 
-Most common server side validation is checking if the current value is "available", like username or email, but
-it can be anything. Dev is in charge of constructing a server validation promise that will either resolve with Error object, or with undefined,
-indicating that the field passed validation.
+# Asynchronous validation
 
-Server side validation is done async, and Form provides "validations" object that you can use to render the "validating" state
-in your UI.
+Most common async validation is a network request checking with the backend if the current value is _available_, like username or email, but
+it can be anything.
 
-Building upon the previous example, we are adding the "serverValidator" object to our form configuration object.
+Async validators are _Promises_ that resolve with either an _Error_ object or _undefined_.
 
-Client validators will always run before server validators, preventing unecessary server validations for something that can
-be checked on client (like an empty field).
+Building upon the previous example, we are adding an async validator to our form configuration object.
+
+<Callout type="info" emoji="ℹ️">
+  _validators_ always run before _asyncValidators_, preventing unecessary
+  requests for something that can be checked on the client. (like an empty
+  field).
+</Callout>
 
 ```js
 // SignIn.tsx
 
 function SignIn() {
-  const { form, update, submit } = useForm({
+  const { values, update, submit } = useForm({
     initial: {
       username: "",
       password: "",
@@ -33,24 +36,24 @@ function SignIn() {
     },
     asyncValidators: {
       username: ({ username }) => {
-        // username string is already client side validated here
+        // username is already client side validated here
         return Promise.resolve(undefined).then(delayResult);
       },
     },
     onSubmitForm: ({ username, password }) => {
       /// This scope guarantees all fields passed validations.
-      /// Send form.username + form.password to server.
+      /// Send username + password to server.
     },
   });
 
   return (
     <>
       <input
-        value={form.username}
+        value={values.username}
         onChange={(e) => update("username", e.target.value)}
       />
       <input
-        value={form.password}
+        value={values.password}
         onChange={(e) => update("password", e.target.value)}
       />
       <button onClick={() => submit()}>Submit</button>
