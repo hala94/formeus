@@ -1,27 +1,8 @@
-import { Component, createSignal, onCleanup } from "solid-js";
-import { createStore } from "solid-js/store";
-
-import { createForm } from "@9/form-core";
-import type { FormProps } from "@9/form-core";
-
-function createSolidForm<TForm extends Record<string, unknown>>(
-  args: FormProps<TForm>
-) {
-  const observable = createForm(args);
-
-  const [store, setStore] = createStore(observable.getSnapshot());
-
-  const unsubscribe = observable.subscribe(setStore);
-
-  onCleanup(() => {
-    unsubscribe();
-  });
-
-  return store;
-}
+import { Component } from "solid-js";
+import { createForm } from "@9/solid-form";
 
 const App: Component = () => {
-  const store = createSolidForm({
+  const store = createForm({
     initial: { name: "", email: "" },
     validators: {
       name: ({ name }) => {
@@ -67,18 +48,6 @@ const App: Component = () => {
 };
 
 export default App;
-
-function createTest() {
-  const [count, setCount] = createSignal(0);
-
-  const interval = setInterval(() => {
-    setCount((c) => c + 1);
-  }, 1000);
-
-  onCleanup(() => clearInterval(interval));
-
-  return count;
-}
 
 function delayResult<T>(value: T, delay: number = 3000) {
   return new Promise<T>((resolve) => {
