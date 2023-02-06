@@ -1,13 +1,13 @@
 type ButtonProps = {
-  className?: string;
-  onClick: () => void;
-  disabled?: boolean;
-};
+  className?: string
+  onClick: () => void
+  disabled?: boolean
+}
 
 export function Button({ className, onClick, disabled }: ButtonProps) {
   const activeClass = disabled
     ? "bg-slate-600 text-slate-400 cursor-not-allowed"
-    : "bg-brandblue";
+    : "bg-brandblue"
 
   return (
     <button
@@ -19,5 +19,5 @@ export function Button({ className, onClick, disabled }: ButtonProps) {
     >
       Submit
     </button>
-  );
+  )
 }

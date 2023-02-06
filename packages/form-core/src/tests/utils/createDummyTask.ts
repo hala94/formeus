@@ -1,5 +1,5 @@
-import { createTask } from "../../task";
-import crypto from "crypto";
+import { createTask } from "../../task"
+import crypto from "crypto"
 
 export function createDummyTask({
   finishAfterMs,
@@ -8,30 +8,30 @@ export function createDummyTask({
   onCancelHandler,
   identifier,
 }: {
-  finishAfterMs: number;
-  success: boolean;
-  resultSetter?: () => void;
-  onCancelHandler?: () => void;
-  identifier?: string;
+  finishAfterMs: number
+  success: boolean
+  resultSetter?: () => void
+  onCancelHandler?: () => void
+  identifier?: string
 }) {
-  let timeoutRef: NodeJS.Timeout | undefined;
+  let timeoutRef: NodeJS.Timeout | undefined
 
   const task = createTask({
     work,
     onCancel,
     identifier: identifier ?? crypto.randomUUID(),
-  });
+  })
 
   function work() {
     timeoutRef = setTimeout(() => {
-      resultSetter?.();
-      task.finish({ success });
-    }, finishAfterMs);
+      resultSetter?.()
+      task.finish({ success })
+    }, finishAfterMs)
   }
 
   function onCancel() {
-    onCancelHandler?.();
-    timeoutRef && clearTimeout(timeoutRef);
+    onCancelHandler?.()
+    timeoutRef && clearTimeout(timeoutRef)
   }
-  return task;
+  return task
 }

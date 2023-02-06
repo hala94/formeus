@@ -1,5 +1,5 @@
-export * from "./types";
+export * from "./types"
 
-export { createForm } from "./form";
+export { createForm } from "./form"
 
-export { getFormConfig, setFormConfig } from "./formConfig";
+export { getFormConfig, setFormConfig } from "./formConfig"

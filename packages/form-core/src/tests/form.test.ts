@@ -1,23 +1,23 @@
-import { createForm } from "../form";
-import { describe, expect, it, SpyInstance, vi, afterEach } from "vitest";
+import { createForm } from "../form"
+import { describe, expect, it, SpyInstance, vi, afterEach } from "vitest"
 import {
   createClientValidator,
   createServerValidator,
-} from "./utils/formTestUtils";
-import { FormResult } from "../types";
+} from "./utils/formTestUtils"
+import { FormResult } from "../types"
 
 describe("form", () => {
   it("correctly updates results", () => {
-    const form = createForm({ initial: { email: "", username: "" } });
-    const { update } = form.getSnapshot();
+    const form = createForm({ initial: { email: "", username: "" } })
+    const { update } = form.getSnapshot()
 
-    update("email", "test@test.com");
-    update("username", "123");
+    update("email", "test@test.com")
+    update("username", "123")
 
-    const snapshot = form.getSnapshot();
-    expect(snapshot.values.email).toBe("test@test.com");
-    expect(snapshot.values.username).toBe("123");
-  });
+    const snapshot = form.getSnapshot()
+    expect(snapshot.values.email).toBe("test@test.com")
+    expect(snapshot.values.username).toBe("123")
+  })
 
   it("has correct state after running client validations", async () => {
     const initial = {
@@ -25,7 +25,7 @@ describe("form", () => {
       username: "",
       password: "",
       note: "",
-    };
+    }
     const promise = () =>
       new Promise<FormResult<typeof initial>>((res, rej) => {
         const form = createForm({
@@ -36,45 +36,45 @@ describe("form", () => {
             ...createClientValidator("throws", "password"),
             ...createClientValidator("resolves_with_unsupported_type", "note"),
           },
-        });
-        const { runValidation } = form.getSnapshot();
+        })
+        const { runValidation } = form.getSnapshot()
 
-        runValidation("email");
-        runValidation("username");
-        runValidation("password");
-        runValidation("note");
+        runValidation("email")
+        runValidation("username")
+        runValidation("password")
+        runValidation("note")
 
         setTimeout(() => {
-          res(form.getSnapshot());
-        }, 0);
-      });
+          res(form.getSnapshot())
+        }, 0)
+      })
 
-    const result = await promise();
+    const result = await promise()
 
     expect(result.validations.email).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
+    })
 
     expect(result.validations.username).toStrictEqual({
       checked: true,
       error: new Error("username invalid"),
       validating: false,
-    });
+    })
 
     expect(result.validations.password).toStrictEqual({
       checked: true,
       error: new Error("password throw"),
       validating: false,
-    });
+    })
 
     expect(result.validations.note).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
-  });
+    })
+  })
 
   it("has correct state after running server validations", async () => {
     const initial = {
@@ -82,7 +82,7 @@ describe("form", () => {
       username: "",
       password: "",
       note: "",
-    };
+    }
     const promise = () =>
       new Promise<FormResult<typeof initial>>((res, rej) => {
         const form = createForm({
@@ -93,45 +93,45 @@ describe("form", () => {
             ...createServerValidator("throws", "password"),
             ...createServerValidator("resolves_with_unsupported_type", "note"),
           },
-        });
-        const { runValidation } = form.getSnapshot();
+        })
+        const { runValidation } = form.getSnapshot()
 
-        runValidation("email");
-        runValidation("username");
-        runValidation("password");
-        runValidation("note");
+        runValidation("email")
+        runValidation("username")
+        runValidation("password")
+        runValidation("note")
 
         setTimeout(() => {
-          res(form.getSnapshot());
-        }, 15);
-      });
+          res(form.getSnapshot())
+        }, 15)
+      })
 
-    const result = await promise();
+    const result = await promise()
 
     expect(result.validations.email).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
+    })
 
     expect(result.validations.username).toStrictEqual({
       checked: true,
       error: new Error("username invalid"),
       validating: false,
-    });
+    })
 
     expect(result.validations.password).toStrictEqual({
       checked: true,
       error: new Error("password throw"),
       validating: false,
-    });
+    })
 
     expect(result.validations.note).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
-  });
+    })
+  })
 
   it("has correct state after running both client and server validations", async () => {
     const initial = {
@@ -139,7 +139,7 @@ describe("form", () => {
       username: "",
       password: "",
       note: "",
-    };
+    }
     const promise = () =>
       new Promise<FormResult<typeof initial>>((res, rej) => {
         const form = createForm({
@@ -156,51 +156,51 @@ describe("form", () => {
             ...createServerValidator("throws", "password"),
             ...createServerValidator("resolves_with_unsupported_type", "note"),
           },
-        });
-        const { runValidation } = form.getSnapshot();
+        })
+        const { runValidation } = form.getSnapshot()
 
-        runValidation("email");
-        runValidation("username");
-        runValidation("password");
-        runValidation("note");
+        runValidation("email")
+        runValidation("username")
+        runValidation("password")
+        runValidation("note")
 
         setTimeout(() => {
-          res(form.getSnapshot());
-        }, 20);
-      });
+          res(form.getSnapshot())
+        }, 20)
+      })
 
-    const result = await promise();
+    const result = await promise()
 
     expect(result.validations.email).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
+    })
 
     expect(result.validations.username).toStrictEqual({
       checked: true,
       error: new Error("username invalid"),
       validating: false,
-    });
+    })
 
     expect(result.validations.password).toStrictEqual({
       checked: true,
       error: new Error("password throw"),
       validating: false,
-    });
+    })
 
     expect(result.validations.note).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
-  });
+    })
+  })
 
   it("failing client validator stops server validator from running", async () => {
     const initial = {
       email: "",
       username: "",
-    };
+    }
     const promise = () =>
       new Promise<FormResult<typeof initial>>((res, rej) => {
         const form = createForm({
@@ -211,30 +211,30 @@ describe("form", () => {
           asyncValidators: {
             ...createServerValidator("passing", "email"),
           },
-        });
-        const { runValidation } = form.getSnapshot();
+        })
+        const { runValidation } = form.getSnapshot()
 
-        runValidation("email");
+        runValidation("email")
 
         setTimeout(() => {
-          res(form.getSnapshot());
-        }, 15);
-      });
+          res(form.getSnapshot())
+        }, 15)
+      })
 
-    const { validations } = await promise();
+    const { validations } = await promise()
 
     expect(validations.email).toStrictEqual({
       checked: true,
       error: new Error("email invalid"),
       validating: false,
-    });
-  });
+    })
+  })
 
   it("has correct state indicating validation in progress", async () => {
     const initial = {
       email: "",
       username: "",
-    };
+    }
     const promise = () =>
       new Promise<FormResult<typeof initial>>((res, rej) => {
         const form = createForm({
@@ -242,31 +242,31 @@ describe("form", () => {
           asyncValidators: {
             ...createServerValidator("passing", "email"),
           },
-        });
-        const { runValidation } = form.getSnapshot();
+        })
+        const { runValidation } = form.getSnapshot()
 
-        runValidation("email");
+        runValidation("email")
 
         setTimeout(() => {
-          res(form.getSnapshot());
-        });
-      });
+          res(form.getSnapshot())
+        })
+      })
 
-    const { validations, isValid } = await promise();
+    const { validations, isValid } = await promise()
 
     expect(validations.email).toStrictEqual({
       checked: false,
       error: undefined,
       validating: true,
-    });
-    expect(isValid).toBeFalsy();
-  });
+    })
+    expect(isValid).toBeFalsy()
+  })
 
   it("calls submit handler if all fields valid", async () => {
     const initial = {
       email: "",
       username: "",
-    };
+    }
 
     const formProps = {
       initial,
@@ -278,44 +278,44 @@ describe("form", () => {
         ...createServerValidator("passing", "email"),
       },
       onSubmitForm: () => {},
-    };
+    }
 
-    const submitSpy = vi.spyOn(formProps, "onSubmitForm");
+    const submitSpy = vi.spyOn(formProps, "onSubmitForm")
 
     const promise = () =>
       new Promise<{
-        result: FormResult<typeof initial>;
+        result: FormResult<typeof initial>
       }>((res, rej) => {
-        const form = createForm(formProps);
-        const { submit } = form.getSnapshot();
+        const form = createForm(formProps)
+        const { submit } = form.getSnapshot()
 
-        submit();
+        submit()
 
         setTimeout(() => {
-          res({ result: form.getSnapshot() });
-        }, 50);
-      });
+          res({ result: form.getSnapshot() })
+        }, 50)
+      })
 
-    const { result } = await promise();
+    const { result } = await promise()
 
-    expect(submitSpy).toHaveBeenCalledOnce();
+    expect(submitSpy).toHaveBeenCalledOnce()
     expect(result.validations.email).toStrictEqual({
       checked: true,
       error: undefined,
       validating: false,
-    });
-  });
+    })
+  })
 
   it("doesn't call submit handler if some validations fail", async () => {
     const initial = {
       email: "",
       username: "",
-    };
+    }
 
     const promise = () =>
       new Promise<{
-        result: FormResult<typeof initial>;
-        submitSpy: SpyInstance<[], void>;
+        result: FormResult<typeof initial>
+        submitSpy: SpyInstance<[], void>
       }>((res, rej) => {
         const formProps = {
           initial,
@@ -327,26 +327,26 @@ describe("form", () => {
             ...createServerValidator("failing", "email"),
           },
           onSubmitForm: () => {},
-        };
-        const form = createForm(formProps);
-        const { submit } = form.getSnapshot();
+        }
+        const form = createForm(formProps)
+        const { submit } = form.getSnapshot()
 
-        const submitSpy = vi.spyOn(formProps, "onSubmitForm");
+        const submitSpy = vi.spyOn(formProps, "onSubmitForm")
 
-        submit();
+        submit()
 
         setTimeout(() => {
-          res({ result: form.getSnapshot(), submitSpy });
-        }, 15);
-      });
+          res({ result: form.getSnapshot(), submitSpy })
+        }, 15)
+      })
 
-    const { result, submitSpy } = await promise();
+    const { result, submitSpy } = await promise()
 
-    expect(submitSpy).not.toHaveBeenCalledOnce();
+    expect(submitSpy).not.toHaveBeenCalledOnce()
     expect(result.validations.email).toStrictEqual({
       checked: true,
       error: new Error("email invalid"),
       validating: false,
-    });
-  });
-});
+    })
+  })
+})

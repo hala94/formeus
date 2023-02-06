@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from "./useForm";
+import { useForm } from "@9/vue-form";
 
 const { values, update, isValid, isValidating, validations } = useForm({
   initial: {

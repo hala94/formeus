@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,10 +13,8 @@
     "next": "latest",
     "nextra": "^2.2.3",
     "nextra-theme-docs": "^2.2.3",
-    "pnpm": "^7.25.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ui": "workspace:*"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
@@ -25,9 +23,7 @@
     "autoprefixer": "^10.4.13",
     "eslint-config-shared": "workspace:*",
     "postcss": "^8.4.20",
-    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.2.4",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.9.4"
+    "tsconfig": "workspace:*"
   }
 }

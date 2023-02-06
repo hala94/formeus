@@ -5,7 +5,7 @@ FORM is a headless utility library for handling most common tasks related to use
 It supports both synchronous and asynchronous validations and enables you to easily unify form behaviour and validation
 across your application.
 
-FORM currently supports React and Solid, and adapters for Vue and Svelte are under development.
+FORM currently supports React, Solid and Vue.
 
 ## Usage
 

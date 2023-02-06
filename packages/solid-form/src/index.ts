@@ -1,2 +1,4 @@
-export { createForm } from "./createForm";
-export * from "@9/form-core";
+export { createForm } from "./createForm"
+
+// Re-export core
+export * from "@9/form-core"

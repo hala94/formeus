@@ -6,29 +6,36 @@ import {
   toRefs,
   readonly,
   ref,
-} from "vue";
-import { createForm, FormProps, FormResult } from "@9/form-core";
+  ToRefs,
+} from "vue"
+import { createForm, FormProps, FormResult } from "@9/form-core"
+
+type ReadOnlyResult<TData> = ReturnType<typeof readonly<FormResult<TData>>>
+type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>
 
 export function useForm<TData extends Record<string, unknown>>(
   props: FormProps<TData>
-) {
-  const observable = createForm(unref(props));
+): RefsResult<TData> {
+  const observable = createForm(unref(props))
 
-  const form = reactive(observable.getSnapshot());
+  const form = reactive(observable.getSnapshot())
 
   const unsubscribeRef = ref(() => {
     // noop
-  });
+  })
 
   onMounted(() => {
     unsubscribeRef.value = observable.subscribe((updated) => {
-      Object.assign(form, updated);
-    });
-  });
+      Object.assign(form, updated)
+    })
+  })
 
-  onScopeDispose(() => unsubscribeRef.value());
+  onScopeDispose(() => unsubscribeRef.value())
+
+  const readonlyForm = readonly(form)
+  const formRefs = toRefs(readonlyForm)
 
   return {
-    ...toRefs(readonly(form) as FormResult<TData>),
-  };
+    ...formRefs,
+  }
 }

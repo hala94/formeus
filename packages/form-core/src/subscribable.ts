@@ -1,20 +1,20 @@
-type TListener<TMessage> = (message: TMessage) => void;
+type TListener<TMessage> = (message: TMessage) => void
 
 export function createSubscribable<TEvent>() {
-  const listeners = new Set<TListener<TEvent>>();
+  const listeners = new Set<TListener<TEvent>>()
 
   return {
     subscribe: (cb: TListener<TEvent>) => {
-      listeners.add(cb);
+      listeners.add(cb)
       return () => {
-        listeners.delete(cb);
-      };
+        listeners.delete(cb)
+      }
     },
     unsubscribe: (cb: TListener<TEvent>) => {
-      listeners.delete(cb);
+      listeners.delete(cb)
     },
     publish: (event: TEvent) => {
-      listeners.forEach((cb) => cb(event));
+      listeners.forEach((cb) => cb(event))
     },
-  };
+  }
 }

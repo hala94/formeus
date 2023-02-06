@@ -1,14 +1,14 @@
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler } from "react"
 
 export type InputProps = {
-  label: string;
-  value: string;
-  error?: string;
-  validating?: boolean;
-  checked?: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  disabled?: boolean;
-};
+  label: string
+  value: string
+  error?: string
+  validating?: boolean
+  checked?: boolean
+  onChange: ChangeEventHandler<HTMLInputElement>
+  disabled?: boolean
+}
 
 export function Input({
   onChange,
@@ -36,11 +36,11 @@ export function Input({
       {checked && <CheckedSvg />}
       <ValidatingSpinner spinning={Boolean(validating)} />
     </div>
-  );
+  )
 }
 
 function ValidatingSpinner({ spinning }: { spinning: boolean }) {
-  const spinStyle = spinning ? "" : "hidden";
+  const spinStyle = spinning ? "" : "hidden"
   return (
     <svg
       aria-hidden="true"
@@ -58,7 +58,7 @@ function ValidatingSpinner({ spinning }: { spinning: boolean }) {
         fill="currentFill"
       />
     </svg>
-  );
+  )
 }
 
 function CheckedSvg() {
@@ -70,5 +70,5 @@ function CheckedSvg() {
     >
       <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
     </svg>
-  );
+  )
 }

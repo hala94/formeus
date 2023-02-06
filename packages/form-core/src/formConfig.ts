@@ -1,11 +1,11 @@
-import { FormConfig } from "./types";
+import { FormConfig } from "./types"
 
-let staticConfig: FormConfig | undefined;
+let staticConfig: FormConfig | undefined
 
 export function setFormConfig(config: FormConfig) {
-  staticConfig = config;
+  staticConfig = config
 }
 
 export function getFormConfig() {
-  return staticConfig;
+  return staticConfig
 }

@@ -1,20 +1,21 @@
-import { useForm, Validators, AsyncValidators } from "@9/react-form";
-import { useState } from "react";
-import { Button, Input, InputProps } from "ui";
+import { useForm, Validators, AsyncValidators } from "@9/react-form"
+import { useState } from "react"
+import { Input, InputProps } from "./input"
+import { Button } from "./button"
 
 type Form = {
-  email: string;
-  password: string;
-  username: string;
-  project: string;
-};
+  email: string
+  password: string
+  username: string
+  project: string
+}
 
 const initial: Form = {
   email: "",
   password: "",
   username: "",
   project: "",
-};
+}
 
 const validators: Validators<Form> = {
   email: ({ email }) =>
@@ -23,19 +24,19 @@ const validators: Validators<Form> = {
     password.length < 5 ? new Error("Enter at least 5 chars.") : undefined,
   username: ({ username }) =>
     username.length == 0 ? new Error("Username validation failed.") : undefined,
-};
+}
 
 const asyncValidators: AsyncValidators<Form> = {
   email: ({ email }) => {
-    return Promise.resolve(undefined).then(delayResult);
+    return Promise.resolve(undefined).then(delayResult)
   },
   username: ({ email }) => {
-    return Promise.resolve(undefined).then(delayResult);
+    return Promise.resolve(undefined).then(delayResult)
   },
-};
+}
 
 export default function App() {
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   const { values, validations, update, isValid, submit, isValidating, clear } =
     useForm({
@@ -44,21 +45,21 @@ export default function App() {
       validators,
       asyncValidators,
       config: { autoValidate: true },
-    });
+    })
 
   function onSubmitForm(form: Form) {
-    setSubmitting(true);
+    setSubmitting(true)
     Promise.resolve(false)
       .then(delayResult)
       .then(setSubmitting)
       .then(() => {
-        clear();
-      });
+        clear()
+      })
   }
 
   function generateInputProps(): Array<InputProps> {
     return Object.keys(initial).map((key) => {
-      const formKey = key as keyof Form;
+      const formKey = key as keyof Form
       return {
         label: key,
         value: values[formKey],
@@ -67,8 +68,8 @@ export default function App() {
         error: validations[formKey].error?.message,
         disabled: submitting,
         onChange: (e) => update(formKey, e.target.value),
-      };
-    });
+      }
+    })
   }
 
   return (
@@ -87,16 +88,17 @@ export default function App() {
         </div>
         <div className="max-w-[30rem]">
           {JSON.stringify(validations, null, 2)}
+          <p>isValid: {String(isValid)}</p>
         </div>
       </div>
     </>
-  );
+  )
 }
 
 function delayResult<T>(value: T, delay: number = 3000) {
   return new Promise<T>((resolve) => {
     setTimeout(() => {
-      resolve(value);
-    }, delay);
-  });
+      resolve(value)
+    }, delay)
+  })
 }

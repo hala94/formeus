@@ -2,19 +2,24 @@
   "name": "@9/solid-form",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
   "exports": {
-    "import": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "require": "./dist/index.cjs"
+    ".": {
+      "import": {
+        "types": "./dist/lib/index.d.ts",
+        "default": "./dist/lib/index.mjs"
+      },
+      "require": {
+        "types": "./dist/lib/index.d.ts",
+        "default": "./dist/lib/index.js"
+      }
+    }
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "rm -rf dist && rollup -c",
+    "dev": "rollup -c --watch",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -24,15 +29,9 @@
     "solid-js": "^1.5.7"
   },
   "devDependencies": {
-    "concurrently": "^7.2.2",
-    "eslint": "^7.32.0",
     "eslint-config-shared": "workspace:*",
-    "tsconfig": "workspace:*",
-    "tsup": "^6.5.0",
-    "tsup-preset-solid": "^0.1.5",
-    "typescript": "^4.9.4"
+    "tsconfig": "workspace:*"
   },
   "browser": {},
-  "typesVersions": {},
-  "module": "./dist/index.js"
+  "typesVersions": {}
 }

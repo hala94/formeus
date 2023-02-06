@@ -1,25 +1,25 @@
-import { getFormConfig } from "./formConfig";
-import { createParallelQueue } from "./parallelTaskQueue";
-import { createSerialQueue } from "./serialTaskQueue";
-import { createSubscribable } from "./subscribable";
+import { getFormConfig } from "./formConfig"
+import { createParallelQueue } from "./parallelTaskQueue"
+import { createSerialQueue } from "./serialTaskQueue"
+import { createSubscribable } from "./subscribable"
 import {
   FormProps,
   FormResult,
   ValidationResults,
   ValidationState,
-} from "./types";
-import { createValidationTask } from "./validationTask";
+} from "./types"
+import { createValidationTask } from "./validationTask"
 
 export function createForm<TForm extends Record<string, unknown>>({
   config = getFormConfig(),
   ...props
 }: FormProps<TForm>) {
-  const subscribable = createSubscribable<FormResult<TForm>>();
-  const parallelTaskQueue = createParallelQueue();
-  const serialTaskQueue = createSerialQueue();
+  const subscribable = createSubscribable<FormResult<TForm>>()
+  const parallelTaskQueue = createParallelQueue()
+  const serialTaskQueue = createSerialQueue()
 
-  let currentValues = props.initial;
-  let validations = createInitialValidations();
+  let currentValues = props.initial
+  let validations = createInitialValidations()
 
   let result: FormResult<TForm> = {
     values: currentValues,
@@ -30,32 +30,32 @@ export function createForm<TForm extends Record<string, unknown>>({
     isValid: isFormValid(validations),
     isValidating: isFormValidating(validations),
     clear: () => {
-      currentValues = { ...props.initial };
-      validations = createInitialValidations();
-      pushResult();
+      currentValues = { ...props.initial }
+      validations = createInitialValidations()
+      pushResult()
     },
-  };
+  }
 
   /// Public
   function update<Key extends keyof TForm>(key: Key, value: TForm[Key]) {
-    currentValues = { ...currentValues, [key]: value };
+    currentValues = { ...currentValues, [key]: value }
 
-    serialTaskQueue.cancelAllTasks();
+    serialTaskQueue.cancelAllTasks()
 
-    validations = invalidateValidation(key);
+    validations = invalidateValidation(key)
 
-    pushResult();
+    pushResult()
 
-    config?.autoValidate && runValidation(key);
+    config?.autoValidate && runValidation(key)
   }
 
   function runValidation<Key extends keyof TForm>(key: Key) {
-    parallelTaskQueue.cancelTask(key as string);
+    parallelTaskQueue.cancelTask(key as string)
 
-    const clientFN = props.validators && props.validators[key];
-    const serverFN = props.asyncValidators && props.asyncValidators[key];
+    const clientFN = props.validators && props.validators[key]
+    const serverFN = props.asyncValidators && props.asyncValidators[key]
 
-    if (!clientFN && !serverFN) return;
+    if (!clientFN && !serverFN) return
 
     const task = createValidationTask({
       key: key as keyof TForm,
@@ -63,33 +63,33 @@ export function createForm<TForm extends Record<string, unknown>>({
       clientValidatorFN: clientFN,
       serverValidatorFN: serverFN,
       onValidationUpdate: (validationResult) => {
-        validations = { ...validations, [key]: validationResult };
-        pushResult();
+        validations = { ...validations, [key]: validationResult }
+        pushResult()
       },
       existingResult: validations[key],
-    });
+    })
 
-    parallelTaskQueue.addTask(task);
+    parallelTaskQueue.addTask(task)
   }
 
   function submit() {
-    serialTaskQueue.cancelAllTasks();
-    parallelTaskQueue.cancelAllTasks();
+    serialTaskQueue.cancelAllTasks()
+    parallelTaskQueue.cancelAllTasks()
 
-    const validationTasks = createValidationTasks();
+    const validationTasks = createValidationTasks()
 
     serialTaskQueue.addTasks(validationTasks, ({ success }) => {
-      success && props.onSubmitForm?.(currentValues);
-    });
+      success && props.onSubmitForm?.(currentValues)
+    })
   }
 
   /// Private
 
   function invalidateValidation(key: keyof TForm): ValidationResults<TForm> {
-    let newValidations = { ...validations };
+    let newValidations = { ...validations }
 
-    const clientFN = props.validators && props.validators[key];
-    const serverFN = props.asyncValidators && props.asyncValidators[key];
+    const clientFN = props.validators && props.validators[key]
+    const serverFN = props.asyncValidators && props.asyncValidators[key]
 
     if (clientFN || serverFN) {
       newValidations = {
@@ -99,37 +99,37 @@ export function createForm<TForm extends Record<string, unknown>>({
           checked: false,
           validating: false,
         } as ValidationState,
-      };
+      }
     }
 
-    return newValidations;
+    return newValidations
   }
 
   function createInitialValidations(): ValidationResults<TForm> {
-    let initialValidations = {} as ValidationResults<TForm>;
+    let initialValidations = {} as ValidationResults<TForm>
 
     for (const [key, _] of Object.entries(props.initial)) {
-      const clientFN = props.validators && props.validators[key];
-      const serverFN = props.asyncValidators && props.asyncValidators[key];
+      const clientFN = props.validators && props.validators[key]
+      const serverFN = props.asyncValidators && props.asyncValidators[key]
 
       const validation = {
         checked: !clientFN && !serverFN,
         error: undefined,
         validating: false,
-      } as ValidationState;
+      } as ValidationState
 
-      initialValidations = { ...initialValidations, [key]: validation };
+      initialValidations = { ...initialValidations, [key]: validation }
     }
-    return initialValidations;
+    return initialValidations
   }
 
   function createValidationTasks() {
     return Object.keys(validations)
       .map((key) => {
-        const clientFN = props.validators && props.validators[key];
-        const serverFN = props.asyncValidators && props.asyncValidators[key];
+        const clientFN = props.validators && props.validators[key]
+        const serverFN = props.asyncValidators && props.asyncValidators[key]
 
-        if (!clientFN && !serverFN) return;
+        if (!clientFN && !serverFN) return
 
         return createValidationTask({
           key: key,
@@ -137,15 +137,15 @@ export function createForm<TForm extends Record<string, unknown>>({
           clientValidatorFN: clientFN,
           serverValidatorFN: serverFN,
           onValidationUpdate: (validationResult) => {
-            validations = { ...validations, [key]: validationResult };
-            pushResult();
+            validations = { ...validations, [key]: validationResult }
+            pushResult()
           },
           existingResult: validations[key],
-        });
+        })
       })
       .filter((t) => !!t !== false) as Array<
       ReturnType<typeof createValidationTask>
-    >;
+    >
   }
 
   function pushResult() {
@@ -155,28 +155,28 @@ export function createForm<TForm extends Record<string, unknown>>({
       validations,
       isValid: isFormValid(validations),
       isValidating: isFormValidating(validations),
-    };
-    subscribable.publish(result);
+    }
+    subscribable.publish(result)
   }
 
   return {
     ...subscribable,
     getSnapshot: () => result,
-  };
+  }
 }
 
 /// Utility
 
 function isFormValid<TForm>(validations: ValidationResults<TForm>) {
   return Object.values(validations).every((v) => {
-    const validation = v as ValidationState;
-    return validation.checked && Boolean(validation.error) == false;
-  });
+    const validation = v as ValidationState
+    return validation.checked && Boolean(validation.error) == false
+  })
 }
 
 function isFormValidating<TForm>(validations: ValidationResults<TForm>) {
   return Object.values(validations).some((v) => {
-    const validation = v as ValidationState;
-    return validation.validating == true;
-  });
+    const validation = v as ValidationState
+    return validation.validating == true
+  })
 }

@@ -1,23 +1,23 @@
-import { Component } from "solid-js";
-import { createForm } from "@9/solid-form";
+import { Component } from "solid-js"
+import { createForm } from "@9/solid-form"
 
 const App: Component = () => {
   const store = createForm({
     initial: { name: "", email: "" },
     validators: {
       name: ({ name }) => {
-        return name.length < 5 ? new Error("Too short") : undefined;
+        return name.length < 5 ? new Error("Too short") : undefined
       },
     },
     asyncValidators: {
       email: ({ email }) => {
-        return Promise.resolve(undefined).then(delayResult);
+        return Promise.resolve(undefined).then(delayResult)
       },
     },
     config: {
       autoValidate: true,
     },
-  });
+  })
 
   return (
     <div>
@@ -28,7 +28,7 @@ const App: Component = () => {
           placeholder="enter..."
           value={store.values.name}
           onInput={(e) => {
-            store.update("name", e.currentTarget.value);
+            store.update("name", e.currentTarget.value)
           }}
         />
         <input
@@ -36,7 +36,7 @@ const App: Component = () => {
           placeholder="email..."
           value={store.values.email}
           onInput={(e) => {
-            store.update("email", e.currentTarget.value);
+            store.update("email", e.currentTarget.value)
           }}
         />
         <div>isValid: {store.isValid.toString()}</div>
@@ -44,15 +44,15 @@ const App: Component = () => {
         <div>validations: {JSON.stringify(store.validations)}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
 
 function delayResult<T>(value: T, delay: number = 3000) {
   return new Promise<T>((resolve) => {
     setTimeout(() => {
-      resolve(value);
-    }, delay);
-  });
+      resolve(value)
+    }, delay)
+  })
 }
