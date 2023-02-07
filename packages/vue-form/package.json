@@ -21,7 +21,7 @@
     "build": "rm -rf dist && rollup -c",
     "dev": "rollup -c --watch",
     "clean": "rm -rf dist",
-    "lint": "DEBUG=eslint:cli-engine eslint src/*"
+    "lint": "eslint src/*"
   },
   "dependencies": {
     "@9/form-core": "workspace:*"

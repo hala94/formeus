@@ -193,6 +193,19 @@ importers:
       eslint-config-shared: link:../eslint-config-shared
       tsconfig: link:../tsconfig
 
+  packages/svelte-form:
+    specifiers:
+      '@9/form-core': workspace:*
+      eslint-config-shared: workspace:*
+      svelte: ^3.55.1
+      tsconfig: workspace:*
+    dependencies:
+      '@9/form-core': link:../form-core
+    devDependencies:
+      eslint-config-shared: link:../eslint-config-shared
+      svelte: 3.55.1
+      tsconfig: link:../tsconfig
+
   packages/tsconfig:
     specifiers: {}
 
@@ -6118,6 +6131,11 @@ packages:
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  /svelte/3.55.1:
+    resolution: {integrity: sha512-S+87/P0Ve67HxKkEV23iCdAh/SX1xiSfjF1HOglno/YTbSTW7RniICMCofWGdJJbdjw3S+0PfFb1JtGfTXE0oQ==}
+    engines: {node: '>= 8'}
+    dev: true
 
   /svg-tags/1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
