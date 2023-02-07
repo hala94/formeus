@@ -5,7 +5,7 @@ type Task = ReturnType<typeof createTask>
 
 export function createParallelQueue() {
   let tasks = Array<Task>()
-  let runningTasks = new Map<string, { task: Task; unsub: () => void }>()
+  const runningTasks = new Map<string, { task: Task; unsub: () => void }>()
   let pendingSchedule = false
 
   function queueScheduleTask() {
@@ -39,10 +39,11 @@ export function createParallelQueue() {
         break
       case "running":
         break
-      case "completed":
+      case "completed": {
         const job = runningTasks.get(taskState.identifier)
         job?.unsub()
         runningTasks.delete(taskState.identifier)
+      }
     }
   }
 
@@ -54,7 +55,7 @@ export function createParallelQueue() {
       runningTasks.delete(identifier)
     },
     cancelAllTasks: () => {
-      runningTasks.forEach((job, _) => {
+      runningTasks.forEach((job) => {
         job?.unsub()
         job?.task.cancel()
       })

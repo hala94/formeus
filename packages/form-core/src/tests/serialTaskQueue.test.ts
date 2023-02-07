@@ -13,7 +13,7 @@ beforeEach<Context>(async (context) => {
 describe.concurrent("serialQueue", () => {
   it<Context>("executes task serially", async ({ queue }) => {
     const promise = () =>
-      new Promise((res, rej) => {
+      new Promise((res) => {
         let result = undefined as string | undefined
 
         const tasks = [
@@ -44,7 +44,7 @@ describe.concurrent("serialQueue", () => {
 
   it<Context>("stops tasks execution on error", async ({ queue }) => {
     const promise = () =>
-      new Promise((res, rej) => {
+      new Promise((res) => {
         let result = undefined as string | undefined
 
         const tasks = [
@@ -82,9 +82,11 @@ describe.concurrent("serialQueue", () => {
     }
 
     const promise = () =>
-      new Promise<Test>((res, rej) => {
+      new Promise<Test>((res) => {
         const testObject: Test = {
-          onCancel1: () => {},
+          onCancel1: () => {
+            return
+          },
           onCancel1Spy: undefined as SpyInstance<[], void> | undefined,
         }
 
@@ -102,7 +104,9 @@ describe.concurrent("serialQueue", () => {
           }),
         ]
 
-        queue.addTasks(tasks, () => {})
+        queue.addTasks(tasks, () => {
+          return
+        })
 
         setTimeout(() => {
           queue.cancelAllTasks()

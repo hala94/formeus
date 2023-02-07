@@ -1,13 +1,28 @@
 # Overview
 
-FORM is a headless library for handling form input and validation.
-Core is written in pure Typescript so it can easily be ported to
-various frameworks like React, Solid, Vue and others.
+Formeous is a small, but powerful form state management library.
+
+It deals with both synchronous and asynchronous validations while keeping the exact validation times flexible until submission.
 
 ## Motivation
 
-Handling form input and validation is a verbose task that often ends up with too much boilerplate code repeated
-in multiple places.
+When dealing with forms, its often the case that we don't want to include a third party library for seemingly such a simple task, so we roll out
+a custom solution.
 
-FORM aims to be a _UI agnostic_ solution that covers most common implementation scenarios and deals with both synchronous
-and asynchronous validations in a predictive manner, so devs can shift their focus to more important parts of the codebase.
+These solutions usually either cover only a specific case, or don't end up being reusable enough to save time further down the line.
+
+
+
+Formeus aims to be a _UI agnostic_ solution that covers most common implementation scenarios and deals with validations in a predictive manner,
+so devs can shift their focus to more important parts of the codebase.
+
+{/*
+But soon enough, there is a requirement to have some input server-side validated before submission and the custom solution doesn't support it, so you
+add the functionality.
+
+Great, now there are extra fields that also need validation, but they have to be validated on the client before server, so you either continue with
+upgrading the solution, or pick a library.
+
+Core is written in pure Typescript so it can easily be ported to
+various frameworks like React, Solid, Vue and others.
+*/}

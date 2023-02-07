@@ -13,7 +13,10 @@ export function createSerialQueue() {
   let runningTask: { unsub: () => void; task: Task } | null = null
   let pendingSchedule = false
 
-  let onAllTasksCompleted = (_: { success: boolean }) => {}
+  // eslint-disable-next-line
+  let onAllTasksCompleted = (_: { success: boolean }) => {
+    return
+  }
 
   function queueScheduleTask() {
     if (pendingSchedule) return
@@ -32,7 +35,9 @@ export function createSerialQueue() {
 
     if (!nextTask) {
       onAllTasksCompleted({ success: true })
-      onAllTasksCompleted = () => {}
+      onAllTasksCompleted = () => {
+        return
+      }
       return
     }
 
@@ -62,7 +67,9 @@ export function createSerialQueue() {
 
         tasks = []
         onAllTasksCompleted({ success: false })
-        onAllTasksCompleted = () => {}
+        onAllTasksCompleted = () => {
+          return
+        }
     }
   }
 

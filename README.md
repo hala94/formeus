@@ -1,11 +1,11 @@
 # FORM
 
-FORM is a headless utility library for handling most common tasks related to user input and input validation.
+Formeus is a headless utility library for handling most common tasks related to user input and input validation.
 
 It supports both synchronous and asynchronous validations and enables you to easily unify form behaviour and validation
 across your application.
 
-FORM currently supports React, Solid and Vue.
+Formeus works with React, Solid, Vue and Svelte.
 
 ## Usage
 

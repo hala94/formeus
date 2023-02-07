@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, SpyInstance, vi } from "vitest"
+import { describe, it, expect, beforeEach } from "vitest"
 import { createParallelQueue } from "../parallelTaskQueue"
 import { createDummyTask } from "./utils/createDummyTask"
 
@@ -13,7 +13,7 @@ beforeEach<Context>(async (context) => {
 describe.concurrent("parallelQueue", () => {
   it<Context>("executes task in parallel", async ({ queue }) => {
     const promise = () =>
-      new Promise<Array<string>>((res, rej) => {
+      new Promise<Array<string>>((res) => {
         const result = Array<string>()
 
         const tasks = [
@@ -47,7 +47,7 @@ describe.concurrent("parallelQueue", () => {
 
   it<Context>("cancels running task", async ({ queue }) => {
     const promise = () =>
-      new Promise<Array<string>>((res, rej) => {
+      new Promise<Array<string>>((res) => {
         const result = Array<string>()
 
         const tasks = [

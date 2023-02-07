@@ -17,8 +17,12 @@ type Context = {
 beforeEach<Context>(async (context) => {
   const testObject = {
     taskState: undefined as TaskState | undefined,
-    onCancelHandler: () => {},
-    workHandler: () => {},
+    onCancelHandler: () => {
+      return
+    },
+    workHandler: () => {
+      return
+    },
     identifier: "TaskID",
   }
 

@@ -1,5 +1,5 @@
 import { createForm } from "../form"
-import { describe, expect, it, SpyInstance, vi, afterEach } from "vitest"
+import { describe, expect, it, SpyInstance, vi } from "vitest"
 import {
   createClientValidator,
   createServerValidator,
@@ -27,7 +27,7 @@ describe("form", () => {
       note: "",
     }
     const promise = () =>
-      new Promise<FormResult<typeof initial>>((res, rej) => {
+      new Promise<FormResult<typeof initial>>((res) => {
         const form = createForm({
           initial,
           validators: {
@@ -84,7 +84,7 @@ describe("form", () => {
       note: "",
     }
     const promise = () =>
-      new Promise<FormResult<typeof initial>>((res, rej) => {
+      new Promise<FormResult<typeof initial>>((res) => {
         const form = createForm({
           initial,
           asyncValidators: {
@@ -141,7 +141,7 @@ describe("form", () => {
       note: "",
     }
     const promise = () =>
-      new Promise<FormResult<typeof initial>>((res, rej) => {
+      new Promise<FormResult<typeof initial>>((res) => {
         const form = createForm({
           initial,
           validators: {
@@ -202,7 +202,7 @@ describe("form", () => {
       username: "",
     }
     const promise = () =>
-      new Promise<FormResult<typeof initial>>((res, rej) => {
+      new Promise<FormResult<typeof initial>>((res) => {
         const form = createForm({
           initial,
           validators: {
@@ -236,7 +236,7 @@ describe("form", () => {
       username: "",
     }
     const promise = () =>
-      new Promise<FormResult<typeof initial>>((res, rej) => {
+      new Promise<FormResult<typeof initial>>((res) => {
         const form = createForm({
           initial,
           asyncValidators: {
@@ -277,7 +277,9 @@ describe("form", () => {
       asyncValidators: {
         ...createServerValidator("passing", "email"),
       },
-      onSubmitForm: () => {},
+      onSubmitForm: () => {
+        return
+      },
     }
 
     const submitSpy = vi.spyOn(formProps, "onSubmitForm")
@@ -285,7 +287,7 @@ describe("form", () => {
     const promise = () =>
       new Promise<{
         result: FormResult<typeof initial>
-      }>((res, rej) => {
+      }>((res) => {
         const form = createForm(formProps)
         const { submit } = form.getSnapshot()
 
@@ -316,7 +318,7 @@ describe("form", () => {
       new Promise<{
         result: FormResult<typeof initial>
         submitSpy: SpyInstance<[], void>
-      }>((res, rej) => {
+      }>((res) => {
         const formProps = {
           initial,
           validators: {
@@ -326,7 +328,9 @@ describe("form", () => {
           asyncValidators: {
             ...createServerValidator("failing", "email"),
           },
-          onSubmitForm: () => {},
+          onSubmitForm: () => {
+            return
+          },
         }
         const form = createForm(formProps)
         const { submit } = form.getSnapshot()

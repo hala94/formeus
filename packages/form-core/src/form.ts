@@ -108,7 +108,7 @@ export function createForm<TForm extends Record<string, unknown>>({
   function createInitialValidations(): ValidationResults<TForm> {
     let initialValidations = {} as ValidationResults<TForm>
 
-    for (const [key, _] of Object.entries(props.initial)) {
+    for (const [key] of Object.entries(props.initial)) {
       const clientFN = props.validators && props.validators[key]
       const serverFN = props.asyncValidators && props.asyncValidators[key]
 
