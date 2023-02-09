@@ -20,7 +20,7 @@
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "dev": "rollup -c --watch",
-    "test": "vitest",
+    "test": "vitest --run",
     "lint": "eslint src/*",
     "clean": "rm -rf dist"
   },

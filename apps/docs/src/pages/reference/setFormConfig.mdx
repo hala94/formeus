@@ -1,3 +1,16 @@
 # setFormConfig
 
 Sets the global form configuration object that all forms inherit.
+
+```js
+type FormConfig = {
+  autoValidate: boolean,
+}
+```
+
+## Options
+
+### `autoValidate`
+
+When set to `true`, all form instances will automatically run validations whenever the field
+value changes.

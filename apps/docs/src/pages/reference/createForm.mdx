@@ -14,26 +14,26 @@ type FormProps<TForm extends Record<string, unknown>> = {
 };
 ```
 
-`initial`
+### `initial`
 
 Required property representing the initial object model for your form.
 
-`validators`
+### `validators`
 
 Object representing validators that run synchronously.
 
-`asyncValidators`
+### `asyncValidators`
 
 Object representing validators that run asynchronously.
 
-`onSubmitForm`
+### `onSubmitForm`
 
 Function that contains your "submit" logic.
 
 Works in conjuction with `submit` method returned from `createForm` and gets
 called only if all validations pass.
 
-`config`
+### `config`
 
 ```js
 type FormConfig = {
@@ -60,11 +60,11 @@ type FormResult<TForm> = {
 };
 ```
 
-`values`
+### `values`
 
 Object holding the latest values for your form.
 
-`validations`
+### `validations`
 
 Object that contains `ValidationState` for each form key.
 
@@ -76,26 +76,26 @@ export type ValidationState = {
 };
 ```
 
-`update`
+### `update`
 
 Updates the value for specific key.
 
-`runValidation`
+### `runValidation`
 
 Manually run validation for given field. Validation results are cached and not repeated until the
 value changes.
 
-`submit`
+### `submit`
 
 Method that starts the validation process.
 
 Validation process is executed sequentally in order defined by the object keys of the `initial` argument.
 Calls `onSubmitForm` internally if all validations pass.
 
-`isValid`
+### `isValid`
 
 **true** if there are no pending or ongoing validations, and all form values are checked and validated.
 
-`isValidating`
+### `isValidating`
 
 **true** if there are ongoing validations.

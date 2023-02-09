@@ -1,4 +1,4 @@
-# FORM
+# Formeus
 
 Formeus is a headless utility library for handling most common tasks related to user input and input validation.
 
