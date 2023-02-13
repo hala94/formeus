@@ -1,9 +1,9 @@
 import "../styles.css"
-import { Poppins } from "@next/font/google"
+import { Noto_Sans, Poppins } from "@next/font/google"
 
 import type { AppProps } from "next/app"
 
-const poppins = Poppins({
+const poppins = Noto_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
 })

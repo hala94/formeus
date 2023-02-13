@@ -19,9 +19,9 @@ const initial: Form = {
 
 const validators: Validators<Form> = {
   email: ({ email }) =>
-    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,30}/.test(email)
+    /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/.test(email)
       ? undefined
-      : new Error("Not an email"),
+      : new Error("1 uppercase, 1 lowercase, 1 number and at least 6 chars."),
   // email.length == 0 ? new Error("Email validation failed.") : undefined,
   password: ({ password }) =>
     password.length < 5 ? new Error("Enter at least 5 chars.") : undefined,

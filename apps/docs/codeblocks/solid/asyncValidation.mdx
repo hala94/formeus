@@ -7,6 +7,12 @@ const SignIn: Component = () => {
         username.length == 0
           ? new Error("Must contain at least 1 char.")
           : undefined,
+      password: ({ password }) =>
+        /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/.test(password)
+          ? undefined
+          : new Error(
+              "1 uppercase, 1 lowercase, 1 number and at least 6 chars."
+            ),
     },
     asyncValidators: {
       password: ({ password }) => Promise.resolve(undefined).then(delayResult),

@@ -12,6 +12,8 @@ Async validators are _Promises_ that resolve with either an _Error_ object or _u
 
 Building upon the previous example, we are adding an async validator to our form configuration object.
 
+Also, notice that our _password_ field gets validated with Regex.
+
 <Callout type="info" emoji="ℹ️">
   _validators_ always run before _asyncValidators_, preventing unecessary
   requests for something that can be checked on the client. (like an empty

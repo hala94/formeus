@@ -1,5 +1,6 @@
-import { defineConfig } from "rollup";
-import typescript from "@rollup/plugin-typescript";
+import { defineConfig } from "rollup"
+import typescript from "@rollup/plugin-typescript"
+import terser from "@rollup/plugin-terser"
 
 /// using file: instead of dir: causes rollup to bundle the files.
 /// config can be array of configs, disable watch rebuild of all bundles
@@ -23,7 +24,8 @@ const config = defineConfig({
       outDir: "dist",
       sourceMap: false, //  Enable during dev only ? Enabling it ships the source.
     }),
+    terser(),
   ],
-});
+})
 
-export default config;
+export default config
