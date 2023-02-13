@@ -8,13 +8,13 @@ import {
   ref,
   ToRefs,
 } from "vue"
-import { createForm, FormProps, FormResult } from "@9/form-core"
+import { createForm, FormOptions, FormResult } from "@9/form-core"
 
 type ReadOnlyResult<TData> = ReturnType<typeof readonly<FormResult<TData>>>
 type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>
 
 export function useForm<TData extends Record<string, unknown>>(
-  props: FormProps<TData>
+  props: FormOptions<TData>
 ): RefsResult<TData> {
   const observable = createForm(unref(props))
 

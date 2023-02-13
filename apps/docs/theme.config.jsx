@@ -1,18 +1,16 @@
+import { Logo } from "./components/logo"
+import { Footer } from "./components/footer"
+
 export default {
-  logo: (
-    <span style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
-      <strong style={{ fontSize: "2rem" }}>formeus</strong>
-      <p className="logoSpin" style={{ fontSize: "2rem" }}>
-        🌀
-      </p>
-    </span>
-  ),
+  logo: Logo,
   project: {
     link: "https://github.com/hala94/form",
     title: "Formeus",
   },
+  footer: {
+    component: Footer,
+  },
   docsRepositoryBase: "https://github.com/shuding/nextra/blob/core/docs/pages",
-  footer: () => <></>,
   chat: {
     link: "https://twitter.com/david_halapir",
     icon: (

@@ -1,5 +1,5 @@
 import { createForm } from "../form"
-import { describe, expect, it, SpyInstance, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import {
   createClientValidator,
   createServerValidator,
@@ -17,6 +17,8 @@ describe("form", () => {
     const snapshot = form.getSnapshot()
     expect(snapshot.values.email).toBe("test@test.com")
     expect(snapshot.values.username).toBe("123")
+    expect(snapshot.isValid).toBeTruthy()
+    expect(snapshot.isValidating).toBeFalsy()
   })
 
   it("has correct state after running client validations", async () => {
@@ -252,7 +254,7 @@ describe("form", () => {
         })
       })
 
-    const { validations, isValid } = await promise()
+    const { validations, isValid, isValidating } = await promise()
 
     expect(validations.email).toStrictEqual({
       checked: false,
@@ -260,6 +262,7 @@ describe("form", () => {
       validating: true,
     })
     expect(isValid).toBeFalsy()
+    expect(isValidating).toBeTruthy()
   })
 
   it("calls submit handler if all fields valid", async () => {
@@ -314,10 +317,11 @@ describe("form", () => {
       username: "",
     }
 
+    const mockOnSubmitForm = vi.fn()
+
     const promise = () =>
       new Promise<{
         result: FormResult<typeof initial>
-        submitSpy: SpyInstance<[], void>
       }>((res) => {
         const formProps = {
           initial,
@@ -328,25 +332,115 @@ describe("form", () => {
           asyncValidators: {
             ...createServerValidator("failing", "email"),
           },
-          onSubmitForm: () => {
-            return
+          onSubmitForm: mockOnSubmitForm,
+        }
+        const form = createForm(formProps)
+        const { submit } = form.getSnapshot()
+
+        submit()
+
+        setTimeout(() => {
+          res({ result: form.getSnapshot() })
+        }, 15)
+      })
+
+    const { result } = await promise()
+
+    expect(mockOnSubmitForm).not.toHaveBeenCalledOnce()
+    expect(result.validations.email).toStrictEqual({
+      checked: true,
+      error: new Error("email invalid"),
+      validating: false,
+    })
+  })
+
+  it("calls submit handler if all fields valid - parallel", async () => {
+    const initial = {
+      email: "",
+      username: "",
+    }
+
+    const mockOnSubmitForm = vi.fn()
+
+    const formProps = {
+      initial,
+      validators: {
+        ...createClientValidator("passing", "email"),
+        ...createClientValidator("passing", "username"),
+      },
+      asyncValidators: {
+        ...createServerValidator("passing", "email"),
+      },
+      onSubmitForm: mockOnSubmitForm,
+      config: {
+        validateConcurrentlyOnSubmit: true,
+      },
+    }
+
+    const promise = () =>
+      new Promise<{
+        result: FormResult<typeof initial>
+      }>((res) => {
+        const form = createForm(formProps)
+        const { submit } = form.getSnapshot()
+
+        submit()
+
+        setTimeout(() => {
+          res({ result: form.getSnapshot() })
+        }, 50)
+      })
+
+    const { result } = await promise()
+
+    expect(result.validations.email).toStrictEqual({
+      checked: true,
+      error: undefined,
+      validating: false,
+    })
+    expect(mockOnSubmitForm).toHaveBeenCalledOnce()
+  })
+
+  it("doesn't call submit handler if some validations fail - parallel mode", async () => {
+    const initial = {
+      email: "",
+      username: "",
+    }
+
+    const mockOnSubmitForm = vi.fn()
+
+    const promise = () =>
+      new Promise<{
+        result: FormResult<typeof initial>
+      }>((res) => {
+        const formProps = {
+          initial,
+          validators: {
+            ...createClientValidator("passing", "email"),
+            ...createClientValidator("passing", "username"),
+          },
+          asyncValidators: {
+            ...createServerValidator("failing", "email"),
+          },
+          onSubmitForm: mockOnSubmitForm,
+          config: {
+            validateConcurrentlyOnSubmit: true,
           },
         }
         const form = createForm(formProps)
         const { submit } = form.getSnapshot()
 
-        const submitSpy = vi.spyOn(formProps, "onSubmitForm")
-
         submit()
 
         setTimeout(() => {
-          res({ result: form.getSnapshot(), submitSpy })
+          res({ result: form.getSnapshot() })
         }, 15)
       })
 
-    const { result, submitSpy } = await promise()
+    const { result } = await promise()
 
-    expect(submitSpy).not.toHaveBeenCalledOnce()
+    expect(mockOnSubmitForm).not.toHaveBeenCalledOnce()
+
     expect(result.validations.email).toStrictEqual({
       checked: true,
       error: new Error("email invalid"),

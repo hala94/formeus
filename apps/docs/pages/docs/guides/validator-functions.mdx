@@ -6,13 +6,13 @@ These functions must resolve with native `Error` instance if the validation shou
 if the validation should _pass_.
 
 ```js
-type ValidationResult = Error | undefined;
+type ValidationResult = Error | undefined
 ```
 
 ### Synchronous
 
 ```js
-type Validator<TForm> = (form: TForm) => ValidationResult;
+type Validator<TForm> = (form: TForm) => ValidationResult
 ```
 
 Suitable for quick client side validations like empty fields, or regex statements.
@@ -25,7 +25,7 @@ Can also be configured with _third party_ validation frameworks like _Yup_ or _Z
 type AsyncValidator<TForm> = (
   form: TForm,
   signal: AbortSignal
-) => Promise<ValidationResult>;
+) => Promise<ValidationResult>
 ```
 
 Suitable for any kind validation that must be resolved with a Promise.

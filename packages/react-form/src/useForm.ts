@@ -1,8 +1,8 @@
 import { useState, useSyncExternalStore } from "react"
-import { createForm, FormProps } from "@9/form-core"
+import { createForm, FormOptions } from "@9/form-core"
 
 export function useForm<TForm extends Record<string, unknown>>(
-  props: FormProps<TForm>
+  props: FormOptions<TForm>
 ) {
   const [subscribable] = useState(createForm(props))
 

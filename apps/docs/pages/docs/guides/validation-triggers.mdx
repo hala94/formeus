@@ -20,17 +20,13 @@ Use `config` object to control this behaviour on particular _instance_ or use
 `setFormConfig` function to control this behaviour globally.
 
 <Callout type="info" emoji="ℹ️">
-  Setting _config_ on the individual _form instance_ overrides global setting.
-</Callout>
-
-<Callout type="info" emoji="ℹ️">
   Validations don't automatically run when _form instance_ is created.
 </Callout>
 
 ### On Submit
 
-Calling the `submit` method will cancel any running validations and start sequential validation of all of your form fields.
+Calling the `submit` method will cancel any running validations and start validation of all of your form fields.
 
 Assuming all validations pass, the supplied `onSubmitForm` function will be called with the latest form values.
 
-This process will skip already validated fields, but also stop if any of the validations fail.
+`submit` method can be configured to run validations sequentialy or concurrently via the `config` property.

@@ -3,7 +3,7 @@ import { createParallelQueue } from "./parallelTaskQueue"
 import { createSerialQueue } from "./serialTaskQueue"
 import { createSubscribable } from "./subscribable"
 import {
-  FormProps,
+  FormOptions,
   FormResult,
   ValidationResults,
   ValidationState,
@@ -13,10 +13,13 @@ import { createValidationTask } from "./validationTask"
 export function createForm<TForm extends Record<string, unknown>>({
   config = getFormConfig(),
   ...props
-}: FormProps<TForm>) {
+}: FormOptions<TForm>) {
   const subscribable = createSubscribable<FormResult<TForm>>()
-  const parallelTaskQueue = createParallelQueue()
-  const serialTaskQueue = createSerialQueue()
+
+  const taskValidationQueue = createParallelQueue()
+  const submitQueue = createSubmitQueue({
+    concurrently: config?.validateConcurrentlyOnSubmit || false,
+  })
 
   let currentValues = props.initial
   let validations = createInitialValidations()
@@ -40,7 +43,7 @@ export function createForm<TForm extends Record<string, unknown>>({
   function update<Key extends keyof TForm>(key: Key, value: TForm[Key]) {
     currentValues = { ...currentValues, [key]: value }
 
-    serialTaskQueue.cancelAllTasks()
+    submitQueue.cancelAllTasks()
 
     validations = invalidateValidation(key)
 
@@ -50,7 +53,7 @@ export function createForm<TForm extends Record<string, unknown>>({
   }
 
   function runValidation<Key extends keyof TForm>(key: Key) {
-    parallelTaskQueue.cancelTask(key as string)
+    taskValidationQueue.cancelTask(key as string)
 
     const clientFN = props.validators && props.validators[key]
     const serverFN = props.asyncValidators && props.asyncValidators[key]
@@ -69,16 +72,19 @@ export function createForm<TForm extends Record<string, unknown>>({
       existingResult: validations[key],
     })
 
-    parallelTaskQueue.addTask(task)
+    taskValidationQueue.addTask(task)
   }
 
   function submit() {
-    serialTaskQueue.cancelAllTasks()
-    parallelTaskQueue.cancelAllTasks()
+    if (!props.onSubmitForm) return
+
+    taskValidationQueue.cancelAllTasks()
+
+    submitQueue.cancelAllTasks()
 
     const validationTasks = createValidationTasks()
 
-    serialTaskQueue.addTasks(validationTasks, ({ success }) => {
+    submitQueue.addTasks(validationTasks, ({ success }) => {
       success && props.onSubmitForm?.(currentValues)
     })
   }
@@ -179,4 +185,16 @@ function isFormValidating<TForm>(validations: ValidationResults<TForm>) {
     const validation = v as ValidationState
     return validation.validating == true
   })
+}
+
+function createSubmitQueue({ concurrently }: { concurrently: boolean }) {
+  const serialQueue = createSerialQueue()
+  const parallelQueue = createParallelQueue()
+
+  return {
+    addTasks: concurrently ? parallelQueue.addTasks : serialQueue.addTasks,
+    cancelAllTasks: concurrently
+      ? parallelQueue.cancelAllTasks
+      : serialQueue.cancelAllTasks,
+  }
 }

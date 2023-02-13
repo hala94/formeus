@@ -1,0 +1,33 @@
+import ReactValidation from "codeblocks/react/validation.mdx"
+import SolidValidation from "codeblocks/solid/validation.mdx"
+
+import { Callout } from "nextra-theme-docs"
+import { Tab, Tabs } from "nextra-theme-docs"
+
+# Validation
+
+To enable validation, pass your validator functions to `validators` object and map them
+to your form _keys_ defined with the `initial` object.
+
+Also, as our form now handles validations, we should use the supplied `submit` method and pass the function
+that sends the information to server as the `onSubmitForm` argument.
+
+`onSubmitForm` won't get called unless all fields passed validation, so this simple setup guards
+against invalid requests being sent to your server.
+
+<Tabs items={["React", "Solid", "Vue", "Svelte"]}>
+  <Tab>
+    <ReactValidation />
+  </Tab>
+  <Tab>
+    <SolidValidation />
+  </Tab>
+  <Tab>Comming soon</Tab>
+  <Tab>Comming soon</Tab>
+</Tabs>
+
+<Callout type="info" emoji="ℹ️">
+  _validators_ object expects your form keys mapped to the validator functions.
+  Return an *Error* object for failing validations and *undefined* for passing
+  validations.
+</Callout>

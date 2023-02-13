@@ -1,6 +1,4 @@
-import { createTask } from "./task"
-
-type Task = ReturnType<typeof createTask>
+import { Task } from "./task"
 
 export type TaskState = {
   state: "idle" | "running" | "completed"
@@ -11,21 +9,10 @@ export type TaskState = {
 export function createSerialQueue() {
   let tasks = Array<Task>()
   let runningTask: { unsub: () => void; task: Task } | null = null
-  let pendingSchedule = false
 
   // eslint-disable-next-line
   let onAllTasksCompleted = (_: { success: boolean }) => {
     return
-  }
-
-  function queueScheduleTask() {
-    if (pendingSchedule) return
-    pendingSchedule = true
-
-    queueMicrotask(() => {
-      pendingSchedule = false
-      scheduleNextTask()
-    })
   }
 
   function scheduleNextTask() {
@@ -61,7 +48,7 @@ export function createSerialQueue() {
 
         if (taskState.success) {
           tasks.shift()
-          queueScheduleTask()
+          scheduleNextTask()
           return
         }
 
@@ -86,7 +73,7 @@ export function createSerialQueue() {
     ) => {
       onAllTasksCompleted = onCompleted
       tasks = newTasks
-      queueScheduleTask()
+      scheduleNextTask()
     },
   }
 }

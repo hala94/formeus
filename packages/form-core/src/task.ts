@@ -33,3 +33,5 @@ export function createTask({ work, onCancel, identifier }: Props) {
     },
   }
 }
+
+export type Task = ReturnType<typeof createTask>

@@ -1,25 +1,19 @@
 import { TaskState } from "./serialTaskQueue"
-import { createTask } from "./task"
-
-type Task = ReturnType<typeof createTask>
+import { Task } from "./task"
 
 export function createParallelQueue() {
-  let tasks = Array<Task>()
+  let aggregatedTaskState = Array<TaskState>()
+
   const runningTasks = new Map<string, { task: Task; unsub: () => void }>()
-  let pendingSchedule = false
 
-  function queueScheduleTask() {
-    if (pendingSchedule) return
-    pendingSchedule = true
-
-    queueMicrotask(() => {
-      pendingSchedule = false
-      scheduleTasks()
-    })
+  // eslint-disable-next-line
+  let onAllTasksCompleted = (_: { success: boolean }) => {
+    return
   }
 
-  function scheduleTasks() {
+  function scheduleTasks(tasks: Array<Task>) {
     if (tasks.length === 0) return
+    aggregatedTaskState = []
 
     tasks.forEach((task) => {
       const unsub = task.subscribe(taskStateHandler)
@@ -27,10 +21,12 @@ export function createParallelQueue() {
         task,
         unsub,
       })
-      task.start()
     })
 
-    tasks = []
+    // update runningTasks before starting
+    tasks.forEach((task) => {
+      task.start()
+    })
   }
 
   function taskStateHandler(taskState: TaskState) {
@@ -40,9 +36,22 @@ export function createParallelQueue() {
       case "running":
         break
       case "completed": {
+        aggregatedTaskState.push(taskState)
+
         const job = runningTasks.get(taskState.identifier)
         job?.unsub()
         runningTasks.delete(taskState.identifier)
+
+        if (runningTasks.size == 0) {
+          onAllTasksCompleted({
+            success: aggregatedTaskState.every(
+              (state) => state.success == true
+            ),
+          })
+          onAllTasksCompleted = () => {
+            return
+          }
+        }
       }
     }
   }
@@ -62,8 +71,14 @@ export function createParallelQueue() {
       runningTasks.clear()
     },
     addTask: (task: Task) => {
-      tasks.push(task)
-      queueScheduleTask()
+      scheduleTasks([task])
+    },
+    addTasks: (
+      newTasks: Array<Task>,
+      onCompleted: (result: { success: boolean }) => void
+    ) => {
+      onAllTasksCompleted = onCompleted
+      scheduleTasks(newTasks)
     },
   }
 }

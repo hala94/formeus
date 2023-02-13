@@ -1,13 +1,4 @@
-# Basic
-
-Most basic usage is one without validators. Formeus will handle updates and return
-the latest values.
-
-Initialize the form by passing your form initial values to the `initial` argument.
-
 ```js
-// SignIn.tsx
-
 function SignIn() {
   const { values, update } = useForm({
     initial: {

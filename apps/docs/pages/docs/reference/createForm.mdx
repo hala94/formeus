@@ -5,7 +5,7 @@ This method creates a new form _instance_ representing the form in your applicat
 ## Options
 
 ```js
-type FormProps<TForm extends Record<string, unknown>> = {
+type FormOptions<TForm extends Record<string, unknown>> = {
   initial: TForm;
   validators?: Validators<TForm>;
   asyncValidators?: AsyncValidators<TForm>;
@@ -38,7 +38,7 @@ called only if all validations pass.
 ```js
 type FormConfig = {
   autoValidate: boolean,
-};
+}
 ```
 
 Configuration options for the current form.
@@ -73,7 +73,7 @@ export type ValidationState = {
   validating: boolean,
   error: ValidationResult,
   checked: boolean,
-};
+}
 ```
 
 ### `update`

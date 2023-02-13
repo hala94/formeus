@@ -1,23 +1,4 @@
-import { Callout } from "nextra-theme-docs";
-
-# Asynchronous validation
-
-Most common async validation is a network request checking with the backend if the current value is _available_, like username or email, but
-it can be anything.
-
-Async validators are _Promises_ that resolve with either an _Error_ object or _undefined_.
-
-Building upon the previous example, we are adding an async validator to our form configuration object.
-
-<Callout type="info" emoji="ℹ️">
-  _validators_ always run before _asyncValidators_, preventing unecessary
-  requests for something that can be checked on the client. (like an empty
-  field).
-</Callout>
-
 ```js
-// SignIn.tsx
-
 function SignIn() {
   const { values, update, submit } = useForm({
     initial: {
@@ -37,14 +18,14 @@ function SignIn() {
     asyncValidators: {
       username: ({ username }) => {
         // username is already client side validated here
-        return Promise.resolve(undefined).then(delayResult);
+        return Promise.resolve(undefined).then(delayResult)
       },
     },
     onSubmitForm: ({ username, password }) => {
       /// This scope guarantees all fields passed validations.
       /// Send username + password to server.
     },
-  });
+  })
 
   return (
     <>
@@ -58,7 +39,7 @@ function SignIn() {
       />
       <button onClick={() => submit()}>Submit</button>
     </>
-  );
+  )
 }
 
 /// Utility method for delaying promise result.
@@ -68,9 +49,9 @@ function delayResult<T>(value: T, delay: number = 3000) {
     T >
     ((resolve) => {
       setTimeout(() => {
-        resolve(value);
-      }, delay);
+        resolve(value)
+      }, delay)
     })
-  );
+  )
 }
 ```

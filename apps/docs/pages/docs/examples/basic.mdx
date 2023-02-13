@@ -1,0 +1,28 @@
+import ReactBasic from "codeblocks/react/basic.mdx"
+import SolidBasic from "codeblocks/solid/basic.mdx"
+import VueBasic from "codeblocks/vue/basic.mdx"
+import SvelteBasic from "codeblocks/svelte/basic.mdx"
+
+import { Tab, Tabs } from "nextra-theme-docs"
+
+# Basic
+
+Most basic usage is one without validators. Formeus will handle updates and return
+the latest values.
+
+Initialize the form by passing your form initial values to the `initial` argument.
+
+<Tabs items={["React", "Solid", "Vue", "Svelte"]}>
+  <Tab>
+    <ReactBasic />
+  </Tab>
+  <Tab>
+    <SolidBasic />
+  </Tab>
+  <Tab>
+    <VueBasic />
+  </Tab>
+  <Tab>
+    <SvelteBasic />
+  </Tab>
+</Tabs>

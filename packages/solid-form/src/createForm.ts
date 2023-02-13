@@ -1,10 +1,10 @@
 import { createForm as createFormCore } from "@9/form-core"
-import type { FormProps } from "@9/form-core"
+import type { FormOptions } from "@9/form-core"
 import { createStore } from "solid-js/store"
 import { onCleanup } from "solid-js"
 
 export function createForm<TForm extends Record<string, unknown>>(
-  args: FormProps<TForm>
+  args: FormOptions<TForm>
 ) {
   const observable = createFormCore(args)
 

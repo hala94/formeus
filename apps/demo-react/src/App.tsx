@@ -19,7 +19,10 @@ const initial: Form = {
 
 const validators: Validators<Form> = {
   email: ({ email }) =>
-    email.length == 0 ? new Error("Email validation failed.") : undefined,
+    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,30}/.test(email)
+      ? undefined
+      : new Error("Not an email"),
+  // email.length == 0 ? new Error("Email validation failed.") : undefined,
   password: ({ password }) =>
     password.length < 5 ? new Error("Enter at least 5 chars.") : undefined,
   username: ({ username }) =>
@@ -44,7 +47,7 @@ export default function App() {
       onSubmitForm,
       validators,
       asyncValidators,
-      config: { autoValidate: true },
+      config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
     })
 
   function onSubmitForm(form: Form) {
@@ -80,11 +83,7 @@ export default function App() {
           {...generateInputProps().map((inputProps) => (
             <Input {...inputProps} />
           ))}
-          <Button
-            disabled={submitting || !isValid}
-            onClick={() => submit()}
-            className="mt-12"
-          />
+          <Button onClick={() => submit()} className="mt-12" />
         </div>
         <div className="max-w-[30rem]">
           {JSON.stringify(validations, null, 2)}

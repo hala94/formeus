@@ -3,6 +3,5 @@
   "installation": "Installation",
   "guides": "Guides",
   "reference": "Core API",
-  "react": "React Example",
-  "solid": "Solid Example"
+  "examples": "Examples"
 }

@@ -1,8 +1,8 @@
-import { FormProps, createForm as createFormInternal } from "@9/form-core"
+import { FormOptions, createForm as createFormInternal } from "@9/form-core"
 import { readable } from "svelte/store"
 
 export function createForm<TForm extends Record<string, unknown>>(
-  options: FormProps<TForm>
+  options: FormOptions<TForm>
 ) {
   const observable = createFormInternal(options)
 

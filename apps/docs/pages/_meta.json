@@ -1,0 +1,21 @@
+{
+  "index": {
+    "display": "hidden",
+    "theme": {
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": false,
+      "toc": false,
+      "pagination": false,
+      "navbar": true,
+      "timestamp": false
+    }
+  },
+  "docs": {
+    "title": "Docs",
+    "type": "page",
+    "theme": {
+      "footer": false
+    }
+  }
+}

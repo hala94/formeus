@@ -7,7 +7,7 @@ type ButtonProps = {
 export function Button({ className, onClick, disabled }: ButtonProps) {
   const activeClass = disabled
     ? "bg-slate-600 text-slate-400 cursor-not-allowed"
-    : "bg-brandblue"
+    : "bg-blue-600"
 
   return (
     <button
