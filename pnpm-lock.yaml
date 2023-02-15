@@ -7,6 +7,7 @@ importers:
       '@changesets/cli': ^2.26.0
       '@rollup/plugin-terser': ^0.4.0
       '@rollup/plugin-typescript': ^11.0.0
+      classnames: ^2.3.2
       eslint: ^7.32.0
       eslint-config-shared: workspace:*
       eslint-plugin-solid: ^0.9.4
@@ -22,6 +23,7 @@ importers:
       '@changesets/cli': 2.26.0
       '@rollup/plugin-terser': 0.4.0_rollup@3.14.0
       '@rollup/plugin-typescript': 11.0.0_zxkhu5bh25kztuydgrnjtvho6a
+      classnames: 2.3.2
       eslint: 7.32.0
       eslint-config-shared: link:packages/eslint-config-shared
       eslint-plugin-solid: 0.9.4_yfqovispp7u7jaktymfaqwl2py
@@ -36,7 +38,7 @@ importers:
 
   apps/demo-react:
     specifiers:
-      '@9/react-form': workspace:*
+      '@formeus/react': workspace:*
       '@types/react': ^18.0.26
       '@types/react-dom': ^18.0.9
       '@vitejs/plugin-react': ^3.0.0
@@ -47,7 +49,7 @@ importers:
       tailwindcss: ^3.2.4
       vite: ^4.0.0
     dependencies:
-      '@9/react-form': link:../../packages/react-form
+      '@formeus/react': link:../../packages/react-form
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -61,7 +63,7 @@ importers:
 
   apps/demo-solid:
     specifiers:
-      '@9/solid-form': workspace:*
+      '@formeus/solid': workspace:*
       autoprefixer: ^10.4.13
       postcss: ^8.4.20
       solid-js: ^1.6.6
@@ -69,7 +71,7 @@ importers:
       vite: ^4.0.3
       vite-plugin-solid: ^2.5.0
     dependencies:
-      '@9/solid-form': link:../../packages/solid-form
+      '@formeus/solid': link:../../packages/solid-form
       solid-js: 1.6.9
     devDependencies:
       autoprefixer: 10.4.13_postcss@8.4.20
@@ -80,7 +82,7 @@ importers:
 
   apps/demo-vue:
     specifiers:
-      '@9/vue-form': workspace:*
+      '@formeus/vue': workspace:*
       '@types/node': ^18.11.12
       '@vitejs/plugin-vue': ^4.0.0
       '@vitejs/plugin-vue-jsx': ^3.0.0
@@ -90,7 +92,7 @@ importers:
       vue: ^3.2.45
       vue-tsc: ^1.0.12
     dependencies:
-      '@9/vue-form': link:../../packages/vue-form
+      '@formeus/vue': link:../../packages/vue-form
       vue: 3.2.47
     devDependencies:
       '@types/node': 18.11.17
@@ -167,18 +169,22 @@ importers:
 
   packages/react-form:
     specifiers:
-      '@9/form-core': workspace:*
+      '@formeus/core': workspace:*
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.10
+      '@types/use-sync-external-store': ^0.0.3
       eslint-config-shared: workspace:*
       react: 18.2.0
       react-dom: 18.2.0
       tsconfig: workspace:*
+      use-sync-external-store: ^1.2.0
     dependencies:
-      '@9/form-core': link:../form-core
+      '@formeus/core': link:../form-core
+      use-sync-external-store: 1.2.0_react@18.2.0
     devDependencies:
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.10
+      '@types/use-sync-external-store': 0.0.3
       eslint-config-shared: link:../eslint-config-shared
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -186,12 +192,12 @@ importers:
 
   packages/solid-form:
     specifiers:
-      '@9/form-core': workspace:*
+      '@formeus/core': workspace:*
       eslint-config-shared: workspace:*
       solid-js: ^1.5.7
       tsconfig: workspace:*
     dependencies:
-      '@9/form-core': link:../form-core
+      '@formeus/core': link:../form-core
       solid-js: 1.6.9
     devDependencies:
       eslint-config-shared: link:../eslint-config-shared
@@ -199,12 +205,12 @@ importers:
 
   packages/svelte-form:
     specifiers:
-      '@9/form-core': workspace:*
+      '@formeus/core': workspace:*
       eslint-config-shared: workspace:*
       svelte: ^3.55.1
       tsconfig: workspace:*
     dependencies:
-      '@9/form-core': link:../form-core
+      '@formeus/core': link:../form-core
     devDependencies:
       eslint-config-shared: link:../eslint-config-shared
       svelte: 3.55.1
@@ -215,12 +221,12 @@ importers:
 
   packages/vue-form:
     specifiers:
-      '@9/form-core': workspace:*
+      '@formeus/core': workspace:*
       eslint-config-shared: workspace:*
       tsconfig: workspace:*
-      vue: ^3.2.45
+      vue: ^3.0.0
     dependencies:
-      '@9/form-core': link:../form-core
+      '@formeus/core': link:../form-core
       vue: 3.2.47
     devDependencies:
       eslint-config-shared: link:../eslint-config-shared
@@ -1601,6 +1607,10 @@ packages:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
 
+  /@types/use-sync-external-store/0.0.3:
+    resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
+    dev: true
+
   /@typescript-eslint/eslint-plugin/5.48.1_gwvxzuhb6zekzdxps7fkzhe3o4:
     resolution: {integrity: sha512-9nY5K1Rp2ppmpb9s9S2aBiF3xo5uExCehMDmYmmFqqyxgenbHJ3qbarcLt4ITgaD6r/2ypdlcFRdcuVPnks+fQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -2355,6 +2365,10 @@ packages:
   /ci-info/3.7.1:
     resolution: {integrity: sha512-4jYS4MOAaCIStSRwiuxc4B8MYhIe676yO1sYGzARnjXkWpmzZMMYxY6zu8WYWDhSuth5zhrQ1rhNSibyyvv4/w==}
     engines: {node: '>=8'}
+    dev: true
+
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: true
 
   /client-only/0.0.1:
@@ -6597,6 +6611,14 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.1.1
+
+  /use-sync-external-store/1.2.0_react@18.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

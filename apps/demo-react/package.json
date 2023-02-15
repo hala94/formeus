@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@9/react-form": "workspace:*"
+    "@formeus/react": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

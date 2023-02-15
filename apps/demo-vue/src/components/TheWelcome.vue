@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from "@9/vue-form";
+import { useForm } from "@formeus/vue"
 
 const { values, update, isValid, isValidating, validations } = useForm({
   initial: {
@@ -18,15 +18,15 @@ const { values, update, isValid, isValidating, validations } = useForm({
         (e) =>
           new Promise((res, _) => {
             setTimeout(() => {
-              res(e);
-            }, 3000);
+              res(e)
+            }, 3000)
           })
       ),
   },
   config: {
     autoValidate: true,
   },
-});
+})
 </script>
 
 <template>

@@ -12,11 +12,11 @@ Formeus works with React, Solid, Vue and Svelte.
 #### React
 
 ```sh
-yarn add @9/react-form
+yarn add @formeus/react
 ```
 
 #### Solid
 
 ```sh
-yarn add @9/solid-form
+yarn add @formeus/solid
 ```

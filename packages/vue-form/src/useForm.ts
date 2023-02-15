@@ -8,7 +8,7 @@ import {
   ref,
   ToRefs,
 } from "vue"
-import { createForm, FormOptions, FormResult } from "@9/form-core"
+import { createForm, FormOptions, FormResult } from "@formeus/core"
 
 type ReadOnlyResult<TData> = ReturnType<typeof readonly<FormResult<TData>>>
 type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>

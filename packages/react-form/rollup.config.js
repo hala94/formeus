@@ -3,15 +3,15 @@ import typescript from "@rollup/plugin-typescript"
 import terser from "@rollup/plugin-terser"
 
 const config = defineConfig({
-  external: ["@9/form-core", "react"],
+  external: ["@formeus/core", "react"],
   input: "src/index.ts",
   output: [
     {
-      file: "dist/lib/index.mjs",
+      file: "lib/index.mjs",
       format: "es",
     },
     {
-      file: "dist/lib/index.js",
+      file: "lib/index.js",
       format: "cjs",
     },
   ],
@@ -19,7 +19,7 @@ const config = defineConfig({
     typescript({
       declaration: true,
       outDir: "dist",
-      sourceMap: false, //  Enable during dev only ? Enabling it ships the source.
+      sourceMap: false,
     }),
     terser(),
   ],

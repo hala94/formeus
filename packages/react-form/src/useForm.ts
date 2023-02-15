@@ -1,9 +1,10 @@
-import { useState, useSyncExternalStore } from "react"
-import { createForm, FormOptions } from "@9/form-core"
+import { useState } from "react"
+import { useSyncExternalStore } from "use-sync-external-store"
+import { createForm, FormOptions, FormResult } from "@formeus/core"
 
 export function useForm<TForm extends Record<string, unknown>>(
   props: FormOptions<TForm>
-) {
+): FormResult<TForm> {
   const [subscribable] = useState(createForm(props))
 
   return useSyncExternalStore(

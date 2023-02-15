@@ -1,9 +1,13 @@
-import { FormOptions, createForm as createFormInternal } from "@9/form-core"
-import { readable } from "svelte/store"
+import {
+  FormOptions,
+  createForm as createFormInternal,
+  FormResult,
+} from "@formeus/core"
+import { Readable, readable } from "svelte/store"
 
 export function createForm<TForm extends Record<string, unknown>>(
   options: FormOptions<TForm>
-) {
+): Readable<FormResult<TForm>> {
   const observable = createFormInternal(options)
 
   const store = readable(observable.getSnapshot(), (set) => {

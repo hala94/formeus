@@ -1,4 +1,4 @@
-import { useForm, Validators, AsyncValidators } from "@9/react-form"
+import { useForm, Validators, AsyncValidators } from "@formeus/react"
 import { useState } from "react"
 import { Input, InputProps } from "./input"
 import { Button } from "./button"

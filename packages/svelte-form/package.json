@@ -1,29 +1,29 @@
 {
-  "name": "@9/svelte-form",
+  "name": "@formeus/svelte",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/lib/index.js",
-  "types": "./dist/lib/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/lib/index.d.ts",
-        "default": "./dist/lib/index.mjs"
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.mjs"
       },
       "require": {
-        "types": "./dist/lib/index.d.ts",
-        "default": "./dist/lib/index.js"
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
       }
     }
   },
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
+    "build": "rm -rf lib && rollup -c",
     "dev": "rollup -c --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf lib"
   },
   "dependencies": {
-    "@9/form-core": "workspace:*"
+    "@formeus/core": "workspace:*"
   },
   "devDependencies": {
     "eslint-config-shared": "workspace:*",
@@ -34,5 +34,8 @@
   "typesVersions": {},
   "peerDependencies": {
     "svelte": "^3.55.1"
-  }
+  },
+  "files": [
+    "lib/*"
+  ]
 }

@@ -1,33 +1,36 @@
 {
-  "name": "@9/form-core",
+  "name": "@formeus/core",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/lib/index.js",
-  "types": "./dist/lib/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/lib/index.d.ts",
-        "default": "./dist/lib/index.mjs"
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.mjs"
       },
       "require": {
-        "types": "./dist/lib/index.d.ts",
-        "default": "./dist/lib/index.js"
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
       }
     }
   },
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
+    "build": "rm -rf lib && rollup -c",
     "dev": "rollup -c --watch",
     "test": "vitest --run",
     "lint": "eslint src/*",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf lib"
   },
   "devDependencies": {
     "eslint-config-shared": "workspace:*",
     "tsconfig": "workspace:*",
     "vite": "^4.0.4",
     "vitest": "^0.27.0"
-  }
+  },
+  "files": [
+    "lib/*"
+  ]
 }

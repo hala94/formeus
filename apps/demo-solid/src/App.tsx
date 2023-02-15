@@ -1,5 +1,5 @@
 import { Component } from "solid-js"
-import { createForm } from "@9/solid-form"
+import { createForm } from "@formeus/solid"
 
 const App: Component = () => {
   const store = createForm({

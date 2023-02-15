@@ -1,14 +1,14 @@
 {
   "index": {
+    "title": "Formeus",
+    "type": "page",
     "display": "hidden",
     "theme": {
-      "breadcrumb": false,
       "footer": true,
-      "sidebar": false,
-      "toc": false,
-      "pagination": false,
       "navbar": true,
-      "timestamp": false
+      "timestamp": false,
+      "layout": "full",
+      "typesetting": "article"
     }
   },
   "docs": {

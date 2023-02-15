@@ -1,5 +1,4 @@
 import { Logo } from "./components/logo"
-import { Footer } from "./components/footer"
 
 export default {
   logo: Logo,
@@ -8,7 +7,7 @@ export default {
     title: "Formeus",
   },
   footer: {
-    component: Footer,
+    text: "",
   },
   docsRepositoryBase: "https://github.com/shuding/nextra/blob/core/docs/pages",
   chat: {

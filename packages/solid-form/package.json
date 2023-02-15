@@ -1,30 +1,30 @@
 {
-  "name": "@9/solid-form",
+  "name": "@formeus/solid",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/lib/index.js",
-  "types": "./dist/lib/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/lib/index.d.ts",
-        "default": "./dist/lib/index.mjs"
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.mjs"
       },
       "require": {
-        "types": "./dist/lib/index.d.ts",
-        "default": "./dist/lib/index.js"
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
       }
     }
   },
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
+    "build": "rm -rf lib && rollup -c",
     "dev": "rollup -c --watch",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf lib",
     "lint": "eslint src/*"
   },
   "dependencies": {
-    "@9/form-core": "workspace:*"
+    "@formeus/core": "workspace:*"
   },
   "peerDependencies": {
     "solid-js": "^1.5.7"
@@ -34,5 +34,8 @@
     "tsconfig": "workspace:*"
   },
   "browser": {},
-  "typesVersions": {}
+  "typesVersions": {},
+  "files": [
+    "lib/*"
+  ]
 }
