@@ -1,4 +1,6 @@
 ```js showLineNumbers
+import { useForm } from "@formeus/react"
+
 function SignIn() {
   const { values, update, submit } = useForm({
     initial: {
@@ -18,14 +20,17 @@ function SignIn() {
             ),
     },
     asyncValidators: {
-      username: ({ username }) => {
+      username: ({ username }, signal) => {
         // username is already client side validated here
-        return Promise.resolve(undefined).then(delayResult)
+        api
+          .checkUsernameAvailable(username, signal)
+          .then((isAvailable) =>
+            isAvailable ? undefined : new Error("username not available")
+          )
       },
     },
     onSubmitForm: ({ username, password }) => {
-      /// This scope guarantees all fields passed validations.
-      /// Send username + password to server.
+      api.signIn(username, password)
     },
   })
 
@@ -41,19 +46,6 @@ function SignIn() {
       />
       <button onClick={() => submit()}>Submit</button>
     </>
-  )
-}
-
-/// Utility method for delaying promise result.
-function delayResult<T>(value: T, delay: number = 3000) {
-  return (
-    new Promise() <
-    T >
-    ((resolve) => {
-      setTimeout(() => {
-        resolve(value)
-      }, delay)
-    })
   )
 }
 ```

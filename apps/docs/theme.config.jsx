@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { Logo } from "./components/logo"
 
 export default {
@@ -30,5 +31,15 @@ export default {
   faviconGlyph: "🌀",
   sidebar: {
     defaultMenuCollapseLevel: 2,
+  },
+  useNextSeoProps: () => {
+    const { asPath } = useRouter()
+    if (asPath == "/")
+      return {
+        titleTemplate: "Home | Formeus Docs",
+      }
+    return {
+      titleTemplate: "%s | Formeus Docs",
+    }
   },
 }

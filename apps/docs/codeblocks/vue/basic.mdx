@@ -1,3 +1,28 @@
-```js
-Coming soon
+```js showLineNumbers
+<script setup lang="ts">
+import { useForm } from "@formeus/vue"
+
+const { values, update } = useForm({
+  initial: {
+    username: "",
+    password: "",
+  },
+})
+
+function onSubmit() {
+    api.signIn(values.username, value.password)
+}
+</script>
+
+<template>
+  <input
+    :value="values.username"
+    @input="(e) => update('username', (e.target as HTMLInputElement).value)"
+  />
+  <input
+    :value="values.password"
+    @input="(e) => update('password', (e.target as HTMLInputElement).value)"
+  />
+  <button @click="onSubmit">Submit</button>
+</template>
 ```

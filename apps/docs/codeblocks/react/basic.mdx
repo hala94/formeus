@@ -1,4 +1,6 @@
 ```js showLineNumbers
+import { useForm } from "@formeus/react"
+
 function SignIn() {
   const { values, update } = useForm({
     initial: {
@@ -8,7 +10,7 @@ function SignIn() {
   })
 
   function onSubmit() {
-    /// submit form.username + form.password
+    api.signIn(values.username, values.password)
   }
 
   return (

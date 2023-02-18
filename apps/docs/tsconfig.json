@@ -16,6 +16,6 @@
     "allowJs": false,
     "types": ["next"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "codeblocks/vue/validation.mdx", "codeblocks/vue/validation.mdx"],
   "exclude": ["node_modules"]
 }

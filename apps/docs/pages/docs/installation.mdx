@@ -1,3 +1,87 @@
+import { Tab, Tabs } from "nextra-theme-docs"
+import { useState } from "react"
+
 # Installation
 
-Installation instructions
+Formeus ships a core library and adapters for React, Solid, Vue and Svelte.
+
+<Tabs items={["React", "Solid", "Vue", "Svelte", "core"]}>
+  <Tab>
+
+```js copy
+yarn add @formeus/react
+// or
+npm install @formeus/react
+// or
+pnpm add @formeus/react
+
+
+"peerDependencies": {
+  "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+  "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+},
+```
+
+  </Tab>
+  <Tab>
+  
+```js copy
+yarn add @formeus/solid
+// or
+npm install @formeus/solid
+// or
+pnpm add @formeus/solid
+
+"peerDependencies": {
+"solid-js": "^1.5.7"
+},
+
+````
+
+</Tab>
+<Tab>
+
+```js copy
+yarn add @formeus/vue
+// or
+npm install @formeus/vue
+// or
+pnpm add @formeus/vue
+
+
+"peerDependencies": {
+  "vue": "^3.0.0"
+},
+````
+
+</Tab>
+<Tab>
+
+```js copy
+yarn add @formeus/svelte
+// or
+npm install @formeus/svelte
+// or
+pnpm add @formeus/svelte
+
+
+"peerDependencies": {
+  "svelte": "^3.55.1"
+},
+```
+
+</Tab>
+<Tab>
+
+```js copy
+yarn add @formeus/core
+// or
+npm install @formeus/core
+// or
+pnpm add @formeus/core
+```
+
+</Tab>
+</Tabs>
+
+It's recommended to read about the [validation triggers](/docs/guides/validation-triggers) and the main [core function](/docs/reference/createForm) first, but feel free to jump straight to [examples](/docs/examples/basic).

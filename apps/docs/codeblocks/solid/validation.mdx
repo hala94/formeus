@@ -1,4 +1,6 @@
 ```js showLineNumbers
+import { createForm } from "@formeus/solid"
+
 const SignIn: Component = () => {
   const form = createForm({
     initial: { username: "", password: "" },
@@ -7,13 +9,14 @@ const SignIn: Component = () => {
         username.length == 0
           ? new Error("Must contain at least 1 char.")
           : undefined,
-    },
-    config: {
-      autoValidate: true,
+      password: ({ password }) =>
+        password.length == 0
+          ? new Error("Must contain at least 1 char.")
+          : undefined,
     },
     onSubmitForm: ({ username, password }) => {
       /// this scope guarantees all fields passed validations
-      /// submit form.values.name + form.values.email
+      api.signIn(username, password)
     },
   })
 

@@ -1,4 +1,4 @@
-```js
+```js showLineNumbers
 <script setup lang="ts">
 import { useForm } from "@formeus/vue"
 
@@ -13,23 +13,13 @@ const { values, update, submit } = useForm({
         ? new Error("Must contain at least 1 char.")
         : undefined,
     password: ({ password }) =>
-      /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/.test(password)
-        ? undefined
-        : new Error("1 uppercase, 1 lowercase, 1 number and at least 6 chars."),
-  },
-  asyncValidators: {
-    username: ({ username }, signal) => {
-      // username is already client side validated here
-      // return api
-      //   .checkUsernameAvailable(username, signal)
-      //   .then((isAvailable) =>
-      //     isAvailable ? undefined : new Error("username not available")
-      //   )
-      return Promise.resolve(undefined)
-    },
+      password.length == 0
+        ? new Error("Must contain at least 1 char.")
+        : undefined,
   },
   onSubmitForm: ({ username, password }) => {
-    // api.signIn(username, password)
+    /// This scope guarantees all fields passed validations.
+    api.signIn(username, password)
   },
 })
 

@@ -4,13 +4,13 @@ import cn from "classnames"
 
 export function Landing() {
   return (
-    <div className="fadeIn">
+    <div>
       <h1
         className={cn(
-          "bg-clip-text text-transparent mt-12 text-4xl font-extrabold bg-gradient-to-br from-black to-slate-500",
+          "bg-clip-text text-transparent mt-12 text-4xl font-extrabold bg-gradient-to-br from-black to-slate-300",
           "sm:w-[80%] sm:text-5xl",
-          "md:text-6xl",
-          "lg:w-[60%] xl:w-[50%]",
+          "md:text-6xl md:leading-[1.1]",
+          "lg:w-[60%] lg:mt-20",
           "dark:from-white dark:to-slate-900"
         )}
       >
@@ -20,7 +20,7 @@ export function Landing() {
         Unify your application form logic, <br /> coordinate validations and
         build great user experiences.
       </p>
-      <GetStartedAnimated />
+      <GetStartedSimple />
     </div>
   )
 }
@@ -34,6 +34,26 @@ function Card() {
         interface and minimal repetition. <br />
       </p>
     </div>
+  )
+}
+
+function GetStartedSimple() {
+  const router = useRouter()
+
+  return (
+    <button
+      className={cn(
+        "mt-16",
+        "relative inline-block px-10 py-4 rounded-full align-middle font-extrabold transition-all duration-[300ms]",
+        "bg-gradient-to-br from-brandStrong  to-brandMedium",
+        "shadow-md shadow-brandLight hover:shadow-lg hover:shadow-brandLight"
+      )}
+      onClick={() => router.push("/docs")}
+    >
+      <p className={cn("text-white select-none tracking-wide font-semibold")}>
+        Get started
+      </p>
+    </button>
   )
 }
 

@@ -1,12 +1,13 @@
 import ReactValidation from "codeblocks/react/validation.mdx"
 import SolidValidation from "codeblocks/solid/validation.mdx"
+import VueValidation from "codeblocks/vue/validation.mdx"
 
 import { Callout } from "nextra-theme-docs"
 import { Tab, Tabs } from "nextra-theme-docs"
 
 # Validation
 
-To enable validation, pass your validator functions to `validators` object and map them
+To enable validation, pass your [validator functions](/docs/guides/validator-functions) to `validators` object and map them
 to your form _keys_ defined with the `initial` object.
 
 Also, as our form now handles validations, we should use the supplied `submit` method and pass the function
@@ -22,7 +23,9 @@ against invalid requests being sent to your server.
   <Tab>
     <SolidValidation />
   </Tab>
-  <Tab>Comming soon</Tab>
+  <Tab>
+    <VueValidation />
+  </Tab>
   <Tab>Comming soon</Tab>
 </Tabs>
 

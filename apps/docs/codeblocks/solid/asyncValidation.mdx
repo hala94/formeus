@@ -1,4 +1,6 @@
 ```js showLineNumbers
+import { createForm } from "@formeus/solid"
+
 const SignIn: Component = () => {
   const form = createForm({
     initial: { username: "", password: "" },
@@ -15,14 +17,18 @@ const SignIn: Component = () => {
             ),
     },
     asyncValidators: {
-      password: ({ password }) => Promise.resolve(undefined).then(delayResult),
-    },
-    config: {
-      autoValidate: true,
+      username: ({ username }, signal) => {
+        // username is already client side validated here
+        api
+          .checkUsernameAvailable(username, signal)
+          .then((isAvailable) =>
+            isAvailable ? undefined : new Error("username not available")
+          )
+      },
     },
     onSubmitForm: ({ username, password }) => {
       /// this scope guarantees all fields passed validations
-      /// submit form.values.name + form.values.email
+      api.signIn(username, password)
     },
   })
 
@@ -42,19 +48,6 @@ const SignIn: Component = () => {
       />
       <button onClick={() => form.submit()}>Submit</button>
     </>
-  )
-}
-
-/// Utility method for delaying promise result.
-function delayResult<T>(value: T, delay: number = 3000) {
-  return (
-    new Promise() <
-    T >
-    ((resolve) => {
-      setTimeout(() => {
-        resolve(value)
-      }, delay)
-    })
   )
 }
 ```

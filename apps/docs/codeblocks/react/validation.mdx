@@ -1,5 +1,7 @@
 ```js showLineNumbers
 function SignIn() {
+  import { useForm } from "@formeus/react"
+
   const { values, update, submit } = useForm({
     initial: {
       username: "",
@@ -17,7 +19,7 @@ function SignIn() {
     },
     onSubmitForm: ({ username, password }) => {
       /// This scope guarantees all fields passed validations.
-      /// Send form.username + form.password to server.
+      api.signIn(username, password)
     },
   })
 
