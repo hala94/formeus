@@ -43,10 +43,12 @@ const { values, update, isValid, isValidating, validations } = useForm({
         :value="values.username"
         @input="(e) => update('username', (e.target as HTMLInputElement).value)"
       />
+      <label>{{ validations.username.error?.message }}</label>
       <input
         :value="values.password"
         @input="(e) => update('password', (e.target as HTMLInputElement).value)"
       />
+      <label>{{ validations.password.error?.message }}</label>
     </div>
     <div>{{ validations }}</div>
     <div>Is valid: {{ isValid }}</div>

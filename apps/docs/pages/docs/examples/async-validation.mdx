@@ -10,17 +10,13 @@ import { Callout } from "nextra-theme-docs"
 Most common async validation is a network request checking with the backend if the current value is _available_, like username or email, but
 it can be anything.
 
-Async validators are _Promises_ that resolve with either an _Error_ object or _undefined_.
+Building upon the previous example, we are adding an [async validator](/docs/guides/validator-functions#asynchronous) to our
+form configuration object. Async validators are _Promises_ that resolve with either an _Error_ object or _undefined_.
 
-Building upon the previous example, we are adding an [async validator](/docs/guides/validator-functions#asynchronous) to our form configuration object.
+Returned `validations` object contains validation state information for your form fields. In the below example, alongside rendering an error message,
+it is used to indicate a _loading state_ during "username" validation.
 
 Also, notice that our _password_ field gets validated with Regex.
-
-<Callout type="info" emoji="ℹ️">
-  _validators_ always run before _asyncValidators_, preventing unecessary
-  requests for something that can be checked on the client. (like an empty
-  field).
-</Callout>
 
 <Tabs items={["React", "Solid", "Vue", "Svelte"]}>
   <Tab>
@@ -34,3 +30,20 @@ Also, notice that our _password_ field gets validated with Regex.
   </Tab>
   <Tab>Comming soon</Tab>
 </Tabs>
+
+<Callout type="info" emoji="ℹ️">
+  _validators_ always run before _asyncValidators_, preventing unecessary
+  requests for something that can be checked on the client. (like an empty
+  field).
+</Callout>
+
+## UX considerations
+
+To provide the best user experience when executing an asynchronous validation, make use of
+the returned `validations` object in conjuction with `isValid` and `isValidating` flags to achieve the desired
+form behaviour.
+
+Most obvious usage of `isValid` flag is to control the button state, which can perhaps remain disabled as long as the form `isValid = false`. 
+
+With that setup, user can't trigger the validation process with the `submit` method so make use of the `autoValidate` form configuration option to
+automatically run validation when the field is updated.

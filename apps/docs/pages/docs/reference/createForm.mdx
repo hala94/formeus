@@ -37,13 +37,16 @@ called only if all validations pass.
 
 ```js
 type FormConfig = {
-  autoValidate: boolean,
+  autoValidate?: boolean,
+  validateConcurrentlyOnSubmit?: boolean,
 }
 ```
 
 Configuration options for the current form.
 
 Overrides global config if set.
+
+Read more about the configuration options [here](/docs/reference/setFormConfig).
 
 ## Returns
 
@@ -89,7 +92,10 @@ value changes.
 
 Method that starts the validation process.
 
-Validation process is executed sequentally in order defined by the object keys of the `initial` argument.
+By default, starts sequential validation of your form fields, and stops if some validation fails.
+
+Can be configured to run all validations in parallel.
+
 Calls `onSubmitForm` internally if all validations pass.
 
 ### `isValid`

@@ -17,8 +17,6 @@ type Validator<TForm> = (form: TForm) => ValidationResult
 
 Suitable for quick client side validations like empty fields, or regex statements.
 
-Can also be configured with _third party_ validation frameworks like _Yup_ or _Zod_.
-
 ### Asynchronous
 
 ```js
@@ -28,7 +26,7 @@ type AsyncValidator<TForm> = (
 ) => Promise<ValidationResult>
 ```
 
-Suitable for any kind validation that must be resolved with a Promise.
+Suitable for any kind of validation that must be resolved with a Promise.
 
 Function is called with the latest form values and the fresh instance of _AbortSignal_ that
 can be used to cancel _in flight_ requests.

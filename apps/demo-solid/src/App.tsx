@@ -25,12 +25,13 @@ const App: Component = () => {
       <div class="flex flex-col gap-2">
         <input
           class="border"
-          placeholder="enter..."
+          placeholder="name..."
           value={store.values.name}
           onInput={(e) => {
             store.update("name", e.currentTarget.value)
           }}
         />
+        <label>{store.validations.name.error?.message}</label>
         <input
           class="border"
           placeholder="email..."
@@ -39,6 +40,8 @@ const App: Component = () => {
             store.update("email", e.currentTarget.value)
           }}
         />
+        <label>{store.validations.email.error?.message}</label>
+
         <div>isValid: {store.isValid.toString()}</div>
         <div>isValidating: {store.isValidating.toString()}</div>
         <div>validations: {JSON.stringify(store.validations)}</div>

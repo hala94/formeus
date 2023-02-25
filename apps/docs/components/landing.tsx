@@ -18,7 +18,7 @@ export function Landing() {
       </h1>
       <p className={cn("mt-5 leading-relaxed", "md:text-xl")}>
         Unify your application form logic, <br /> coordinate validations and
-        build great user experiences.
+        create great user experiences.
       </p>
       <GetStartedSimple />
     </div>

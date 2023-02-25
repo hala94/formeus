@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { useForm } from "@formeus/vue"
 
-const { values, update, submit } = useForm({
+const { values, update, submit, validations } = useForm({
   initial: {
     username: "",
     password: "",
@@ -33,10 +33,14 @@ function onSubmit() {
     :value="values.username"
     @input="(e) => update('username', (e.target as HTMLInputElement).value)"
   />
+  <label>{{ validations.username.error?.message }}</label>
+
   <input
     :value="values.password"
     @input="(e) => update('password', (e.target as HTMLInputElement).value)"
   />
+  <label>{{ validations.password.error?.message }}</label>
+
   <button @click="onSubmit">Submit</button>
 </template>
 ```

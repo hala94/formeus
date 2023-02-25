@@ -10,11 +10,13 @@ import { Tab, Tabs } from "nextra-theme-docs"
 To enable validation, pass your [validator functions](/docs/guides/validator-functions) to `validators` object and map them
 to your form _keys_ defined with the `initial` object.
 
-Also, as our form now handles validations, we should use the supplied `submit` method and pass the function
-that sends the information to server as the `onSubmitForm` argument.
-
-`onSubmitForm` won't get called unless all fields passed validation, so this simple setup guards
+Provide the `onSubmitForm` function which doesn't get called unless all fields passed validation, so this simple setup guards
 against invalid requests being sent to your server.
+
+Use the supplied `submit` method to _trigger_ the validation process.
+By default, the fields are validated [sequentially](/docs/guides/validation-triggers#on-submit).
+
+Returned `validations` object is used to render validation errors below their respective fields.
 
 <Tabs items={["React", "Solid", "Vue", "Svelte"]}>
   <Tab>
@@ -28,9 +30,3 @@ against invalid requests being sent to your server.
   </Tab>
   <Tab>Comming soon</Tab>
 </Tabs>
-
-<Callout type="info" emoji="ℹ️">
-  _validators_ object expects your form keys mapped to the validator functions.
-  Return an *Error* object for failing validations and *undefined* for passing
-  validations.
-</Callout>

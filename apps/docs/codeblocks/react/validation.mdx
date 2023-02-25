@@ -2,7 +2,7 @@
 function SignIn() {
   import { useForm } from "@formeus/react"
 
-  const { values, update, submit } = useForm({
+  const { values, update, submit, validations } = useForm({
     initial: {
       username: "",
       password: "",
@@ -29,10 +29,14 @@ function SignIn() {
         value={values.username}
         onChange={(e) => update("username", e.target.value)}
       />
+      <label>{validations.username.error?.message}</label>
+
       <input
         value={values.password}
         onChange={(e) => update("password", e.target.value)}
       />
+      <label>{validations.password.error?.message}</label>
+
       <button onClick={() => submit()}>Submit</button>
     </>
   )

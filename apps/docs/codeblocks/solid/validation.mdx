@@ -28,12 +28,16 @@ const SignIn: Component = () => {
           form.update("name", e.currentTarget.value)
         }}
       />
+      <label>{form.validations.username.error?.message}</label>
+      
       <input
         value={form.values.email}
         onInput={(e) => {
           form.update("email", e.currentTarget.value)
         }}
       />
+      <label>{form.validations.email.error?.message}</label>
+
       <button onClick={() => form.submit()}>Submit</button>
     </>
   )
