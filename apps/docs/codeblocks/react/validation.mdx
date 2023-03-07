@@ -30,13 +30,15 @@ function SignIn() {
         onChange={(e) => update("username", e.target.value)}
       />
       <label>{validations.username.error?.message}</label>
-
+      {/*validations.username.checked */}
+      {/*validations.username.validating */}
       <input
         value={values.password}
         onChange={(e) => update("password", e.target.value)}
       />
       <label>{validations.password.error?.message}</label>
-
+      {/*validations.password.checked */}
+      {/*validations.password.validating */}
       <button onClick={() => submit()}>Submit</button>
     </>
   )

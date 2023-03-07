@@ -34,13 +34,15 @@ function onSubmit() {
     @input="(e) => update('username', (e.target as HTMLInputElement).value)"
   />
   <label>{{ validations.username.error?.message }}</label>
-
+  {/*validations.username.checked */}
+  {/*validations.username.validating */}
   <input
     :value="values.password"
     @input="(e) => update('password', (e.target as HTMLInputElement).value)"
   />
   <label>{{ validations.password.error?.message }}</label>
-
+  {/*validations.password.checked */}
+  {/*validations.password.validating */}
   <button @click="onSubmit">Submit</button>
 </template>
 ```

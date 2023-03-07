@@ -13,17 +13,20 @@ const SignIn: Component = () => {
   return (
     <>
       <input
-        value={form.values.name}
+        value={form.values.username}
         onInput={(e) => {
-          form.update("name", e.currentTarget.value)
+          form.update("username", e.currentTarget.value)
         }}
       />
+ 
       <input
-        value={form.values.email}
+        value={form.values.password}
         onInput={(e) => {
-          form.update("email", e.currentTarget.value)
+          form.update("password", e.currentTarget.value)
         }}
       />
+      {/*form.validations.password.checked */}
+      {/*form.validations.password.validating */}
       <button onClick={() => onSumbit()}>Submit</button>
     </>
   )

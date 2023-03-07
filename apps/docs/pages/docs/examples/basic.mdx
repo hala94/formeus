@@ -2,6 +2,7 @@ import ReactBasic from "codeblocks/react/basic.mdx"
 import SolidBasic from "codeblocks/solid/basic.mdx"
 import VueBasic from "codeblocks/vue/basic.mdx"
 import SvelteBasic from "codeblocks/svelte/basic.mdx"
+import { Callout } from "nextra-theme-docs"
 
 import { Tab, Tabs } from "nextra-theme-docs"
 
@@ -11,6 +12,12 @@ Most basic usage is one without validators. Formeus will handle updates and retu
 the latest values.
 
 Initialize the form by passing your form initial values to the `initial` argument.
+
+Use the `values` object to read the latest form values and set them to their respective fields.
+
+<Callout type="info" emoji="ℹ️">
+  This signifies that the `values` object expects a _controlled UI component_.
+</Callout>
 
 <Tabs items={["React", "Solid", "Vue", "Svelte"]}>
   <Tab>
