@@ -42,4 +42,19 @@ export default {
       titleTemplate: "%s | Formeus Docs",
     }
   },
+  head: () => {
+    return (
+      <>
+        <meta
+          property="description"
+          content="Input state and validation library."
+        />
+        <meta
+          name="keywords"
+          content="form, form validation, react form, solid form, vue form, svelte form, typescript form"
+        />
+        <meta name="author" content="David Halapir" />
+      </>
+    )
+  },
 }
