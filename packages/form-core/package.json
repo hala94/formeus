@@ -1,6 +1,12 @@
 {
   "name": "@formeus/core",
   "version": "0.0.0",
+  "description": "Input state and validation manager library for TS/JS",
+  "license": "MIT",
+  "keywords": [
+    "form",
+    "form validation"
+  ],
   "type": "module",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -16,7 +22,6 @@
       }
     }
   },
-  "license": "MIT",
   "scripts": {
     "build": "rm -rf lib && rollup -c",
     "dev": "rollup -c --watch",

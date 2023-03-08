@@ -1,6 +1,13 @@
 {
   "name": "@formeus/svelte",
   "version": "0.0.0",
+  "description": "Input state and validation manager library for Svelte",
+  "license": "MIT",
+  "keywords": [
+    "form",
+    "form validation",
+    "svelte form"
+  ],
   "type": "module",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -16,7 +23,6 @@
       }
     }
   },
-  "license": "MIT",
   "scripts": {
     "build": "rm -rf lib && rollup -c",
     "dev": "rollup -c --watch",

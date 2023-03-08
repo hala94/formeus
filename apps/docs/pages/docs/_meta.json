@@ -1,7 +1,7 @@
 {
   "index": "Overview",
   "installation": "Installation",
-  "guides": "Guides",
   "reference": "Core API",
+  "guides": "Guides",
   "examples": "Examples"
 }

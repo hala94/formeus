@@ -6,7 +6,8 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "test": "turbo run test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "publish-packages": "turbo run clean build lint test && changeset version && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
