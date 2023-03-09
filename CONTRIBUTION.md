@@ -14,11 +14,10 @@ brew install pnpm
 
 Make a desired change to the codebase.
 
-Tests are passing with `pnpm test`.
+Test and Lint the packages by running `pnpm test-packages` in the workspace root.
 
-Lint the project with `pnpm lint`.
-
-Add a changeset -> TODO
+Create a _changeset_ by running `pnpm changeset` in the workspace root and specify semver bump type for each package.
+Read more about [changesets](https://github.com/changesets/changesets/blob/main/docs/command-line-options.md).
 
 Create a PR to the `main` branch.
 
