@@ -7,7 +7,7 @@
     "clean": "turbo run clean",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "test-packages": "turbo run clean build lint test --filter='./packages/*'",
+    "test-packages": "turbo run clean --filter='./packages/*' && turbo run build --filter='./packages/*' && turbo run test --filter='./packages/*' && turbo run lint --filter='./packages/*'",
     "publish-packages": ""
   },
   "devDependencies": {
