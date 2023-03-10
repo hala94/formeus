@@ -1,6 +1,6 @@
 {
   "name": "@formeus/solid",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Input state and validation manager library for Solid",
   "license": "MIT",
   "keywords": [
