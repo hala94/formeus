@@ -27,18 +27,19 @@ jobs:
         run: pnpm install
 
       - name: Clean
-        run: pnpm clean
+        run: pnpm --filter './packages/**' clean
 
       - name: Build
-        run: pnpm build
+        run: pnpm --filter './packages/**' build
 
       - name: Test
-        run: pnpm test
+        run: pnpm --filter './packages/**' test
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm --filter './packages/**' lint
 
       - name: Create Release Pull Request or Publish to npm
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm publish-packages
