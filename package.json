@@ -8,7 +8,7 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test-packages": "turbo run clean --filter='./packages/*' && turbo run build --filter='./packages/*' && turbo run test --filter='./packages/*' && turbo run lint --filter='./packages/*'",
-    "publish-packages": "pnpm --filter './packages/**' publish --access=public"
+    "publish-packages": "changeset tag && pnpm --filter './packages/**' publish --access=public"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
