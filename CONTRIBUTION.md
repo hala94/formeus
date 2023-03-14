@@ -19,6 +19,10 @@ Test and Lint the packages by running `pnpm test-packages` in the workspace root
 Create a _changeset_ by running `pnpm changeset` in the workspace root and specify semver bump type for each package.
 Read more about [changesets](https://github.com/changesets/changesets/blob/main/docs/command-line-options.md).
 
+Squash your branch commits into 1 commit that specifies the changes you made.
+
+Use `feature:` , `bugfix:` commit naming convention.
+
 Create a PR to the `main` branch.
 
 ### Demo

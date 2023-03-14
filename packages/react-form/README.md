@@ -1,36 +1,13 @@
-# Formeus 🌀
+# Formeus 🌀 React
 
-Formeus is a headless utility library for handling form input and validation.
-
-It supports both synchronous and asynchronous validations and enables you to easily unify form behaviour and validation
-across your application.
-
-Formeus has adapters for React, Solid, Vue and Svelte.
-
-## Visit the [official docs](https://www.formeus.dev)
+Official React adapter for [Formeus](https://www.formeus.dev) library.
 
 # Installation
 
 ```
-// React
 yarn add @formeus/react
 npm install @formeus/react
 pnpm add @formeus/react
-
-// Solid
-yarn add @formeus/solid
-npm install @formeus/solid
-pnpm add @formeus/solid
-
-// Vue
-yarn add @formeus/vue
-npm install @formeus/vue
-pnpm add @formeus/vue
-
-// Svelte
-yarn add @formeus/svelte
-npm install @formeus/svelte
-pnpm add @formeus/svelte
 ```
 
 # Key features
@@ -134,27 +111,3 @@ function SignIn() {
   )
 }
 ```
-
-# Configurations
-
-To set a global configuration use the below method:
-
-```js
-import { setFormConfig } from "@formeus/react"
-```
-
-Configuration object is of type:
-
-```js
-type FormConfig = {
-  autoValidate?: boolean,
-  validateConcurrentlyOnSubmit?: boolean,
-}
-```
-
-Every _form instance_ in your application will inherit the global configuration, but that configuration can be overrided
-for each particular _instance_.
-
----
-
-Visit the official [docs](https://www.formeus.dev) to learn about different configurations and get the most out of the library.
