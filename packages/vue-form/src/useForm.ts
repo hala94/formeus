@@ -13,10 +13,11 @@ import { createForm, FormOptions, FormResult } from "@formeus/core"
 type ReadOnlyResult<TData> = ReturnType<typeof readonly<FormResult<TData>>>
 type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>
 
-export function useForm<TData extends Record<string, unknown>>(
-  props: FormOptions<TData>
-): RefsResult<TData> {
-  const observable = createForm(unref(props))
+export function useForm<
+  TForm extends Record<string, unknown>,
+  TMeta extends Record<string, unknown> = {}
+>(options: FormOptions<TForm, TMeta>): RefsResult<TForm> {
+  const observable = createForm(unref(options))
 
   const form = reactive(observable.getSnapshot())
 

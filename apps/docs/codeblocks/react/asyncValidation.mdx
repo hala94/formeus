@@ -1,7 +1,7 @@
 ```js showLineNumbers
 import { useForm } from "@formeus/react"
 
-function SignIn() {
+function SignIn({ someState }) {
   const { values, update, submit } = useForm({
     initial: {
       username: "",
@@ -29,8 +29,15 @@ function SignIn() {
           )
       },
     },
-    onSubmitForm: ({ username, password }) => {
+    onSubmitForm: ({ username, password }, signal, meta) => {
+      // someState in the line below will have an up to date value,
+      // even if it was undefined on initial render
+      const { someState } = meta
+
       api.signIn(username, password)
+    },
+    meta: {
+      someState,
     },
   })
 

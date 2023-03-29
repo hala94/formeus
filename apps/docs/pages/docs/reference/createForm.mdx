@@ -5,13 +5,17 @@ This method creates a new form _instance_ representing the form in your applicat
 ## Options
 
 ```js
-type FormOptions<TForm extends Record<string, unknown>> = {
-  initial: TForm;
-  validators?: Validators<TForm>;
-  asyncValidators?: AsyncValidators<TForm>;
-  onSubmitForm?: (form: TForm) => void;
-  config?: FormConfig;
-};
+type FormOptions<
+  TForm extends Record<string, unknown>,
+  TMeta extends Record<string, unknown> = {}
+> = {
+  initial: TForm
+  validators?: Validators<TForm, TMeta>
+  asyncValidators?: AsyncValidators<TForm, TMeta>
+  onSubmitForm?: (form: TForm, meta: TMeta) => void
+  meta?: TMeta
+  config?: FormConfig
+}
 ```
 
 ### `initial`
@@ -37,8 +41,8 @@ called only if all validations pass.
 
 ```js
 type FormConfig = {
-  autoValidate?: boolean,
-  validateConcurrentlyOnSubmit?: boolean,
+  autoValidate?: boolean
+  validateConcurrentlyOnSubmit?: boolean
 }
 ```
 
@@ -47,6 +51,16 @@ Configuration options for the current form.
 Overrides global config if set.
 
 Read more about the configuration options [here](/docs/reference/setFormConfig).
+
+### `meta`
+
+Optional object that holds additional info which is forwarded to callback functions you
+provided - like `onSubmitForm` and validator functions.
+
+Primarily used to resolve a stale closure problem if your callback functions depend on some
+surrounding state.
+
+Most likely not needed in libraries like Solid.js.
 
 ## Returns
 

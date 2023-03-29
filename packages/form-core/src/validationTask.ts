@@ -6,23 +6,28 @@ import {
   ValidationResult,
 } from "./types"
 
-type ValidationTaskProps<TForm> = {
+type ValidationTaskProps<TForm, TMeta extends Record<string, unknown> = {}> = {
   key: keyof TForm
   form: TForm
-  clientValidatorFN: Validator<TForm> | undefined
-  serverValidatorFN: AsyncValidator<TForm> | undefined
+  clientValidatorFN: Validator<TForm, TMeta> | undefined
+  serverValidatorFN: AsyncValidator<TForm, TMeta> | undefined
   onValidationUpdate: (result: ValidationState) => void
   existingResult: ValidationState
+  getMeta: () => TMeta
 }
 
-export function createValidationTask<TForm extends Record<string, unknown>>({
+export function createValidationTask<
+  TForm extends Record<string, unknown>,
+  TMeta extends Record<string, unknown>
+>({
   key,
   form,
   onValidationUpdate,
   clientValidatorFN,
   serverValidatorFN,
   existingResult,
-}: ValidationTaskProps<TForm>) {
+  getMeta: contextGetter,
+}: ValidationTaskProps<TForm, TMeta>) {
   const abortController = new AbortController()
   const task = createTask({ work, onCancel, identifier: key as string })
 
@@ -42,7 +47,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
       let error: unknown
 
       try {
-        clientVResult = clientValidatorFN(form)
+        clientVResult = clientValidatorFN(form, contextGetter())
         if (clientVResult && !(clientVResult instanceof Error)) {
           clientVResult = undefined
         }
@@ -77,7 +82,7 @@ export function createValidationTask<TForm extends Record<string, unknown>>({
       validating: true,
     })
 
-    serverValidatorFN(form, abortController.signal)
+    serverValidatorFN(form, abortController.signal, contextGetter())
       .then((serverVResult) => {
         if (abortController.signal.aborted) return
 

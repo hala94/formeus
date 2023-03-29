@@ -1,4 +1,7 @@
-export type FormOptions<TForm extends Record<string, unknown>> = {
+export type FormOptions<
+  TForm extends Record<string, unknown>,
+  TMeta extends Record<string, unknown> = {}
+> = {
   initial: TForm
   /**
    * Validator functions mapped to your `initial` object keys.
@@ -6,14 +9,14 @@ export type FormOptions<TForm extends Record<string, unknown>> = {
    *
    * Each validator function gets called with the latest form values.
    */
-  validators?: Validators<TForm>
+  validators?: Validators<TForm, TMeta>
   /**
    * Async validator functions mapped to your `initial` object keys.
    *
    * Resolve your validation Promise with  `Error` if validation should fail, and `undefined` if the validation should pass.
    *
    */
-  asyncValidators?: AsyncValidators<TForm>
+  asyncValidators?: AsyncValidators<TForm, TMeta>
   /**
    * Used in conjuction with the returned `submit` method.
    * Called internally if all validations triggered by the `submit` method pass.
@@ -21,24 +24,47 @@ export type FormOptions<TForm extends Record<string, unknown>> = {
    * Scope of this method guarantees validated fields and should be used
    * to "submit" your form values.
    */
-  onSubmitForm?: (form: TForm) => void
+  onSubmitForm?: (form: TForm, meta: TMeta) => void
+  /**
+   * Use meta to propagate additional data to callback functions.
+   *
+   * React - if provided callback functions close over some surrounding state, pass
+   * that state to the meta object to ensure the callback functions get up to date values.
+   *
+   * Libraries like Solid, Vue, Svelte have reactive primitive getters that resolve the stale-closure
+   * problem so meta is most likely not necessary.
+   *
+   */
+  meta?: TMeta
+  /**
+   * Configure the behaviour of this particular form instance.
+   *
+   * Setting this config will override values from the global configuration.
+   */
   config?: FormConfig
 }
 
 export type ValidationResult = Error | undefined
 
-export type Validator<TForm> = (form: TForm) => ValidationResult
-
-export type Validators<TForm> = Partial<Record<keyof TForm, Validator<TForm>>>
-
-export type AsyncValidator<TForm> = (
+export type Validator<TForm, TMeta extends Record<string, unknown> = {}> = (
   form: TForm,
-  signal: AbortSignal
-) => Promise<ValidationResult>
+  meta: TMeta
+) => ValidationResult
 
-export type AsyncValidators<TForm> = Partial<
-  Record<keyof TForm, AsyncValidator<TForm>>
->
+export type Validators<
+  TForm,
+  TMeta extends Record<string, unknown> = {}
+> = Partial<Record<keyof TForm, Validator<TForm, TMeta>>>
+
+export type AsyncValidator<
+  TForm,
+  TMeta extends Record<string, unknown> = {}
+> = (form: TForm, signal: AbortSignal, meta: TMeta) => Promise<ValidationResult>
+
+export type AsyncValidators<
+  TForm,
+  TMeta extends Record<string, unknown> = {}
+> = Partial<Record<keyof TForm, AsyncValidator<TForm, TMeta>>>
 
 export type ValidationState = {
   validating: boolean
