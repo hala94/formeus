@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useSyncExternalStore } from "use-sync-external-store"
+import { useSyncExternalStore } from "use-sync-external-store/shim"
 import { createForm, FormOptions, FormResult } from "@formeus/core"
 
 export function useForm<TForm extends Record<string, unknown>>(
