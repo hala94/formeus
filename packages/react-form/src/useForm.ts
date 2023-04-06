@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSyncExternalStore } from "use-sync-external-store/shim"
+import { useSyncExternalStore } from "use-sync-external-store/shim/index.js"
 import { createForm, FormOptions, FormResult } from "@formeus/core"
 
 export function useForm<

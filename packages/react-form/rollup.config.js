@@ -3,7 +3,7 @@ import typescript from "@rollup/plugin-typescript"
 import terser from "@rollup/plugin-terser"
 
 const config = defineConfig({
-  external: ["@formeus/core", "react", "use-sync-external-store/shim"],
+  external: ["@formeus/core", "react", "use-sync-external-store/shim/index.js"],
   input: "src/index.ts",
   output: [
     {
