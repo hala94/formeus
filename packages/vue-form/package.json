@@ -1,6 +1,6 @@
 {
   "name": "@formeus/vue",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Input state and validation manager library for Vue",
   "license": "MIT",
   "keywords": [
