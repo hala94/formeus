@@ -7,7 +7,7 @@ import { Readable, readable } from "svelte/store"
 
 export function createForm<
   TForm extends Record<string, unknown>,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 >(options: FormOptions<TForm, TMeta>): Readable<FormResult<TForm>> {
   const observable = createFormInternal(options)
 

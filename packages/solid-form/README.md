@@ -40,7 +40,7 @@ const SignIn: Component = () => {
           form.update("username", e.currentTarget.value)
         }}
       />
- 
+
       <input
         value={form.values.password}
         onInput={(e) => {

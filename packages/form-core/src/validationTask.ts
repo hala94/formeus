@@ -6,7 +6,10 @@ import {
   ValidationResult,
 } from "./types"
 
-type ValidationTaskProps<TForm, TMeta extends Record<string, unknown> = {}> = {
+type ValidationTaskProps<
+  TForm,
+  TMeta extends Record<string, unknown> = Record<string, unknown>
+> = {
   key: keyof TForm
   form: TForm
   clientValidatorFN: Validator<TForm, TMeta> | undefined

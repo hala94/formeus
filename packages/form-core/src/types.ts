@@ -1,6 +1,6 @@
 export type FormOptions<
   TForm extends Record<string, unknown>,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 > = {
   initial: TForm
   /**
@@ -46,24 +46,24 @@ export type FormOptions<
 
 export type ValidationResult = Error | undefined
 
-export type Validator<TForm, TMeta extends Record<string, unknown> = {}> = (
-  form: TForm,
-  meta: TMeta
-) => ValidationResult
+export type Validator<
+  TForm,
+  TMeta extends Record<string, unknown> = Record<string, unknown>
+> = (form: TForm, meta: TMeta) => ValidationResult
 
 export type Validators<
   TForm,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 > = Partial<Record<keyof TForm, Validator<TForm, TMeta>>>
 
 export type AsyncValidator<
   TForm,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 > = (form: TForm, signal: AbortSignal, meta: TMeta) => Promise<ValidationResult>
 
 export type AsyncValidators<
   TForm,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 > = Partial<Record<keyof TForm, AsyncValidator<TForm, TMeta>>>
 
 export type ValidationState = {

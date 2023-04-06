@@ -15,7 +15,7 @@ type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>
 
 export function useForm<
   TForm extends Record<string, unknown>,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 >(options: FormOptions<TForm, TMeta>): RefsResult<TForm> {
   const observable = createForm(unref(options))
 

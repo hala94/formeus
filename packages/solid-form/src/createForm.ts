@@ -5,7 +5,7 @@ import { onCleanup } from "solid-js"
 
 export function createForm<
   TForm extends Record<string, unknown>,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 >(options: FormOptions<TForm, TMeta>): FormResult<TForm> {
   const observable = createFormCore(options)
 

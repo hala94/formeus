@@ -7,7 +7,7 @@ This method creates a new form _instance_ representing the form in your applicat
 ```js
 type FormOptions<
   TForm extends Record<string, unknown>,
-  TMeta extends Record<string, unknown> = {}
+  TMeta extends Record<string, unknown> = Record<string, unknown>
 > = {
   initial: TForm
   validators?: Validators<TForm, TMeta>
