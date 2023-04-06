@@ -1,5 +1,11 @@
 # @formeus/react
 
+## 1.1.1
+
+### Patch Changes
+
+- 42185bc: Fixed use-sync-external-store/shim import
+
 ## 1.1.0
 
 ### Minor Changes
