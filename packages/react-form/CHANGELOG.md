@@ -1,5 +1,12 @@
 # @formeus/react
 
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [627d970]
+  - @formeus/core@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

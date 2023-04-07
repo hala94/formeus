@@ -1,5 +1,12 @@
 # @formeus/solid
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [627d970]
+  - @formeus/core@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes

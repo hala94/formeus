@@ -1,5 +1,11 @@
 # @formeus/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 627d970: add `isSubmitting` flag
+
 ## 1.1.0
 
 ### Minor Changes
