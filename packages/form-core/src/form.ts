@@ -28,6 +28,7 @@ export function createForm<
   let currentValues = options.initial
   let validations = createInitialValidations()
   let meta = (options.meta ?? {}) as TMeta
+  let isSubmitting = false
 
   let result: FormResult<TForm> = {
     values: currentValues,
@@ -42,6 +43,7 @@ export function createForm<
       validations = createInitialValidations()
       pushResult()
     },
+    isSubmitting,
   }
 
   /// Public
@@ -90,8 +92,22 @@ export function createForm<
 
     const validationTasks = createValidationTasks()
 
-    submitQueue.addTasks(validationTasks, ({ success }) => {
-      success && options.onSubmitForm?.(currentValues, meta)
+    submitQueue.addTasks(validationTasks, async ({ success }) => {
+      if (!success) return
+
+      const result = options.onSubmitForm?.(currentValues, meta)
+
+      if (!result) return
+
+      if (typeof result.then !== "function") return
+
+      isSubmitting = true
+      pushResult()
+
+      result.finally(() => {
+        isSubmitting = false
+        pushResult()
+      })
     })
   }
 
@@ -174,6 +190,7 @@ export function createForm<
       validations,
       isValid: isFormValid(validations),
       isValidating: isFormValidating(validations),
+      isSubmitting,
     }
     subscribable.publish(result)
   }

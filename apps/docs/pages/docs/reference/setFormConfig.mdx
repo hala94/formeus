@@ -4,6 +4,20 @@ import { Callout } from "nextra-theme-docs"
 
 Sets the global form configuration object that all forms inherit.
 
+```js showLineNumbers
+setFormConfig({
+  /// set configuration inherited by all form instances
+})
+
+/// or set on individual form _instance_
+const form = createForm({
+  initial: {},
+  config: {
+    /// ...config
+  },
+})
+```
+
 ```js
 type FormConfig = {
   autoValidate?: boolean,

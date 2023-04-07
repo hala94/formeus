@@ -12,7 +12,7 @@ type FormOptions<
   initial: TForm
   validators?: Validators<TForm, TMeta>
   asyncValidators?: AsyncValidators<TForm, TMeta>
-  onSubmitForm?: (form: TForm, meta: TMeta) => void
+  onSubmitForm?: (form: TForm, meta: TMeta) => Promise<unknown> | void
   meta?: TMeta
   config?: FormConfig
 }
@@ -36,6 +36,8 @@ Function that contains your "submit" logic.
 
 Works in conjuction with `submit` method returned from `createForm` and gets
 called only if all validations pass.
+
+Returning a promise from this function makes returned `isSubmitting` value `true` until promise resolves.
 
 ### `config`
 
@@ -66,15 +68,16 @@ Most likely not needed in libraries like Solid.js.
 
 ```js
 type FormResult<TForm> = {
-  values: TForm;
-  validations: ValidationResults<TForm>;
-  update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void;
-  runValidation: <Key extends keyof TForm>(key: Key) => void;
-  submit: () => void;
-  clear: () => void;
-  isValid: boolean;
-  isValidating: boolean;
-};
+  values: TForm
+  validations: ValidationResults<TForm>
+  update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void
+  runValidation: <Key extends keyof TForm>(key: Key) => void
+  submit: () => void
+  clear: () => void
+  isValid: boolean
+  isValidating: boolean
+  isSubmitting: boolean
+}
 ```
 
 ### `values`
@@ -123,3 +126,8 @@ Resets form to the initial values.
 ### `isValidating`
 
 **true** if there are ongoing validations.
+
+### `isSubmitting`
+
+If your `onSubmitForm` function returns a Promise, the value will be `true`
+until Promise resolves.

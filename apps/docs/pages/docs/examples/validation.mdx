@@ -13,10 +13,12 @@ to your form _keys_ defined with the `initial` object.
 Provide the `onSubmitForm` function which doesn't get called unless all fields passed validation, so this simple setup guards
 against invalid requests being sent to your server.
 
+Returning a Promise in `onSubmitForm` function sets `isSubmitting` value to `true` until promise resolves.
+
 Use the supplied `submit` method to trigger the _validation -> onSubmitForm_ process.
 By default, the fields are validated [sequentially](/docs/guides/validation-triggers#on-submit).
 
-`validations` object contains validation information for each of your form fields. 
+`validations` object contains validation information for each of your form fields.
 Use `error`, `validating` and `checked` properties to update the UI.
 
 <Tabs items={["React", "Solid", "Vue", "Svelte"]}>

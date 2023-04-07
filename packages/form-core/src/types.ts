@@ -24,7 +24,7 @@ export type FormOptions<
    * Scope of this method guarantees validated fields and should be used
    * to "submit" your form values.
    */
-  onSubmitForm?: (form: TForm, meta: TMeta) => void
+  onSubmitForm?: (form: TForm, meta: TMeta) => Promise<unknown> | void
   /**
    * Use meta to propagate additional data to callback functions.
    *
@@ -97,6 +97,11 @@ export type FormResult<TForm> = {
    * `true` if any field is currently being validated.
    */
   isValidating: boolean
+  /**
+   * If your `onSubmitForm` function returns a Promise, the value will be `true`
+   * until Promise resolves.
+   */
+  isSubmitting: boolean
 }
 
 /**

@@ -2,7 +2,7 @@
 function SignIn() {
   import { useForm } from "@formeus/react"
 
-  const { values, update, submit, validations } = useForm({
+  const { values, update, submit, validations, isSubmitting } = useForm({
     initial: {
       username: "",
       password: "",
@@ -19,7 +19,9 @@ function SignIn() {
     },
     onSubmitForm: ({ username, password }) => {
       /// This scope guarantees all fields passed validations.
-      api.signIn(username, password)
+
+      /// Optionally return a promise to set isSubmitting field to true for until promise resolves.
+      return api.signIn(username, password)
     },
   })
 
@@ -39,7 +41,9 @@ function SignIn() {
       <label>{validations.password.error?.message}</label>
       {/*validations.password.checked */}
       {/*validations.password.validating */}
-      <button onClick={() => submit()}>Submit</button>
+      <button disabled={isSubmitting} onClick={() => submit()}>
+        Submit
+      </button>
     </>
   )
 }

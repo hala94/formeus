@@ -16,7 +16,7 @@ const SignIn: Component = () => {
     },
     onSubmitForm: ({ username, password }) => {
       /// this scope guarantees all fields passed validations
-      api.signIn(username, password)
+      return api.signIn(username, password)
     },
   })
 
@@ -42,7 +42,9 @@ const SignIn: Component = () => {
       {/*form.validations.password.checked */}
       {/*form.validations.password.validating */}
 
-      <button onClick={() => form.submit()}>Submit</button>
+      <button disabled={form.isSubmitting} onClick={() => form.submit()}>
+        Submit
+      </button>
     </>
   )
 }

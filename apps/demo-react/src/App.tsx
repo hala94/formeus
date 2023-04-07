@@ -39,22 +39,24 @@ const asyncValidators: AsyncValidators<Form> = {
 }
 
 export default function App() {
-  const [submitting, setSubmitting] = useState(false)
-
-  const { values, validations, update, isValid, submit, isValidating, clear } =
-    useForm({
-      initial,
-      onSubmitForm,
-      validators,
-      asyncValidators,
-      config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
-    })
+  const {
+    values,
+    validations,
+    update,
+    isValid,
+    submit,
+    isValidating,
+    clear,
+    isSubmitting,
+  } = useForm({
+    initial,
+    onSubmitForm,
+    config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
+  })
 
   function onSubmitForm(form: Form) {
-    setSubmitting(true)
-    Promise.resolve(false)
+    return Promise.resolve(false)
       .then(delayResult)
-      .then(setSubmitting)
       .then(() => {
         clear()
       })
@@ -69,7 +71,7 @@ export default function App() {
         validating: validations[formKey].validating,
         checked: validations[formKey].checked,
         error: validations[formKey].error?.message,
-        disabled: submitting,
+        disabled: isSubmitting,
         onChange: (e) => update(formKey, e.target.value),
       }
     })
@@ -83,7 +85,11 @@ export default function App() {
           {...generateInputProps().map((inputProps) => (
             <Input {...inputProps} />
           ))}
-          <Button onClick={() => submit()} className="mt-12" />
+          <Button
+            disabled={isSubmitting}
+            onClick={() => submit()}
+            className="mt-12"
+          />
         </div>
         <div className="max-w-[30rem]">
           {JSON.stringify(validations, null, 2)}

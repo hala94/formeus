@@ -5,6 +5,7 @@ import {
   createServerValidator,
 } from "./utils/formTestUtils"
 import { FormResult } from "../types"
+import { delayResult } from "./utils/misc"
 
 describe("form", () => {
   it("correctly updates results", () => {
@@ -399,6 +400,7 @@ describe("form", () => {
       validating: false,
     })
     expect(mockOnSubmitForm).toHaveBeenCalledOnce()
+    expect(result.isSubmitting).toBeFalsy()
   })
 
   it("doesn't call submit handler if some validations fail - parallel mode", async () => {
@@ -446,5 +448,37 @@ describe("form", () => {
       error: new Error("email invalid"),
       validating: false,
     })
+    expect(result.isSubmitting).toBeFalsy()
+  })
+
+  it("isSubmitting is true until Promise returned by onSubmitForm completes", async () => {
+    const initial = {}
+
+    const mockOnSubmitForm = vi.fn(() => {
+      return Promise.resolve(true).then(delayResult)
+    })
+
+    const promise = () =>
+      new Promise<{
+        result: FormResult<typeof initial>
+      }>((res) => {
+        const formProps = {
+          initial: {},
+          onSubmitForm: mockOnSubmitForm,
+        }
+        const form = createForm(formProps)
+        const { submit } = form.getSnapshot()
+
+        submit()
+
+        setTimeout(() => {
+          res({ result: form.getSnapshot() })
+        }, 15)
+      })
+
+    const { result } = await promise()
+
+    expect(mockOnSubmitForm).toHaveBeenCalledOnce()
+    expect(result.isSubmitting).toBeTruthy()
   })
 })

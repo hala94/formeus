@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { useForm } from "@formeus/vue"
 
-const { values, update, submit, validations } = useForm({
+const { values, update, submit, validations, isSubmitting } = useForm({
   initial: {
     username: "",
     password: "",
@@ -19,7 +19,7 @@ const { values, update, submit, validations } = useForm({
   },
   onSubmitForm: ({ username, password }) => {
     /// This scope guarantees all fields passed validations.
-    api.signIn(username, password)
+    return api.signIn(username, password)
   },
 })
 
@@ -43,6 +43,6 @@ function onSubmit() {
   <label>{{ validations.password.error?.message }}</label>
   {/*validations.password.checked */}
   {/*validations.password.validating */}
-  <button @click="onSubmit">Submit</button>
+  <button @click="onSubmit" :disabled="isSubmitting">Submit</button>
 </template>
 ```
