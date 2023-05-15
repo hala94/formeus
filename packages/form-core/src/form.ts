@@ -29,6 +29,7 @@ export function createForm<
   let validations = createInitialValidations()
   let meta = (options.meta ?? {}) as TMeta
   let isSubmitting = false
+  let connectors = options.connectors ? options.connectors : undefined
 
   let result: FormResult<TForm> = {
     values: currentValues,
@@ -95,23 +96,57 @@ export function createForm<
     submitQueue.addTasks(validationTasks, async ({ success }) => {
       if (!success) return
 
-      const result = options.onSubmitForm?.(currentValues, meta)
+      const { reportSubmission, setSubmitExecuted } = createReportSubmissionFN()
 
-      if (!result) return
+      const result = options.onSubmitForm?.(
+        currentValues,
+        meta,
+        reportSubmission
+      )
 
-      if (typeof result.then !== "function") return
-
-      isSubmitting = true
-      pushResult()
-
-      result.finally(() => {
-        isSubmitting = false
+      if (result && typeof result.then == "function") {
+        isSubmitting = true
         pushResult()
-      })
+
+        result
+          .then((_) => {
+            reportSubmission()
+          })
+          .finally(() => {
+            isSubmitting = false
+            pushResult()
+            setSubmitExecuted()
+          })
+
+        return
+      }
+
+      setSubmitExecuted()
     })
   }
 
   /// Private
+
+  function createReportSubmissionFN() {
+    let onSubmitExecuted = false
+    let reportSubmissionExecuted = false
+    const formValues = { ...currentValues }
+
+    function reportSubmission() {
+      if (onSubmitExecuted || reportSubmissionExecuted || !connectors) return
+      reportSubmissionExecuted = true
+
+      connectors.forEach((connector) => {
+        connector.onReportSubmission(formValues)
+      })
+    }
+    return {
+      reportSubmission,
+      setSubmitExecuted: () => {
+        onSubmitExecuted = true
+      },
+    }
+  }
 
   function invalidateValidation(key: keyof TForm): ValidationResults<TForm> {
     let newValidations = { ...validations }
@@ -177,10 +212,18 @@ export function createForm<
     >
   }
 
+  /// Setters
+
   function setMeta(newMeta: TMeta) {
     if (newMeta) {
       meta = newMeta
     }
+  }
+
+  function setConnectors(
+    newConnectors: FormOptions<TForm, TMeta>["connectors"]
+  ) {
+    connectors = newConnectors
   }
 
   function pushResult() {
@@ -199,6 +242,7 @@ export function createForm<
     ...subscribable,
     getSnapshot: () => result,
     setMeta,
+    setConnectors,
   }
 }
 

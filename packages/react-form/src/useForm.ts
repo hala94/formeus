@@ -10,7 +10,8 @@ export function useForm<
 
   useEffect(() => {
     options.meta && subscribable.setMeta(options.meta)
-  }, [options.meta, subscribable])
+    subscribable.setConnectors(options.connectors)
+  }, [options.meta, subscribable, options.connectors])
 
   return useSyncExternalStore(
     subscribable.subscribe,

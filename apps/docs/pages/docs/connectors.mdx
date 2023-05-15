@@ -1,0 +1,51 @@
+# Connectors
+
+Connectors are objects that conform to the following interface:
+
+```js
+type FormConnector = {
+  onReportSubmission: (values: Record<string, unknown>) => void,
+}
+```
+
+Every _form instance_ has an optional `connectors` field that can be set to an array of _FormConnector_ objects.
+
+After every successfull submission, each connector in the supplied array is called with the appropriate form values, allowing you to
+do additional processing with that information.
+
+Connector functions are only fired if the _form instance_ has a defined `onSubmitForm` function. This makes calls to connectors protected against
+invalid input.
+
+## Creating a connector
+
+```js
+function myConnector(myIdentifier: string): FormConnector {
+  /// Use connector arguments
+  return {
+    onReportSubmission: (values) => {
+      /// Process values
+    },
+  }
+}
+```
+
+## Using a connector
+
+```js
+const form = createForm({
+  initial: {
+    name: "",
+  },
+  onSubmitForm: (values) => {
+    return api.postName(values.name)
+  },
+  connectors: [myConnector("_my_identifier_")],
+})
+```
+
+### When is connector called
+
+If the supplied `onSubmitForm` function returns a Promise, and the promise is not rejected, the connector
+function is called after the Promise resolves.
+
+`onSubmitForm` callback will be called with `reportSubmission` function that can be used to manually report a succesfull form submission.

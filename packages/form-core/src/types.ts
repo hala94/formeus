@@ -23,8 +23,18 @@ export type FormOptions<
    *
    * Scope of this method guarantees validated fields and should be used
    * to "submit" your form values.
+   *
+   * @param form - validated form values
+   * @param meta - up to date meta
+   * @param reportSubmission - Function that propagates form values to `connectors`.
+   * Can only be called once in the scope of `onSubmitForm` function.
+   * If `onSubmitForm` returns a Promise, it is called automatically if Promise resolves without rejecting.
    */
-  onSubmitForm?: (form: TForm, meta: TMeta) => Promise<unknown> | void
+  onSubmitForm?: (
+    form: TForm,
+    meta: TMeta,
+    reportSubmission: () => void
+  ) => Promise<unknown> | void
   /**
    * Use meta to propagate additional data to callback functions.
    *
@@ -42,6 +52,21 @@ export type FormOptions<
    * Setting this config will override values from the global configuration.
    */
   config?: FormConfig
+  /**
+   * Connectors can be used to collect succesfull form submissions and do additional processing.
+   *
+   * Provide an `onSubmitForm` function to desired form instance and call the provided `reportSubmission` function to trigger
+   * propagating the form values to connectors for additional processing.
+   */
+  connectors?: Array<FormConnector>
+}
+
+export type FormConnector = {
+  /**
+   *
+   * @param values - validated form values at the time of calling `reportSubmission` in supplied `onSubmitForm` function.
+   */
+  onReportSubmission: (values: Record<string, unknown>) => void
 }
 
 export type ValidationResult = Error | undefined

@@ -1,5 +1,5 @@
 import { useForm, Validators, AsyncValidators } from "@formeus/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input, InputProps } from "./input"
 import { Button } from "./button"
 
@@ -39,6 +39,8 @@ const asyncValidators: AsyncValidators<Form> = {
 }
 
 export default function App() {
+  const changingValue = useEverChangingValue()
+
   const {
     values,
     validations,
@@ -50,17 +52,15 @@ export default function App() {
     isSubmitting,
   } = useForm({
     initial,
-    onSubmitForm,
+    onSubmitForm: (values, meta) => {
+      return Promise.resolve(false)
+        .then(delayResult)
+        .then(() => {
+          clear()
+        })
+    },
     config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
   })
-
-  function onSubmitForm(form: Form) {
-    return Promise.resolve(false)
-      .then(delayResult)
-      .then(() => {
-        clear()
-      })
-  }
 
   function generateInputProps(): Array<InputProps> {
     return Object.keys(initial).map((key) => {
@@ -106,4 +106,20 @@ function delayResult<T>(value: T, delay: number = 3000) {
       resolve(value)
     }, delay)
   })
+}
+
+function useEverChangingValue() {
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    const timeout = setInterval(() => {
+      setValue((v) => v + 1)
+    }, 1000)
+
+    return () => {
+      clearInterval(timeout)
+    }
+  }, [])
+
+  return value
 }

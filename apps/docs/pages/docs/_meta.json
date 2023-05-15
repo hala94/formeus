@@ -3,5 +3,9 @@
   "installation": "Installation",
   "reference": "Core API",
   "guides": "Guides",
-  "examples": "Examples"
+  "examples": "Examples",
+  "---": {
+    "type": "separator"
+  },
+  "connectors": "Connectors"
 }
