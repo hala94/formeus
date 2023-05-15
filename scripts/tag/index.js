@@ -15,7 +15,10 @@ async function tag() {
   const allExistingTags = await git.getAllTags(repoRootDir)
 
   const libPackages = packages.filter((p) => {
-    return p.packageJson.private != true
+
+    const isDocs = p.packageJson.name === "docs"
+
+    return p.packageJson.private != true || isDocs
   })
 
   console.log("---Tagging---")
