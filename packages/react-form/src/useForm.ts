@@ -88,10 +88,8 @@ export function useGranularForm<
   }, [subscribable])
   // --- Enable fine grained formControl state ---
 
-  return useMemo(() => {
-    return {
-      useField,
-      useFormControls,
-    }
-  }, [useField, useFormControls])
+  return {
+    useField,
+    useFormControls,
+  }
 }

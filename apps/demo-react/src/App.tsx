@@ -25,40 +25,24 @@ const validators: Validators<Form> = {
   // email.length == 0 ? new Error("Email validation failed.") : undefined,
   password: ({ password }) =>
     password.length < 5 ? new Error("Enter at least 5 chars.") : undefined,
-  username: ({ username }) =>
-    username.length == 0 ? new Error("Username validation failed.") : undefined,
 }
 
 const asyncValidators: AsyncValidators<Form> = {
   email: ({ email }) => {
     return Promise.resolve(undefined).then(delayResult)
   },
-  username: ({ email }) => {
-    return Promise.resolve(undefined).then(delayResult)
-  },
 }
 
 export default function App() {
-  
   const { useField, useFormControls } = useGranularForm({
     initial,
     onSubmitForm,
+    validators,
+    asyncValidators,
     config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
   })
 
   const { clear } = useFormControls()
-
-  useEffect(() => {
-    console.log("useFieldChanged")
-  }, [useField])
-
-  useEffect(() => {
-    console.log("useFormControlsChanged")
-  }, [useFormControls])
-
-  useEffect(() => {
-    console.log("clear changed")
-  }, [clear])
 
   function onSubmitForm(form: Form) {
     return Promise.resolve(false)
@@ -102,11 +86,7 @@ export default function App() {
 
 // TODO figure out easiest way to type
 function FormInput({ useFormField, id }: { useFormField: any; id: string }) {
-  const { value, validation, update, runValidation } = useFormField(id)
-
-  useEffect(() => {
-    console.log("Input re-render", id)
-  })
+  const { value, validation, update } = useFormField(id)
 
   return (
     <>
@@ -124,11 +104,7 @@ function FormInput({ useFormField, id }: { useFormField: any; id: string }) {
 
 // TODO figure out easiest way to type
 function FormControls({ useFormControls }: { useFormControls: any }) {
-  const { clear, submit, isSubmitting } = useFormControls()
-
-  useEffect(() => {
-    console.log("Control re-render")
-  })
+  const { submit, isSubmitting } = useFormControls()
 
   return (
     <>
