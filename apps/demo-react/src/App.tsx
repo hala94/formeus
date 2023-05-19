@@ -1,7 +1,7 @@
-import { useForm, Validators, AsyncValidators } from "@formeus/react"
-import { useState } from "react"
-import { Input, InputProps } from "./input"
+import { Validators, AsyncValidators, useGranularForm } from "@formeus/react"
+import { Input } from "./input"
 import { Button } from "./button"
+import { useEffect } from "react"
 
 type Form = {
   email: string
@@ -39,20 +39,26 @@ const asyncValidators: AsyncValidators<Form> = {
 }
 
 export default function App() {
-  const {
-    values,
-    validations,
-    update,
-    isValid,
-    submit,
-    isValidating,
-    clear,
-    isSubmitting,
-  } = useForm({
+  
+  const { useField, useFormControls } = useGranularForm({
     initial,
     onSubmitForm,
     config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
   })
+
+  const { clear } = useFormControls()
+
+  useEffect(() => {
+    console.log("useFieldChanged")
+  }, [useField])
+
+  useEffect(() => {
+    console.log("useFormControlsChanged")
+  }, [useFormControls])
+
+  useEffect(() => {
+    console.log("clear changed")
+  }, [clear])
 
   function onSubmitForm(form: Form) {
     return Promise.resolve(false)
@@ -62,40 +68,79 @@ export default function App() {
       })
   }
 
-  function generateInputProps(): Array<InputProps> {
-    return Object.keys(initial).map((key) => {
-      const formKey = key as keyof Form
-      return {
-        label: key,
-        value: values[formKey],
-        validating: validations[formKey].validating,
-        checked: validations[formKey].checked,
-        error: validations[formKey].error?.message,
-        disabled: isSubmitting,
-        onChange: (e) => update(formKey, e.target.value),
-      }
-    })
-  }
+  // function generateInputProps(): Array<InputProps> {
+  //   return Object.keys(initial).map((key) => {
+  //     const formKey = key as keyof Form
+  //     return {
+  //       label: key,
+  //       value: values[formKey],
+  //       validating: validations[formKey].validating,
+  //       checked: validations[formKey].checked,
+  //       error: validations[formKey].error?.message,
+  //       disabled: isSubmitting,
+  //       onChange: (e) => update(formKey, e.target.value),
+  //     }
+  //   })
+  // }
 
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center">
         <p>React DEMO</p>
         <div className="p-8 flex flex-col gap-3 min-w-[25rem]">
-          {...generateInputProps().map((inputProps) => (
+          {/* {...generateInputProps().map((inputProps) => (
             <Input {...inputProps} />
-          ))}
-          <Button
-            disabled={isSubmitting}
-            onClick={() => submit()}
-            className="mt-12"
-          />
-        </div>
-        <div className="max-w-[30rem]">
-          {JSON.stringify(validations, null, 2)}
-          <p>isValid: {String(isValid)}</p>
+          ))} */}
+          <FormInput useFormField={useField} id="email" />
+          <FormInput useFormField={useField} id="password" />
+          <FormControls useFormControls={useFormControls} />
         </div>
       </div>
+    </>
+  )
+}
+
+// TODO figure out easiest way to type
+function FormInput({ useFormField, id }: { useFormField: any; id: string }) {
+  const { value, validation, update, runValidation } = useFormField(id)
+
+  useEffect(() => {
+    console.log("Input re-render", id)
+  })
+
+  return (
+    <>
+      <Input
+        label={id}
+        value={value}
+        validating={validation.validating}
+        checked={validation.checked}
+        error={validation.error?.message}
+        onChange={(e) => update(e.target.value)}
+      />
+    </>
+  )
+}
+
+// TODO figure out easiest way to type
+function FormControls({ useFormControls }: { useFormControls: any }) {
+  const { clear, submit, isSubmitting } = useFormControls()
+
+  useEffect(() => {
+    console.log("Control re-render")
+  })
+
+  return (
+    <>
+      <Button
+        disabled={isSubmitting}
+        onClick={() => submit()}
+        className="mt-12"
+      />
+      {/* <div className="max-w-[30rem]">
+        {JSON.stringify(validations, null, 2)}
+        <p>isValid: {String(isValid)}</p>
+      </div> */}
     </>
   )
 }
