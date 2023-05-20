@@ -1,50 +1,52 @@
 import { Validators, AsyncValidators, useGranularForm } from "@formeus/react"
-import { Input } from "./input"
+import { Input, InputProps } from "./input"
 import { Button } from "./button"
-import { useEffect } from "react"
 
-type Form = {
-  email: string
-  password: string
-  username: string
-  project: string
-}
 
-const initial: Form = {
-  email: "",
-  password: "",
-  username: "",
-  project: "",
-}
+// consider spreading useFormControls to just functions, and create another useFormMeta for constantly chaning values
 
-const validators: Validators<Form> = {
-  email: ({ email }) =>
-    /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/.test(email)
-      ? undefined
-      : new Error("1 uppercase, 1 lowercase, 1 number and at least 6 chars."),
-  // email.length == 0 ? new Error("Email validation failed.") : undefined,
-  password: ({ password }) =>
-    password.length < 5 ? new Error("Enter at least 5 chars.") : undefined,
-}
+// there is a viisble delay when using many fields and pressing validate, tasks are being added to a queue and something blocks
 
-const asyncValidators: AsyncValidators<Form> = {
-  email: ({ email }) => {
-    return Promise.resolve(undefined).then(delayResult)
-  },
-}
+
+const initialValues = Array.from(Array(1000).keys()).reduce((prev, current) => {
+  return {
+    ...prev,
+    [`${current}field`]: "",
+  }
+}, {}) as Record<string, string>
+
+// const validators: Validators<Form> = {
+//   email: ({ email }) =>
+//     /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/.test(email)
+//       ? undefined
+//       : new Error("1 uppercase, 1 lowercase, 1 number and at least 6 chars."),
+//   // email.length == 0 ? new Error("Email validation failed.") : undefined,
+//   password: ({ password }) =>
+//     password.length < 5 ? new Error("Enter at least 5 chars.") : undefined,
+// }
+
+const asyncValidators: AsyncValidators<typeof initialValues> = Object.keys(
+  initialValues
+).reduce((prev, current) => {
+  return {
+    ...prev,
+    [current]: (values: Record<string, string>) => {
+      return Promise.resolve(undefined)
+    },
+  }
+}, {})
 
 export default function App() {
   const { useField, useFormControls } = useGranularForm({
-    initial,
+    initial: initialValues,
     onSubmitForm,
-    validators,
     asyncValidators,
     config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
   })
 
   const { clear } = useFormControls()
 
-  function onSubmitForm(form: Form) {
+  function onSubmitForm(form: any) {
     return Promise.resolve(false)
       .then(delayResult)
       .then(() => {
@@ -53,8 +55,7 @@ export default function App() {
   }
 
   // function generateInputProps(): Array<InputProps> {
-  //   return Object.keys(initial).map((key) => {
-  //     const formKey = key as keyof Form
+  //   return Object.keys(initialValues).map((key) => {
   //     return {
   //       label: key,
   //       value: values[formKey],
@@ -75,9 +76,12 @@ export default function App() {
           {/* {...generateInputProps().map((inputProps) => (
             <Input {...inputProps} />
           ))} */}
-          <FormInput useFormField={useField} id="email" />
-          <FormInput useFormField={useField} id="password" />
           <FormControls useFormControls={useFormControls} />
+          <div className="flex flex-col border max-h-screen overflow-auto p-8">
+            {Object.keys(initialValues).map((id) => (
+              <FormInput useFormField={useField} id={id} />
+            ))}
+          </div>
         </div>
       </div>
     </>
