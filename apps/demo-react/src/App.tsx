@@ -2,11 +2,9 @@ import { Validators, AsyncValidators, useGranularForm } from "@formeus/react"
 import { Input, InputProps } from "./input"
 import { Button } from "./button"
 
-// consider spreading useFormControls to just functions, and create another useFormMeta for constantly chaning values
-
 // there is a viisble delay when using many fields and pressing validate, tasks are being added to a queue and something blocks
 
-const initialValues = Array.from(Array(20).keys()).reduce((prev, current) => {
+const initialValues = Array.from(Array(1000).keys()).reduce((prev, current) => {
   return {
     ...prev,
     [`${current}field`]: "",
@@ -91,8 +89,8 @@ export default function App() {
             useFormInfo={useFormInfo}
           />
           <div className="flex flex-col border max-h-screen overflow-auto p-8">
-            {Object.keys(initialValues).map((id) => (
-              <FormInput useFormField={useField} id={id} />
+            {Object.keys(initialValues).map((id, i) => (
+              <FormInput key={i} useFormField={useField} id={id} />
             ))}
           </div>
         </div>
@@ -128,7 +126,7 @@ function FormControls({
   useFormInfo: any
 }) {
   const { submit } = useFormControls()
-  const { isSubmitting } = useFormInfo()
+  const { isSubmitting, isValid, isValidating } = useFormInfo()
 
   return (
     <>
@@ -137,10 +135,10 @@ function FormControls({
         onClick={() => submit()}
         className="mt-12"
       />
-      {/* <div className="max-w-[30rem]">
-        {JSON.stringify(validations, null, 2)}
+      <div className="max-w-[30rem]">
         <p>isValid: {String(isValid)}</p>
-      </div> */}
+        <p>isValidating: {String(isValidating)}</p>
+      </div>
     </>
   )
 }

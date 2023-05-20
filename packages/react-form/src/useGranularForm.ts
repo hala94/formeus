@@ -49,6 +49,8 @@ export function useGranularForm<
         return {
           clear: snapshot.clear,
           submit: snapshot.submit,
+          runValidation: snapshot.runValidation,
+          update: snapshot.update,
         }
       },
       () => true
