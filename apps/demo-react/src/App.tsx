@@ -2,13 +2,11 @@ import { Validators, AsyncValidators, useGranularForm } from "@formeus/react"
 import { Input, InputProps } from "./input"
 import { Button } from "./button"
 
-
 // consider spreading useFormControls to just functions, and create another useFormMeta for constantly chaning values
 
 // there is a viisble delay when using many fields and pressing validate, tasks are being added to a queue and something blocks
 
-
-const initialValues = Array.from(Array(1000).keys()).reduce((prev, current) => {
+const initialValues = Array.from(Array(20).keys()).reduce((prev, current) => {
   return {
     ...prev,
     [`${current}field`]: "",
@@ -31,15 +29,27 @@ const asyncValidators: AsyncValidators<typeof initialValues> = Object.keys(
   return {
     ...prev,
     [current]: (values: Record<string, string>) => {
-      return Promise.resolve(undefined)
+      return Promise.resolve(undefined).then(delayResult)
+    },
+  }
+}, {})
+
+const validators: Validators<typeof initialValues> = Object.keys(
+  initialValues
+).reduce((prev, current) => {
+  return {
+    ...prev,
+    [current]: (values: Record<string, string>) => {
+      return undefined
     },
   }
 }, {})
 
 export default function App() {
-  const { useField, useFormControls } = useGranularForm({
+  const { useField, useFormControls, useFormInfo } = useGranularForm({
     initial: initialValues,
     onSubmitForm,
+    validators,
     asyncValidators,
     config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
   })
@@ -76,7 +86,10 @@ export default function App() {
           {/* {...generateInputProps().map((inputProps) => (
             <Input {...inputProps} />
           ))} */}
-          <FormControls useFormControls={useFormControls} />
+          <FormControls
+            useFormControls={useFormControls}
+            useFormInfo={useFormInfo}
+          />
           <div className="flex flex-col border max-h-screen overflow-auto p-8">
             {Object.keys(initialValues).map((id) => (
               <FormInput useFormField={useField} id={id} />
@@ -107,8 +120,15 @@ function FormInput({ useFormField, id }: { useFormField: any; id: string }) {
 }
 
 // TODO figure out easiest way to type
-function FormControls({ useFormControls }: { useFormControls: any }) {
-  const { submit, isSubmitting } = useFormControls()
+function FormControls({
+  useFormControls,
+  useFormInfo,
+}: {
+  useFormControls: any
+  useFormInfo: any
+}) {
+  const { submit } = useFormControls()
+  const { isSubmitting } = useFormInfo()
 
   return (
     <>
@@ -125,7 +145,7 @@ function FormControls({ useFormControls }: { useFormControls: any }) {
   )
 }
 
-function delayResult<T>(value: T, delay: number = 3000) {
+function delayResult<T>(value: T, delay: number = 50) {
   return new Promise<T>((resolve) => {
     setTimeout(() => {
       resolve(value)

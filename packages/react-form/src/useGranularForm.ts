@@ -9,7 +9,7 @@ export function useGranularForm<
 >(options: FormOptions<TForm, TMeta>) {
   const subscribable = useBaseForm(options)
 
-  // --- Enable fine grained field state ---
+  // --- From field ---
   const useField = useCallback(
     (key: keyof TForm) => {
       if (!key || typeof key != "string") return () => {}
@@ -38,9 +38,8 @@ export function useGranularForm<
     },
     [subscribable]
   )
-  // --- Enable fine grained field state ---
 
-  // --- Enable fine grained formControl state ---
+  // --- Form controls ---
   const useFormControls = useCallback(() => {
     return useSyncExternalStoreWithSelector(
       subscribable.subscribe,
@@ -50,6 +49,20 @@ export function useGranularForm<
         return {
           clear: snapshot.clear,
           submit: snapshot.submit,
+        }
+      },
+      () => true
+    )
+  }, [subscribable])
+
+  // --- Form info ---
+  const useFormInfo = useCallback(() => {
+    return useSyncExternalStoreWithSelector(
+      subscribable.subscribe,
+      subscribable.getSnapshot,
+      subscribable.getSnapshot,
+      (snapshot) => {
+        return {
           isValidating: snapshot.isValidating,
           isValid: snapshot.isValid,
           isSubmitting: snapshot.isSubmitting,
@@ -64,11 +77,11 @@ export function useGranularForm<
       }
     )
   }, [subscribable])
-  // --- Enable fine grained formControl state ---
 
   return {
     useField,
     useFormControls,
+    useFormInfo,
   }
 }
 
