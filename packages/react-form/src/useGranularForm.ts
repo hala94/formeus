@@ -9,7 +9,27 @@ export function useGranularForm<
 >(options: FormOptions<TForm, TMeta>) {
   const subscribable = useBaseForm(options)
 
-  // --- From field ---
+  // Highest ref stability first
+
+  // --- Form controls ---
+  const useFormControls = useCallback(() => {
+    return useSyncExternalStoreWithSelector(
+      subscribable.subscribe,
+      subscribable.getSnapshot,
+      subscribable.getSnapshot,
+      (snapshot) => {
+        return {
+          clear: snapshot.clear,
+          submit: snapshot.submit,
+          runValidation: snapshot.runValidation,
+          update: snapshot.update,
+        }
+      },
+      () => true
+    )
+  }, [subscribable])
+
+  // --- Form field ---
   const useField = useCallback(
     (key: keyof TForm) => {
       if (!key || typeof key != "string") return () => {}
@@ -39,24 +59,6 @@ export function useGranularForm<
     [subscribable]
   )
 
-  // --- Form controls ---
-  const useFormControls = useCallback(() => {
-    return useSyncExternalStoreWithSelector(
-      subscribable.subscribe,
-      subscribable.getSnapshot,
-      subscribable.getSnapshot,
-      (snapshot) => {
-        return {
-          clear: snapshot.clear,
-          submit: snapshot.submit,
-          runValidation: snapshot.runValidation,
-          update: snapshot.update,
-        }
-      },
-      () => true
-    )
-  }, [subscribable])
-
   // --- Form info ---
   const useFormInfo = useCallback(() => {
     return useSyncExternalStoreWithSelector(
@@ -80,8 +82,24 @@ export function useGranularForm<
     )
   }, [subscribable])
 
+  // --- All field info info ---
+  const useFields = useCallback(() => {
+    return useSyncExternalStoreWithSelector(
+      subscribable.subscribe,
+      subscribable.getSnapshot,
+      subscribable.getSnapshot,
+      (snapshot) => {
+        return {
+          values: snapshot.values,
+          validations: snapshot.validations,
+        }
+      }
+    )
+  }, [subscribable])
+
   return {
     useField,
+    useFields,
     useFormControls,
     useFormInfo,
   }
