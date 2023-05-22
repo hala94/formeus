@@ -3,6 +3,7 @@ import { Input, InputProps } from "./input"
 import { Button } from "./button"
 
 // there is a viisble delay when using many fields and pressing validate, tasks are being added to a queue and something blocks
+// experiment providing a provider with a scoped context, but then access is weird and still requires drilling
 
 const initialValues = Array.from(Array(1000).keys()).reduce((prev, current) => {
   return {
