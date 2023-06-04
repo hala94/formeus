@@ -16,9 +16,7 @@ async function tag() {
 
   const libPackages = packages.filter((p) => {
 
-    const isDocs = p.packageJson.name === "docs"
-
-    return p.packageJson.private != true || isDocs
+    return p.packageJson.private != true
   })
 
   console.log("---Tagging---")

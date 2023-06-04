@@ -2,7 +2,7 @@ import { ChangeEventHandler } from "react"
 
 export type InputProps = {
   label: string
-  value: string
+  value: string | undefined
   error?: string
   validating?: boolean
   checked?: boolean

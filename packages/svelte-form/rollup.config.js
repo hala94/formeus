@@ -3,7 +3,7 @@ import typescript from "@rollup/plugin-typescript"
 import terser from "@rollup/plugin-terser"
 
 const config = defineConfig({
-  external: ["@formeus/core", "svelte/store"],
+  external: ["@formeus/core", "svelte/store", "svelte"],
   input: "src/index.ts",
   output: [
     {

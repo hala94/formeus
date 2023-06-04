@@ -12,7 +12,8 @@ type FormOptions<
   initial: TForm
   validators?: Validators<TForm, TMeta>
   asyncValidators?: AsyncValidators<TForm, TMeta>
-  onSubmitForm?: (form: TForm, meta: TMeta) => Promise<unknown> | void
+  comparators?: Comparators<TForm>
+  onSubmitForm?: OnSubmitForm<TForm, TMeta>
   meta?: TMeta
   config?: FormConfig
 }
@@ -21,18 +22,38 @@ type FormOptions<
 ### `initial`
 
 Required property representing the initial object model for your form.
+This initial values can also be updated during the lifetime of the form instance and is used
+to determine form `modifications`.
 
 ### `validators`
 
 Object representing validators that run synchronously.
+Each field validator is a synchronous function that returns an `Error` instance if validation fails, or `undefined` if validation is successfull.
 
 ### `asyncValidators`
 
 Object representing validators that run asynchronously.
+Each field async validator is a Promise that either resolves with an `Error` instance if validation fails, or `undefined` if validation is successfull.
+
+### `comparators`
+
+Custom comparator functions for each form field. To determine `modifications`, each fields value must be compared to its previous value.
+
+By default, Formeus will compare the field values with the strict equality operator by default so it is sufficient in most common use cases.
+However, if your form fields have `objects` as their values, use _comparators_ to make `modifications` work.
 
 ### `onSubmitForm`
 
-Function that contains your "submit" logic.
+```js
+type OnSubmitForm<TForm, TMeta> = (
+  form: TForm,
+  meta: TMeta,
+  modifiedFields: Partial<TForm>
+) => Promise<unknown> | void
+```
+
+Function that contains your "submit" logic. Gets called with latest form values, any `meta`defined and a special modifications object
+that will contain only the form fields which differ from the latest `initial` values.
 
 Works in conjuction with `submit` method returned from `createForm` and gets
 called only if all validations pass.
@@ -70,6 +91,7 @@ Most likely not needed in libraries like Solid.js.
 type FormResult<TForm> = {
   values: TForm
   validations: ValidationResults<TForm>
+  modifications: ModificationResults<TForm>
   update: <Key extends keyof TForm>(key: Key, value: TForm[Key]) => void
   runValidation: <Key extends keyof TForm>(key: Key) => void
   submit: () => void
@@ -77,6 +99,7 @@ type FormResult<TForm> = {
   isValid: boolean
   isValidating: boolean
   isSubmitting: boolean
+  isModified: boolean
 }
 ```
 
@@ -96,9 +119,21 @@ export type ValidationState = {
 }
 ```
 
+### `modifications`
+
+Object that contains _modification state_ for each form key.
+
+```js
+type ModificationResults<TForm> = Record<
+  keyof TForm,
+  { isModified: boolean }
+>
+```
+
 ### `update`
 
-Updates the value for specific key.
+Used to update form field values. Function takes a _key_ which represents your specific form field,
+and the _new value_ as arguments.
 
 ### `runValidation`
 
@@ -131,3 +166,7 @@ Resets form to the initial values.
 
 If your `onSubmitForm` function returns a Promise, the value will be `true`
 until Promise resolves.
+
+### `isModified`
+
+If any of your form fields differs from its value defined in the `initial` object, this flag will be set to `true`.

@@ -7,8 +7,11 @@ import {
   readonly,
   ref,
   ToRefs,
+  watch,
+  isRef,
 } from "vue"
 import { createForm, FormOptions, FormResult } from "@formeus/core"
+import { UseFormOptions } from "./types"
 
 type ReadOnlyResult<TData> = ReturnType<typeof readonly<FormResult<TData>>>
 type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>
@@ -16,8 +19,8 @@ type RefsResult<TData> = ToRefs<ReadOnlyResult<TData>>
 export function useForm<
   TForm extends Record<string, unknown>,
   TMeta extends Record<string, unknown> = Record<string, unknown>
->(options: FormOptions<TForm, TMeta>): RefsResult<TForm> {
-  const observable = createForm(unref(options))
+>(options: UseFormOptions<TForm, TMeta>): RefsResult<TForm> {
+  const observable = createForm(normalizeFormOptions(options))
 
   const form = reactive(observable.getSnapshot())
 
@@ -31,6 +34,15 @@ export function useForm<
     })
   })
 
+  if (isRef(options.initial)) {
+    watch(
+      () => unref(options.initial),
+      (newInitial) => {
+        observable.setInitial(newInitial)
+      }
+    )
+  }
+
   onScopeDispose(() => unsubscribeRef.value())
 
   const readonlyForm = readonly(form)
@@ -38,5 +50,16 @@ export function useForm<
 
   return {
     ...formRefs,
+  }
+}
+
+function normalizeFormOptions<
+  TForm extends Record<string, unknown>,
+  TMeta extends Record<string, unknown> = Record<string, unknown>
+>(options: UseFormOptions<TForm, TMeta>): FormOptions<TForm, TMeta> {
+  return {
+    ...options,
+    initial: isRef(options.initial) ? options.initial.value : options.initial,
+    meta: isRef(options.meta) ? options.meta.value : options.meta,
   }
 }

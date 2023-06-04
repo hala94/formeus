@@ -1,5 +1,5 @@
 import { useForm, Validators, AsyncValidators } from "@formeus/react"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Input, InputProps } from "./input"
 import { Button } from "./button"
 
@@ -39,6 +39,12 @@ const asyncValidators: AsyncValidators<Form> = {
 }
 
 export default function App() {
+
+  /// Mock more realistic app re-rendering state
+  useEverChangingValue()
+
+  const { serverForm, updateServerForm } = useServerFormValues(initial)
+  
   const {
     values,
     validations,
@@ -46,21 +52,25 @@ export default function App() {
     isValid,
     submit,
     isValidating,
+    isModified,
+    modifications,
     clear,
     isSubmitting,
   } = useForm({
-    initial,
-    onSubmitForm,
+    initial: serverForm,
+    onSubmitForm: (latest, meta, modified) => {
+      console.log("on sumbit reported modified fields, ", JSON.stringify(modified))
+      return updateServerForm(latest)
+    },
+    validators,
+    asyncValidators,
+    comparators: {
+      email: (newValue, oldValue) => {
+        return newValue.length == oldValue.length
+      }
+    },
     config: { autoValidate: false, validateConcurrentlyOnSubmit: false },
   })
-
-  function onSubmitForm(form: Form) {
-    return Promise.resolve(false)
-      .then(delayResult)
-      .then(() => {
-        clear()
-      })
-  }
 
   function generateInputProps(): Array<InputProps> {
     return Object.keys(initial).map((key) => {
@@ -93,17 +103,78 @@ export default function App() {
         </div>
         <div className="max-w-[30rem]">
           {JSON.stringify(validations, null, 2)}
+          <div className="my-5"/>
+          {JSON.stringify(modifications, null, 2)}
+          <div />
           <p>isValid: {String(isValid)}</p>
+          <p>isValidating: {String(isValidating)}</p>
+          <p>isModified: {String(isModified)}</p>
+          <p>isSubmitting: {String(isSubmitting)}</p>
+          <button onClick={() => clear()}>clear</button>
         </div>
       </div>
     </>
   )
 }
 
-function delayResult<T>(value: T, delay: number = 3000) {
+function delayResult<T>(value: T, delay: number = 6000) {
   return new Promise<T>((resolve) => {
     setTimeout(() => {
       resolve(value)
     }, delay)
   })
+}
+
+
+function useServerFormValues(initial: Form) {
+
+  const [serverForm, setServerForm] = useState<Form>(initial)
+
+  const updateServerForm = useCallback((newForm: Form) => {
+
+    return Promise.resolve(undefined).then(delayResult).then(() => {
+      setServerForm(old => {
+        return {
+          ...old,
+          ...newForm
+        }
+      })
+    })
+  }, [])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setServerForm({
+        email: "server@mail.com",
+        username: "loosername",
+        password: "123",
+        project: "WHAT"
+      })
+    }, 5000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [])
+
+  return {serverForm, updateServerForm}
+
+}
+
+function useEverChangingValue() {
+
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+
+    const timeout = setTimeout(() => {
+      setCount(c => c + 1)
+    }, 3000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  })
+
+  return count
 }

@@ -12,7 +12,10 @@ type ValidationResult = Error | undefined
 ### Synchronous
 
 ```js
-type Validator<TForm> = (form: TForm) => ValidationResult
+type Validator<
+  TForm,
+  TMeta extends Record<string, unknown> = Record<string, unknown>
+> = (form: TForm, meta: TMeta) => ValidationResult
 ```
 
 Suitable for quick client side validations like empty fields, or regex statements.
@@ -20,10 +23,10 @@ Suitable for quick client side validations like empty fields, or regex statement
 ### Asynchronous
 
 ```js
-type AsyncValidator<TForm> = (
-  form: TForm,
-  signal: AbortSignal
-) => Promise<ValidationResult>
+type AsyncValidator<
+  TForm,
+  TMeta extends Record<string, unknown> = Record<string, unknown>
+> = (form: TForm, signal: AbortSignal, meta: TMeta) => Promise<ValidationResult>
 ```
 
 Suitable for any kind of validation that must be resolved with a Promise.

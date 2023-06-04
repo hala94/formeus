@@ -10,7 +10,8 @@ export function useForm<
 
   useEffect(() => {
     options.meta && subscribable.setMeta(options.meta)
-  }, [options.meta, subscribable])
+    subscribable.setInitial(options.initial)
+  }, [options.meta, subscribable, options.initial])
 
   return useSyncExternalStore(
     subscribable.subscribe,

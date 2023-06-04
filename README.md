@@ -39,7 +39,9 @@ pnpm add @formeus/svelte
 - coordinated synchronous and asynchronous validations
 - flexible validation times
 - validation caching
+- modification tracking
 - protected submit
+- submit only modified fields
 
 # Minimal Example in React
 
