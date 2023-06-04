@@ -1,0 +1,33 @@
+import { Tab, Tabs } from "nextra-theme-docs"
+import ReactModification from "codeblocks/react/modification.mdx"
+import { Callout } from "nextra-theme-docs"
+
+# Modifications
+
+Each form field has its own `isModified` flag found in the `modifications` object
+returned by the _form instance_.
+
+When the form field current `value` is _not equal_ to its value defined in the `initial` property,
+the `isModified` flag will be set to `true`.
+
+By default, that _equality_ is determined with _strictly equal_ operator (===) for primitives, and
+_deep equality_ for objects.
+
+Value of the `initial` property can change (be updated) during your _form instance lifecycle_, and _Formeus_ will update
+`modifications` and report only modified fields in your _onSubmitForm_ function.
+
+Also, by default, _un-modified_ fields will get auto-synced to the latest `initial` values.
+
+<Tabs items={["React", "Solid", "Vue", "Svelte"]}>
+  <Tab>
+    <ReactModification />
+  </Tab>
+  <Tab>Coming soon</Tab>
+  <Tab>Comming soon</Tab>
+  <Tab>Coming soon</Tab>
+</Tabs>
+
+### Comparators
+
+If the default behaviour provides unexpected results, or is not performant enough, you can
+pass custom `comparators` property which can define a custom comparator functions for every form field.

@@ -1,0 +1,33 @@
+```js showLineNumbers copy
+import { useForm } from "@formeus/react"
+function Profile() {
+  /// Fetch profile data
+  const profileData = useProfileData()
+
+  /// Update initial values with the latest profile data
+  const { values, update, submit, modifications } = useForm({
+    initial: {
+      name: profileData.name,
+      address: profileData.address,
+    },
+    onSubmitForm: (values, meta, modifiedFields) => {
+      /// Update only modified fields.
+      // return api.updateProfile({ ...modifiedFields })
+    },
+  })
+
+  return (
+    <>
+      <input
+        value={values.name}
+        onChange={(e) => update("name", e.target.value)}
+      />
+      <input
+        value={values.address}
+        onChange={(e) => update("address", e.target.value)}
+      />
+      <button onClick={() => submit()}>Update</button>
+    </>
+  )
+}
+```

@@ -13,15 +13,25 @@ the latest values.
 
 Initialize the form by passing your form initial values to the `initial` argument.
 
-Use the `values` object to read the latest form values and set them to their respective fields.
-
 <Callout type="info" emoji="ℹ️">
-  This signifies that the `values` object expects a _controlled UI component_.
+  `initial` property can either be a static object, or a _reactive primitive_ in
+  libraries like Vue, Solid and Svelte.
 </Callout>
+
+Use the `values` object to read the latest form values and set them to their respective fields.
+This signifies that the `values` object expects a _controlled UI component_.
 
 <Tabs items={["React", "Solid", "Vue", "Svelte"]}>
   <Tab>
     <ReactBasic />
+
+    <Callout type="info" emoji="ℹ️">
+      Currently, Formeus doesn't support isolated re-renders. So each field update effectively causes complete re-render down
+      the component hierarchy.
+
+      This is an expected drawback for _controlled_ form fields where state needs to be _hoisted_ up.
+    </Callout>
+
   </Tab>
   <Tab>
     <SolidBasic />

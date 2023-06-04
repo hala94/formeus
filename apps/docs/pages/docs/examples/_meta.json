@@ -1,5 +1,6 @@
 {
   "basic": "Basic",
   "validation": "Validation",
-  "async-validation": "Async validation"
+  "async-validation": "Async validation",
+  "modifications": "Modifications"
 }
