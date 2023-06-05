@@ -39,8 +39,8 @@ Each field async validator is a Promise that either resolves with an `Error` ins
 
 Custom comparator functions for each form field. To determine `modifications`, each fields value must be compared to its previous value.
 
-By default, Formeus will compare the field values with the strict equality operator by default so it is sufficient in most common use cases.
-However, if your form fields have `objects` as their values, use _comparators_ to make `modifications` work.
+By default, field _equality_ is determined with _strictly equal_ operator (===) for primitives, and
+_deep equality_ for objects, so use this property only if needed.
 
 ### `onSubmitForm`
 
