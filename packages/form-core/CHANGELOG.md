@@ -1,5 +1,11 @@
 # @formeus/core
 
+## 1.3.0
+
+### Minor Changes
+
+- 9e8b227: Added support for field modifications
+
 ## 1.2.0
 
 ### Minor Changes
