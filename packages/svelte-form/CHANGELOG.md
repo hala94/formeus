@@ -1,5 +1,16 @@
 # @formeus/svelte
 
+## 1.2.0
+
+### Minor Changes
+
+- 9e8b227: Added support for field modifications
+
+### Patch Changes
+
+- Updated dependencies [9e8b227]
+  - @formeus/core@1.3.0
+
 ## 1.1.1
 
 ### Patch Changes
