@@ -19,7 +19,7 @@ const SignIn: Component = () => {
     asyncValidators: {
       username: ({ username }, signal) => {
         // username is already client side validated here
-        api
+        return api
           .checkUsernameAvailable(username, signal)
           .then((isAvailable) =>
             isAvailable ? undefined : new Error("username not available")
