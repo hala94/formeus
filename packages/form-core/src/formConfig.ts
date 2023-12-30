@@ -4,6 +4,7 @@ import { FormConfig } from "./types"
 let staticConfig: FormConfig = {
   autoValidate: false,
   validateConcurrentlyOnSubmit: false,
+  preserveValidationErrorOnUpdate: false,
 }
 
 export function setFormConfig(config: FormConfig) {

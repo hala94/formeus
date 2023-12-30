@@ -22,6 +22,7 @@ const form = createForm({
 type FormConfig = {
   autoValidate?: boolean,
   validateConcurrentlyOnSubmit?: boolean,
+  preserveValidationErrorOnUpdate?: boolean,
 }
 ```
 
@@ -42,3 +43,9 @@ When set to `true`, calling the `submit` method will trigger concurrent validati
 
 Default is `false`, and calling the `submit` method triggers sequential validation of your form fields, stopping
 if any validation fails.
+
+### `preserveValidationErrorOnUpdate`
+
+When set to `true`, field validation errors will be preserved after updates.
+
+Default is `false`, and updating the field value will clear its validation error.
