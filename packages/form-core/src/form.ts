@@ -146,7 +146,9 @@ export function createForm<
       newValidations = {
         ...newValidations,
         [key]: {
-          error: undefined,
+          error: config.preserveValidationErrorOnUpdate
+            ? validations[key].error
+            : undefined,
           checked: false,
           validating: false,
         } as ValidationState,

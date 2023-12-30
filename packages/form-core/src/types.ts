@@ -160,4 +160,14 @@ export type FormConfig = {
    * Default is `false`.
    */
   validateConcurrentlyOnSubmit?: boolean
+  /**
+   * `true` - If form field had a validation error, updating that field will preserve the validation error.
+   *
+   * `false` - Form field validation error is cleared when that field is updated.
+   *
+   * This doesn't affect validation logic and result in any way, it controls the preserving of error state between updates.
+   *
+   * Default is `false`.
+   */
+  preserveValidationErrorOnUpdate?: boolean
 }

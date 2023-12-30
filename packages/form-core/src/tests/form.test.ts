@@ -79,6 +79,73 @@ describe("form", () => {
     })
   })
 
+  it("field validation error is cleared after update", async () => {
+    const form = createForm({
+      initial: {
+        email: "",
+      },
+      validators: {
+        ...createClientValidator("failing", "email"),
+      },
+    })
+
+    const snapshot1 = form.getSnapshot()
+    snapshot1.runValidation("email")
+
+    const snapshot2 = form.getSnapshot()
+
+    expect(snapshot2.validations.email).toStrictEqual({
+      checked: true,
+      error: new Error("email invalid"),
+      validating: false,
+    })
+
+    snapshot2.update("email", "newInvalidMail")
+
+    const snapshot3 = form.getSnapshot()
+
+    expect(snapshot3.validations.email).toStrictEqual({
+      checked: false,
+      error: undefined,
+      validating: false,
+    })
+  })
+
+  it("field validation error is not cleared after update if flag is set", async () => {
+    const form = createForm({
+      initial: {
+        email: "",
+      },
+      validators: {
+        ...createClientValidator("failing", "email"),
+      },
+      config: {
+        preserveValidationErrorOnUpdate: true,
+      },
+    })
+
+    const snapshot1 = form.getSnapshot()
+    snapshot1.runValidation("email")
+
+    const snapshot2 = form.getSnapshot()
+
+    expect(snapshot2.validations.email).toStrictEqual({
+      checked: true,
+      error: new Error("email invalid"),
+      validating: false,
+    })
+
+    snapshot2.update("email", "newInvalidMail")
+
+    const snapshot3 = form.getSnapshot()
+
+    expect(snapshot3.validations.email).toStrictEqual({
+      checked: false,
+      error: new Error("email invalid"),
+      validating: false,
+    })
+  })
+
   it("has correct state after running server validations", async () => {
     const initial = {
       email: "",
