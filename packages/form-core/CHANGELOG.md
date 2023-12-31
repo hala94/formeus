@@ -1,5 +1,11 @@
 # @formeus/core
 
+## 1.4.0
+
+### Minor Changes
+
+- c1b0667: preserveValidationErrorOnUpdate configuration flag added
+
 ## 1.3.0
 
 ### Minor Changes
