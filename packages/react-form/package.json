@@ -1,6 +1,6 @@
 {
   "name": "@formeus/react",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Input state and validation manager library for React",
   "license": "MIT",
   "keywords": [

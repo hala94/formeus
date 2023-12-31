@@ -1,6 +1,6 @@
 {
   "name": "@formeus/core",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Input state and validation manager library for TS/JS",
   "license": "MIT",
   "keywords": [
